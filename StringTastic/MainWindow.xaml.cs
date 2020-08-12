@@ -17,7 +17,7 @@ namespace StringTastic
             InitializeComponent();
             DataContext = _Model;
         }
-        
+
         private void SortLeftButton_Click(object sender, RoutedEventArgs e)
         {
             SortRichTextBox(RtbLeftItems);
@@ -33,7 +33,7 @@ namespace StringTastic
             MakeUniqueItems(RtbLeftItems, RtbRightItems);
         }
 
-        private void PutUniqueRighttemsInLeftRtbButton_Click(object sender, RoutedEventArgs e)
+        private void PutUniqueRightItemsInLeftRtbButton_Click(object sender, RoutedEventArgs e)
         {
             MakeUniqueItems(RtbRightItems, RtbLeftItems);
         }
@@ -107,7 +107,32 @@ namespace StringTastic
             // Show the results
             var myDialog = new RichTextDialogBox(similarities, "Similarities");
             myDialog.Show();
-  
+
+        }
+
+
+        private void Base64EncodeButton_Click(object sender, RoutedEventArgs e)
+        {
+            string plainText = RtbManipulate.ToOneString(true);
+
+
+            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
+
+            string encodedBase64String = System.Convert.ToBase64String(plainTextBytes);
+
+            RtbManipulate.Clear();
+            RtbManipulate.LogMessage(encodedBase64String, Brushes.Black);
+        }
+
+        private void Base64DecodeButton_Click(object sender, RoutedEventArgs e)
+        {
+            string base64EncodedData = RtbManipulate.ToOneString(true);
+
+            var plainTextBytes = System.Convert.FromBase64String(base64EncodedData);
+            string decodedString = System.Text.Encoding.UTF8.GetString(plainTextBytes);
+
+            RtbManipulate.Clear();
+            RtbManipulate.LogMessage(decodedString, Brushes.Black);
         }
 
 
@@ -126,14 +151,14 @@ namespace StringTastic
             rtb.Document.Blocks.Clear();
         }
 
-    
+
 
         private void MakeUniqueItems(RichTextBox source, RichTextBox destination)
         {
             List<string> listOfStrings = source.ToListOfString();
 
             if (source == destination)
-               ClearRichTextBox(destination);
+                ClearRichTextBox(destination);
 
             foreach (var singleItem in listOfStrings.Select(item => item).Distinct())
             {
@@ -157,6 +182,6 @@ namespace StringTastic
         }
         #endregion
 
-       
+
     }
 }

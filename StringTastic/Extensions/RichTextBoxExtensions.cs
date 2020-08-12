@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Text;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
@@ -43,6 +44,36 @@ namespace StringTastic
             }
             return result;
         }
+
+        /// <summary>Text retrieval method (not thread safe).</summary>
+        public static string ToOneString(this RichTextBox source, bool ignoreBlankLines)
+        {
+            var sb = new StringBuilder();
+
+            using (var ms = new MemoryStream())
+            {
+                var myTextRange = new TextRange(source.Document.ContentStart, source.Document.ContentEnd);
+                myTextRange.Save(ms, System.Windows.DataFormats.Text);
+
+                ms.Position = 0;
+                using (var sr = new StreamReader(ms))
+                {
+                    while (sr.EndOfStream == false)
+                    {
+                        var theString = sr.ReadLine();
+                        if (ignoreBlankLines && string.IsNullOrWhiteSpace(theString))
+                        {
+                            continue;
+                        }
+
+                        sb.Append(theString);
+                    }
+                }
+            }
+
+            return sb.ToString();
+        }
+
 
         /// <summary>Threadsafe logging method.</summary>
         public static void LogError(this RichTextBox source, Exception ex, Brush color)
