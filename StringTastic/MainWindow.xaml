@@ -131,6 +131,8 @@
                             Command="{Binding RichTextBoxCommon.ClearRichTextBoxCommand}" CommandParameter="{Binding ElementName=RtbManipulate}" />
                     <Button Name="Base64EncodeButton" Content="Base64 Encode" MinHeight="25" Margin="5" MinWidth="40" Click="Base64EncodeButton_Click" ToolTip="UT8 Encoding" />
                     <Button Name="Base64DecodeButton" Content="Base64 Decode" MinHeight="25" Margin="5" MinWidth="40" Click="Base64DecodeButton_Click" ToolTip="UT8 Encoding" />
+                    <Button Name="HtmlEncodeButton" Content="URL Encode" MinHeight="25" Margin="5" MinWidth="40" Click="UrlEncodeButton_Click" ToolTip="Encode" />
+                    <Button Name="HtmlDecodeButton" Content="URL Decode" MinHeight="25" Margin="5" MinWidth="40" Click="UrlDecodeButton_Click" ToolTip="Decode" />
                 </StackPanel>
                 <RichTextBox Name="RtbManipulate" Grid.Row="1" Style="{StaticResource RichTextWithBetterSpacing}" 
                       HorizontalAlignment="Stretch" Margin="0, 5, 5, 0"  VerticalAlignment="Stretch" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Auto">

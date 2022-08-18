@@ -1,6 +1,8 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
+using System.Web;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -122,6 +124,27 @@ namespace StringTastic
 
             RtbManipulate.Clear();
             RtbManipulate.LogMessage(encodedBase64String, Brushes.Black);
+        }
+
+        private void UrlDecodeButton_Click(object sender, RoutedEventArgs e)
+        {
+            string encodedData = RtbManipulate.ToOneString(true);
+            
+            string decodedString = HttpUtility.UrlDecode(encodedData);;
+
+            RtbManipulate.Clear();
+            RtbManipulate.LogMessage(decodedString, Brushes.Black);
+        }
+
+
+        private void UrlEncodeButton_Click(object sender, RoutedEventArgs e)
+        {
+            string plainText = RtbManipulate.ToOneString(true);
+            
+            string encodedString = HttpUtility.UrlEncode(plainText);
+
+            RtbManipulate.Clear();
+            RtbManipulate.LogMessage(encodedString, Brushes.Black);
         }
 
         private void Base64DecodeButton_Click(object sender, RoutedEventArgs e)
