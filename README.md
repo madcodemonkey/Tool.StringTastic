@@ -12,3 +12,4 @@ I normally use this program when
 - I want to compare a list of strings and I don't want to put them into two files and use [Beyond Compare](https://www.scootersoftware.com/) to compare them.
 
 
+https://answers.microsoft.com/en-us/windows/forum/all/how-to-recover-your-windows-product-key/8687ef5d-4d32-41fc-9310-158f8e5f02e3
