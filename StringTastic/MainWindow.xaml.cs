@@ -116,8 +116,7 @@ namespace StringTastic
         private void Base64EncodeButton_Click(object sender, RoutedEventArgs e)
         {
             string plainText = RtbManipulate.ToOneString(true);
-
-
+            
             var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
 
             string encodedBase64String = System.Convert.ToBase64String(plainTextBytes);
@@ -149,13 +148,31 @@ namespace StringTastic
 
         private void Base64DecodeButton_Click(object sender, RoutedEventArgs e)
         {
-            string base64EncodedData = RtbManipulate.ToOneString(true);
+            string message;
 
-            var plainTextBytes = System.Convert.FromBase64String(base64EncodedData);
-            string decodedString = System.Text.Encoding.UTF8.GetString(plainTextBytes);
+            try
+            {
+                string base64EncodedData = RtbManipulate.ToOneString(true);
+
+                // Sometimes you have to add = on to the end so that you avoid the 
+                // "Invalid length for a Base-64 char array" error.
+                // https://stackoverflow.com/a/2925959/97803
+                int mod4 = base64EncodedData.Length % 4;
+                if (mod4 > 0 )
+                {
+                    base64EncodedData += new string('=', 4 - mod4);
+                }
+                
+                var plainTextBytes = System.Convert.FromBase64String(base64EncodedData);
+                message = System.Text.Encoding.UTF8.GetString(plainTextBytes);
+            }
+            catch (Exception ex)
+            {
+                message = ex.Message;
+            }
 
             RtbManipulate.Clear();
-            RtbManipulate.LogMessage(decodedString, Brushes.Black);
+            RtbManipulate.LogMessage(message, Brushes.Black);
         }
 
 
