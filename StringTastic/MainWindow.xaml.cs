@@ -1,11 +1,13 @@
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
-using System.Net;
 using System.Web;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using StringTastic.ViewModels;
 
 namespace StringTastic
@@ -133,6 +135,67 @@ namespace StringTastic
 
             RtbManipulate.Clear();
             RtbManipulate.LogMessage(decodedString, Brushes.Black);
+        }
+
+        private void JwtTokenDecodeButton_Click(object sender, RoutedEventArgs e)
+        {
+            string encodedData = RtbManipulate.ToOneString(true).Trim();
+
+            var encodedParts = encodedData.Split('.');
+            
+            if (encodedParts.Length != 3)
+            {
+                RtbManipulate.LogMessage("Invalid JWT token.  It should have three distinct parts!", Brushes.Black);
+                return;
+            }
+
+            var plainTextBytes = System.Convert.FromBase64String(encodedParts[0]);
+            string part1 = System.Text.Encoding.UTF8.GetString(plainTextBytes);
+
+            plainTextBytes = System.Convert.FromBase64String(encodedParts[1]);
+            string part2 = System.Text.Encoding.UTF8.GetString(plainTextBytes);
+
+            RtbManipulate.Clear();
+            RtbManipulate.LogMessage("Header:", Brushes.Black);
+            var part1Object = JObject.Parse(part1);
+            RtbManipulate.LogMessage(part1Object.ToString(), Brushes.Black);
+
+            RtbManipulate.LogMessage(" ", Brushes.Black);
+            RtbManipulate.LogMessage("Payload:", Brushes.Black);
+            var part2Object = JObject.Parse(part2);
+            RtbManipulate.LogMessage(part2Object.ToString(), Brushes.Black);
+
+
+            RtbManipulate.LogMessage(" ", Brushes.Black);
+            RtbManipulate.LogMessage("Signature:", Brushes.Black);
+            RtbManipulate.LogMessage("[Encoded Signature]", Brushes.Black);
+
+
+
+            DecodeDate("Payload Issued date (iat)", "iat", part2Object);
+            DecodeDate("Payload Expiration date (exp)", "exp", part2Object);
+        }
+
+        private void DecodeDate(string title, string propertyName, JObject part2Object)
+        {
+            RtbManipulate.LogMessage(" ", Brushes.Black);
+            JToken expiration = part2Object[propertyName];
+
+            if (expiration == null || string.IsNullOrWhiteSpace(expiration.ToString()))
+            {
+                RtbManipulate.LogMessage($"{title} not found.", Brushes.Black);
+            }
+            else if (int.TryParse(expiration.ToString(), out var exp))
+            {
+                var startDate = new DateTime(1970, 1, 1);
+                var expDate = startDate.AddSeconds(exp);
+                RtbManipulate.LogMessage($"{title} = {expDate}", Brushes.Black);
+            }
+            else
+            {
+                RtbManipulate.LogMessage($"Unable to parse {title}.", Brushes.Black);
+            }
+
         }
 
 
