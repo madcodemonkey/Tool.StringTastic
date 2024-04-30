@@ -1,12 +1,10 @@
 using System;
 using System.Collections.Generic;
-using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Web;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using StringTastic.ViewModels;
 
@@ -139,41 +137,44 @@ namespace StringTastic
 
         private void JwtTokenDecodeButton_Click(object sender, RoutedEventArgs e)
         {
-            string encodedData = RtbManipulate.ToOneString(true).Trim();
-
-            var encodedParts = encodedData.Split('.');
-            
-            if (encodedParts.Length != 3)
+            try
             {
-                RtbManipulate.LogMessage("Invalid JWT token.  It should have three distinct parts!", Brushes.Black);
-                return;
+                string encodedData = RtbManipulate.ToOneString(true).Trim();
+
+                var encodedParts = encodedData.Split('.');
+
+                if (encodedParts.Length != 3)
+                {
+                    RtbManipulate.LogMessage("Invalid JWT token.  It should have three distinct parts!", Brushes.Black);
+                    return;
+                }
+
+                string part1 = Base64Decode(encodedParts[0]);
+                string part2 = Base64Decode(encodedParts[1]);
+
+                RtbManipulate.Clear();
+                RtbManipulate.LogMessage("Header:", Brushes.Black);
+                var part1Object = JObject.Parse(part1);
+                RtbManipulate.LogMessage(part1Object.ToString(), Brushes.Black);
+
+                RtbManipulate.LogMessage(" ", Brushes.Black);
+                RtbManipulate.LogMessage("Payload:", Brushes.Black);
+                var part2Object = JObject.Parse(part2);
+                RtbManipulate.LogMessage(part2Object.ToString(), Brushes.Black);
+
+
+                RtbManipulate.LogMessage(" ", Brushes.Black);
+                RtbManipulate.LogMessage("Signature:", Brushes.Black);
+                RtbManipulate.LogMessage("[Encoded Signature]", Brushes.Black);
+                
+                DecodeDate("Payload Issued date (iat)", "iat", part2Object);
+                DecodeDate("Payload Expiration date (exp)", "exp", part2Object);
             }
-
-            var plainTextBytes = System.Convert.FromBase64String(encodedParts[0]);
-            string part1 = System.Text.Encoding.UTF8.GetString(plainTextBytes);
-
-            plainTextBytes = System.Convert.FromBase64String(encodedParts[1]);
-            string part2 = System.Text.Encoding.UTF8.GetString(plainTextBytes);
-
-            RtbManipulate.Clear();
-            RtbManipulate.LogMessage("Header:", Brushes.Black);
-            var part1Object = JObject.Parse(part1);
-            RtbManipulate.LogMessage(part1Object.ToString(), Brushes.Black);
-
-            RtbManipulate.LogMessage(" ", Brushes.Black);
-            RtbManipulate.LogMessage("Payload:", Brushes.Black);
-            var part2Object = JObject.Parse(part2);
-            RtbManipulate.LogMessage(part2Object.ToString(), Brushes.Black);
-
-
-            RtbManipulate.LogMessage(" ", Brushes.Black);
-            RtbManipulate.LogMessage("Signature:", Brushes.Black);
-            RtbManipulate.LogMessage("[Encoded Signature]", Brushes.Black);
-
-
-
-            DecodeDate("Payload Issued date (iat)", "iat", part2Object);
-            DecodeDate("Payload Expiration date (exp)", "exp", part2Object);
+            catch (Exception ex)
+            {
+                RtbManipulate.Clear();
+                RtbManipulate.LogMessage(ex.Message, Brushes.Black);
+            }
         }
 
         private void DecodeDate(string title, string propertyName, JObject part2Object)
@@ -216,18 +217,7 @@ namespace StringTastic
             try
             {
                 string base64EncodedData = RtbManipulate.ToOneString(true);
-
-                // Sometimes you have to add = on to the end so that you avoid the 
-                // "Invalid length for a Base-64 char array" error.
-                // https://stackoverflow.com/a/2925959/97803
-                int mod4 = base64EncodedData.Length % 4;
-                if (mod4 > 0 )
-                {
-                    base64EncodedData += new string('=', 4 - mod4);
-                }
-                
-                var plainTextBytes = System.Convert.FromBase64String(base64EncodedData);
-                message = System.Text.Encoding.UTF8.GetString(plainTextBytes);
+                message = Base64Decode(base64EncodedData);
             }
             catch (Exception ex)
             {
@@ -238,6 +228,22 @@ namespace StringTastic
             RtbManipulate.LogMessage(message, Brushes.Black);
         }
 
+        private string Base64Decode(string base64EncodedData)
+        {
+            // Sometimes you have to add = on to the end so that you avoid the 
+            // "Invalid length for a Base-64 char array" error.
+            // https://stackoverflow.com/a/2925959/97803
+            int mod4 = base64EncodedData.Length % 4;
+            if (mod4 > 0)
+            {
+                base64EncodedData += new string('=', 4 - mod4);
+            }
+
+            var plainTextBytes = System.Convert.FromBase64String(base64EncodedData);
+            var result  = System.Text.Encoding.UTF8.GetString(plainTextBytes);
+            
+            return result;
+        }
 
         #region RichTextBox methods
         private void SortRichTextBox(RichTextBox rtb)
