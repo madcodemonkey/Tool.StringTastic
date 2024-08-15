@@ -8,6 +8,7 @@ StringTastic is a simple program to do the following tasks:
 - Base64 encode/decode a string
 - Url encode/decode a string
 - Unencode the base64 encoded header and payload of a JWT token, but obviosuly not the signature portion
+- Generate GUIDs in two different formats
 
 
 I normally use this program when
