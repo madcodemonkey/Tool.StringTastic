@@ -109,14 +109,13 @@ namespace StringTastic
             // Show the results
             var myDialog = new RichTextDialogBox(similarities, "Similarities");
             myDialog.Show();
-
         }
 
 
         private void Base64EncodeButton_Click(object sender, RoutedEventArgs e)
         {
             string plainText = RtbManipulate.ToOneString(true);
-            
+
             var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
 
             string encodedBase64String = System.Convert.ToBase64String(plainTextBytes);
@@ -128,8 +127,8 @@ namespace StringTastic
         private void UrlDecodeButton_Click(object sender, RoutedEventArgs e)
         {
             string encodedData = RtbManipulate.ToOneString(true);
-            
-            string decodedString = HttpUtility.UrlDecode(encodedData);;
+
+            string decodedString = HttpUtility.UrlDecode(encodedData); ;
 
             RtbManipulate.Clear();
             RtbManipulate.LogMessage(decodedString, Brushes.Black);
@@ -166,13 +165,13 @@ namespace StringTastic
                 RtbManipulate.LogMessage(" ", Brushes.Black);
                 RtbManipulate.LogMessage("Signature:", Brushes.Black);
                 RtbManipulate.LogMessage("[Encoded Signature]", Brushes.Black);
-                
+
                 DecodeDate("Payload Issued date (iat)", "iat", part2Object);
                 DecodeDate("Payload Expiration date (exp)", "exp", part2Object);
             }
             catch (Exception ex)
             {
-                RtbManipulate.Clear();
+                RtbManipulate.LogMessage("----------------", Brushes.Black);
                 RtbManipulate.LogMessage(ex.Message, Brushes.Black);
             }
         }
@@ -196,14 +195,13 @@ namespace StringTastic
             {
                 RtbManipulate.LogMessage($"Unable to parse {title}.", Brushes.Black);
             }
-
         }
 
 
         private void UrlEncodeButton_Click(object sender, RoutedEventArgs e)
         {
             string plainText = RtbManipulate.ToOneString(true);
-            
+
             string encodedString = HttpUtility.UrlEncode(plainText);
 
             RtbManipulate.Clear();
@@ -218,13 +216,14 @@ namespace StringTastic
             {
                 string base64EncodedData = RtbManipulate.ToOneString(true);
                 message = Base64Decode(base64EncodedData);
+                RtbManipulate.Clear();
             }
             catch (Exception ex)
             {
+                RtbManipulate.LogMessage("----------------", Brushes.Black);
                 message = ex.Message;
             }
 
-            RtbManipulate.Clear();
             RtbManipulate.LogMessage(message, Brushes.Black);
         }
 
@@ -240,25 +239,39 @@ namespace StringTastic
             }
 
             var plainTextBytes = System.Convert.FromBase64String(base64EncodedData);
-            var result  = System.Text.Encoding.UTF8.GetString(plainTextBytes);
-            
+            var result = System.Text.Encoding.UTF8.GetString(plainTextBytes);
+
             return result;
         }
 
         private void GenerateGuidsButton_Click(object sender, RoutedEventArgs e)
         {
             RtbManipulate.Clear();
-            RtbManipulate.LogMessage("10 new GUIDs style D", Brushes.Black);
+            RtbManipulate.LogMessage("10 new GUIDs style D (lowercase)", Brushes.Black);
             for (int i = 0; i < 10; i++)
             {
                 RtbManipulate.LogMessage(Guid.NewGuid().ToString("D").ToLower(), Brushes.Black);
             }
 
             RtbManipulate.LogMessage(" ", Brushes.Black);
-            RtbManipulate.LogMessage("10 new GUIDs style N", Brushes.Black);
+            RtbManipulate.LogMessage("10 new GUIDs style D (uppercase)", Brushes.Black);
+            for (int i = 0; i < 10; i++)
+            {
+                RtbManipulate.LogMessage(Guid.NewGuid().ToString("D").ToUpper(), Brushes.Black);
+            }
+
+            RtbManipulate.LogMessage(" ", Brushes.Black);
+            RtbManipulate.LogMessage("10 new GUIDs style N (lowercase)", Brushes.Black);
             for (int i = 0; i < 10; i++)
             {
                 RtbManipulate.LogMessage(Guid.NewGuid().ToString("N").ToLower(), Brushes.Black);
+            }
+
+            RtbManipulate.LogMessage(" ", Brushes.Black);
+            RtbManipulate.LogMessage("10 new GUIDs style N (uppercase)", Brushes.Black);
+            for (int i = 0; i < 10; i++)
+            {
+                RtbManipulate.LogMessage(Guid.NewGuid().ToString("N").ToUpper(), Brushes.Black);
             }
         }
 
