@@ -245,6 +245,23 @@ namespace StringTastic
             return result;
         }
 
+        private void GenerateGuidsButton_Click(object sender, RoutedEventArgs e)
+        {
+            RtbManipulate.Clear();
+            RtbManipulate.LogMessage("10 new GUIDs style D", Brushes.Black);
+            for (int i = 0; i < 10; i++)
+            {
+                RtbManipulate.LogMessage(Guid.NewGuid().ToString("D").ToLower(), Brushes.Black);
+            }
+
+            RtbManipulate.LogMessage(" ", Brushes.Black);
+            RtbManipulate.LogMessage("10 new GUIDs style N", Brushes.Black);
+            for (int i = 0; i < 10; i++)
+            {
+                RtbManipulate.LogMessage(Guid.NewGuid().ToString("N").ToLower(), Brushes.Black);
+            }
+        }
+
         #region RichTextBox methods
         private void SortRichTextBox(RichTextBox rtb)
         {
@@ -290,7 +307,5 @@ namespace StringTastic
             }
         }
         #endregion
-
-
     }
 }

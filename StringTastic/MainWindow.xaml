@@ -134,6 +134,7 @@
                     <Button Name="HtmlEncodeButton" Content="URL Encode" MinHeight="25" Margin="5" MinWidth="40" Click="UrlEncodeButton_Click" ToolTip="Encode" />
                     <Button Name="HtmlDecodeButton" Content="URL Decode" MinHeight="25" Margin="5" MinWidth="40" Click="UrlDecodeButton_Click" ToolTip="Decode" />
                     <Button Name="JwtTokenDecodeButton" Content="JWT Decode" MinHeight="25" Margin="5" MinWidth="40" Click="JwtTokenDecodeButton_Click" ToolTip="JWT Decode" />
+                    <Button x:Name="GuidGeneratorButton" Content="Generate GUIDs" MinHeight="25"  Margin="5" MinWidth="40" Click="GenerateGuidsButton_Click" ToolTip="Generate GUIDs" />
                 </StackPanel>
                 <RichTextBox Name="RtbManipulate" Grid.Row="1" Style="{StaticResource RichTextWithBetterSpacing}" 
                       HorizontalAlignment="Stretch" Margin="0, 5, 5, 0"  VerticalAlignment="Stretch" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Auto">
