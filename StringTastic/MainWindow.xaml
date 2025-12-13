@@ -62,6 +62,48 @@
             </Setter>
         </Style>
 
+        <!-- Raised-looking toolbar button style: visible border, corner radius and hover/pressed colors -->
+        <Style x:Key="ToolbarRaisedButton" TargetType="Button">
+            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" />
+            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}" />
+            <Setter Property="BorderThickness" Value="1" />
+            <Setter Property="Padding" Value="6,2" />
+            <Setter Property="Margin" Value="2" />
+            <Setter Property="SnapsToDevicePixels" Value="True" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="bd"
+                                Background="{TemplateBinding Background}"
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="4">
+                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center" Margin="{TemplateBinding Padding}"/>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="bd" Property="Background" Value="#FFF2F2F2" />
+                                <Setter TargetName="bd" Property="BorderBrush" Value="#FF9A9A9A" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="bd" Property="Background" Value="#FFE6E6E6" />
+                                <Setter TargetName="bd" Property="BorderBrush" Value="#FF7A7A7A" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="bd" Property="Background" Value="#FFF7F7F7" />
+                                <Setter TargetName="bd" Property="BorderBrush" Value="#FFCCCCCC" />
+                                <Setter Property="Foreground" Value="#FFAAAAAA" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
+        <!-- Apply the raised style to all toolbar buttons by overriding the ToolBar button style key -->
+        <Style TargetType="Button" x:Key="{x:Static ToolBar.ButtonStyleKey}" BasedOn="{StaticResource ToolbarRaisedButton}" />
+
     </Window.Resources>
 
     <DockPanel>
