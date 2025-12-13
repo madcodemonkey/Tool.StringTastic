@@ -1,13 +1,14 @@
+using Newtonsoft.Json.Linq;
+using StringTastic.ViewModels;
+using StringTastic.Views;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Web;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using Newtonsoft.Json.Linq;
-using StringTastic.ViewModels;
-using StringTastic.Views;
 
 namespace StringTastic
 {
@@ -25,6 +26,23 @@ namespace StringTastic
             // Create initial tabs to preserve previous behavior
             CreateCompareTab();
             CreateManipulationTab();
+            SetDropDownMenuToBeRightAligned();
+        }
+
+        private static void SetDropDownMenuToBeRightAligned()
+        {
+            var menuDropAlignmentField = typeof(SystemParameters).GetField("_menuDropAlignment", BindingFlags.NonPublic | BindingFlags.Static);
+            Action setAlignmentValue = () =>
+            {
+                if (SystemParameters.MenuDropAlignment && menuDropAlignmentField != null) menuDropAlignmentField.SetValue(null, false);
+            };
+
+            setAlignmentValue();
+
+            SystemParameters.StaticPropertyChanged += (sender, e) =>
+            {
+                setAlignmentValue();
+            };
         }
 
         private void NewCompareMenu_Click(object sender, RoutedEventArgs e)
