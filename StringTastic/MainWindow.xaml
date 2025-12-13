@@ -8,14 +8,14 @@
                 <Style TargetType="{x:Type Paragraph}">
                     <Setter Property="Margin" Value="0"/>
                 </Style>
-                <!--                <Style TargetType="{x:Type FlowDocument}">-->
-                <!--                    <Setter Property="PageWidth" Value="2048"/>-->
-                <!--                </Style>-->
             </Style.Resources>
             <Setter Property="FontSize" Value="12"/>
             <Setter Property="FontFamily" Value="Arial"/>
             <Setter Property="HorizontalScrollBarVisibility" Value="Auto"/>
             <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+            <!-- Performance improvements -->
+            <Setter Property="SpellCheck.IsEnabled" Value="False"/>
+            <Setter Property="TextOptions.TextFormattingMode" Value="Display"/>
         </Style>
     </Window.Resources>
 
