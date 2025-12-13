@@ -18,6 +18,49 @@
             <Setter Property="SpellCheck.IsEnabled" Value="False"/>
             <Setter Property="TextOptions.TextFormattingMode" Value="Display"/>
         </Style>
+
+        <!-- Small, flat tab close button style (vector X for reliable rendering) -->
+        <Style x:Key="TabCloseButtonStyle" TargetType="Button">
+            <Setter Property="Width" Value="16" />
+            <Setter Property="Height" Value="16" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Margin" Value="4,0,0,0" />
+            <Setter Property="Background" Value="Transparent" />
+            <Setter Property="BorderBrush" Value="Transparent" />
+            <Setter Property="BorderThickness" Value="0" />
+            <Setter Property="Focusable" Value="False" />
+            <Setter Property="Cursor" Value="Hand" />
+            <Setter Property="ToolTip" Value="Close tab" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Button">
+                        <Border x:Name="bd" Background="{TemplateBinding Background}" CornerRadius="2">
+                            <Viewbox Width="12" Height="12" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Canvas Width="12" Height="12">
+                                    <Path x:Name="p1" Data="M2,2 L10,10" Stroke="Gray" StrokeThickness="1.6" StrokeStartLineCap="Round" StrokeEndLineCap="Round" />
+                                    <Path x:Name="p2" Data="M10,2 L2,10" Stroke="Gray" StrokeThickness="1.6" StrokeStartLineCap="Round" StrokeEndLineCap="Round" />
+                                </Canvas>
+                            </Viewbox>
+                        </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="bd" Property="Background" Value="#FFE6E6E6" />
+                                <Setter TargetName="p1" Property="Stroke" Value="Black" />
+                                <Setter TargetName="p2" Property="Stroke" Value="Black" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="bd" Property="Background" Value="#FFD9D9D9" />
+                            </Trigger>
+                            <Trigger Property="IsEnabled" Value="False">
+                                <Setter TargetName="p1" Property="Stroke" Value="#FFBFBFBF" />
+                                <Setter TargetName="p2" Property="Stroke" Value="#FFBFBFBF" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+
     </Window.Resources>
 
     <DockPanel>
@@ -34,6 +77,14 @@
                 <MenuItem Header="Exit" Click="ExitMenu_Click" />
             </MenuItem>
         </Menu>
+
+        <!-- Toolbar with quick-create buttons -->
+        <ToolBarTray DockPanel.Dock="Top">
+            <ToolBar>
+                <Button Content="New Compare" Click="NewCompareMenu_Click" Margin="2" Padding="6,2" />
+                <Button Content="New Manipulation" Click="NewManipulationMenu_Click" Margin="2" Padding="6,2" />
+            </ToolBar>
+        </ToolBarTray>
 
         <TabControl x:Name="MainTabControl" />
     </DockPanel>

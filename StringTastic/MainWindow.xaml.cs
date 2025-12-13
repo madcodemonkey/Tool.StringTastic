@@ -1,13 +1,9 @@
-using Newtonsoft.Json.Linq;
 using StringTastic.ViewModels;
 using StringTastic.Views;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Web;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 using System.Windows.Media;
 
 namespace StringTastic
@@ -23,26 +19,47 @@ namespace StringTastic
             InitializeComponent();
             DataContext = _Model;
 
+            // Ensure menu submenus open to the right
+            AddHandler(MenuItem.SubmenuOpenedEvent, new RoutedEventHandler(MenuItem_SubmenuOpened), true);
+
             // Create initial tabs to preserve previous behavior
             CreateCompareTab();
             CreateManipulationTab();
-            SetDropDownMenuToBeRightAligned();
         }
 
-        private static void SetDropDownMenuToBeRightAligned()
+        private void MenuItem_SubmenuOpened(object sender, RoutedEventArgs e)
         {
-            var menuDropAlignmentField = typeof(SystemParameters).GetField("_menuDropAlignment", BindingFlags.NonPublic | BindingFlags.Static);
-            Action setAlignmentValue = () =>
-            {
-                if (SystemParameters.MenuDropAlignment && menuDropAlignmentField != null) menuDropAlignmentField.SetValue(null, false);
-            };
+            var menuItem = e.OriginalSource as MenuItem;
+            if (menuItem == null)
+                return;
 
-            setAlignmentValue();
-
-            SystemParameters.StaticPropertyChanged += (sender, e) =>
+            // Find the Popup used by this MenuItem's submenu and force its placement
+            var popup = FindVisualChild<Popup>(menuItem);
+            if (popup != null)
             {
-                setAlignmentValue();
-            };
+                try
+                {
+                    popup.Placement = PlacementMode.Right;
+                    popup.HorizontalOffset = 0;
+                }
+                catch
+                {
+                    // ignore any failures - don't want menu to crash
+                }
+            }
+        }
+
+        private static T FindVisualChild<T>(DependencyObject depObj) where T : DependencyObject
+        {
+            if (depObj == null) return null;
+
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
+            {
+                var child = VisualTreeHelper.GetChild(depObj, i);
+                var result = child as T ?? FindVisualChild<T>(child);
+                if (result != null) return result;
+            }
+            return null;
         }
 
         private void NewCompareMenu_Click(object sender, RoutedEventArgs e)
@@ -107,7 +124,20 @@ namespace StringTastic
             // header with text and close button
             var headerPanel = new StackPanel { Orientation = Orientation.Horizontal };
             var headerLabel = new TextBlock { Text = headerText, Margin = new Thickness(0, 0, 5, 0) };
-            var closeButton = new Button { Content = "x", Width = 18, Height = 18, Padding = new Thickness(0), Margin = new Thickness(0) };
+            var closeButton = new Button { Content = "", Width = 16, Height = 16, Padding = new Thickness(0), Margin = new Thickness(2, 0, 0, 0) };
+
+            // apply style from resources if available
+            var style = TryFindResource("TabCloseButtonStyle") as Style;
+            if (style != null)
+                closeButton.Style = style;
+            else
+            {
+                // fallback content if style not found
+                closeButton.Content = "x";
+                closeButton.FontSize = 11;
+                closeButton.Foreground = Brushes.Gray;
+            }
+
             closeButton.Click += (s, e) => MainTabControl.Items.Remove(tab);
 
             headerPanel.Children.Add(headerLabel);
@@ -115,6 +145,18 @@ namespace StringTastic
 
             tab.Header = headerPanel;
             tab.Content = content;
+
+            // close tab on middle-click
+            tab.PreviewMouseDown += (s, e) =>
+            {
+                var mbe = e as MouseButtonEventArgs;
+                if (mbe != null && mbe.ChangedButton == MouseButton.Middle)
+                {
+                    // remove the tab
+                    MainTabControl.Items.Remove(tab);
+                    e.Handled = true;
+                }
+            };
 
             return tab;
         }
