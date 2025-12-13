@@ -16,13 +16,17 @@ namespace StringTastic
         private int _compareCount = 0;
         private int _manipulationCount = 0;
 
+        public ICommand CloseTabCommand { get; }
+        public ICommand CloseOthersCommand { get; }
+
         public MainWindow()
         {
             InitializeComponent();
             DataContext = _Model;
 
-            // Ensure menu submenus open to the right for this window
-            AddHandler(MenuItem.SubmenuOpenedEvent, new RoutedEventHandler(MenuItem_SubmenuOpened), true);
+            // provide commands for context menu (still available if needed)
+            CloseTabCommand = new RelayCommand(o => CloseTabCommandExecute(o));
+            CloseOthersCommand = new RelayCommand(o => CloseOthersCommandExecute(o));
 
             // Subscribe to ViewModel events to handle tab actions from commands
             _Model.RequestNewCompare += (s, e) => CreateCompareTab();
@@ -38,6 +42,44 @@ namespace StringTastic
             // Create initial tabs to preserve previous behavior
             CreateCompareTab();
             CreateManipulationTab();
+        }
+
+        private void CloseTabCommandExecute(object parameter)
+        {
+            var target = parameter as TabItem;
+            if (target == null)
+            {
+                // If command parameter wasn't a TabItem, try to resolve from ContextMenu placement target
+                var cm = parameter as ContextMenu;
+                target = cm?.PlacementTarget as TabItem;
+            }
+
+            if (target != null)
+            {
+                MainTabControl.Items.Remove(target);
+            }
+        }
+
+        private void CloseOthersCommandExecute(object parameter)
+        {
+            var target = parameter as TabItem;
+            if (target == null)
+            {
+                var cm = parameter as ContextMenu;
+                target = cm?.PlacementTarget as TabItem;
+            }
+
+            if (target != null)
+            {
+                for (int i = MainTabControl.Items.Count - 1; i >= 0; i--)
+                {
+                    var item = MainTabControl.Items[i] as TabItem;
+                    if (item != null && !ReferenceEquals(item, target))
+                        MainTabControl.Items.RemoveAt(i);
+                }
+
+                MainTabControl.SelectedItem = target;
+            }
         }
 
         private void MenuItem_SubmenuOpened(object sender, RoutedEventArgs e)
@@ -130,6 +172,37 @@ namespace StringTastic
 
             tab.Header = headerPanel;
             tab.Content = content;
+
+            // Add right-click context menu directly so handlers fire
+            var cm = new ContextMenu();
+
+            var miClose = new MenuItem { Header = "Close" };
+            miClose.Click += (s, e) =>
+            {
+                if (MainTabControl.Items.Contains(tab))
+                    MainTabControl.Items.Remove(tab);
+            };
+
+            var miCloseOthers = new MenuItem { Header = "Close Others" };
+            miCloseOthers.Click += (s, e) =>
+            {
+                for (int i = MainTabControl.Items.Count - 1; i >= 0; i--)
+                {
+                    var item = MainTabControl.Items[i] as TabItem;
+                    if (item != null && !ReferenceEquals(item, tab))
+                        MainTabControl.Items.RemoveAt(i);
+                }
+                MainTabControl.SelectedItem = tab;
+            };
+
+            var miCloseAll = new MenuItem { Header = "Close All" };
+            miCloseAll.Click += (s, e) => MainTabControl.Items.Clear();
+
+            cm.Items.Add(miClose);
+            cm.Items.Add(miCloseOthers);
+            cm.Items.Add(miCloseAll);
+
+            tab.ContextMenu = cm;
 
             // close tab on middle-click
             tab.PreviewMouseDown += (s, e) =>
