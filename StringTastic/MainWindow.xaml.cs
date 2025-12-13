@@ -1,5 +1,7 @@
 using StringTastic.ViewModels;
 using StringTastic.Views;
+using System;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Controls.Primitives;
@@ -25,8 +27,24 @@ namespace StringTastic
             // Create initial tabs to preserve previous behavior
             CreateCompareTab();
             CreateManipulationTab();
+            SetDropDownMenuToBeRightAligned();
         }
 
+        private static void SetDropDownMenuToBeRightAligned()
+        {
+            var menuDropAlignmentField = typeof(SystemParameters).GetField("_menuDropAlignment", BindingFlags.NonPublic | BindingFlags.Static);
+            Action setAlignmentValue = () =>
+            {
+                if (SystemParameters.MenuDropAlignment && menuDropAlignmentField != null) menuDropAlignmentField.SetValue(null, false);
+            };
+
+            setAlignmentValue();
+
+            SystemParameters.StaticPropertyChanged += (sender, e) =>
+            {
+                setAlignmentValue();
+            };
+        }
         private void MenuItem_SubmenuOpened(object sender, RoutedEventArgs e)
         {
             var menuItem = e.OriginalSource as MenuItem;
