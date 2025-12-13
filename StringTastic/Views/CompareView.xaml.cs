@@ -16,12 +16,12 @@ namespace StringTastic.Views
 
         private void SortLeftButton_Click(object sender, RoutedEventArgs e)
         {
-            SortRichTextBox(RtbLeftItems);
+            RtbLeftItems.SortRichTextBox(sortAscending: true);
         }
 
         private void SortRightButton_Click(object sender, RoutedEventArgs e)
         {
-            SortRichTextBox(RtbRightItems);
+            RtbLeftItems.SortRichTextBox(sortAscending: true);
         }
 
         private void PutUniqueLeftItemsInRightRtbButton_Click(object sender, RoutedEventArgs e)
@@ -46,12 +46,12 @@ namespace StringTastic.Views
 
         private void TrimLeftItemsButton_Click(object sender, RoutedEventArgs e)
         {
-            TrimItems(RtbLeftItems);
+            RtbLeftItems.TrimLines();
         }
 
         private void TrimRightItemsButton_Click(object sender, RoutedEventArgs e)
         {
-            TrimItems(RtbRightItems);
+            RtbRightItems.TrimLines();
         }
 
         private void ShowDifferencesButton_Click(object sender, RoutedEventArgs e)
@@ -106,19 +106,6 @@ namespace StringTastic.Views
         }
 
         #region RichTextBox methods
-        private void SortRichTextBox(RichTextBox rtb)
-        {
-            List<string> listOfStrings = rtb.ToListOfString();
-            ClearRichTextBox(rtb);
-            foreach (var item in listOfStrings.OrderBy(item => item))
-                rtb.LogMessage(item, Brushes.Black);
-        }
-
-
-        private void ClearRichTextBox(RichTextBox rtb)
-        {
-            rtb.Document.Blocks.Clear();
-        }
 
 
 
@@ -127,26 +114,11 @@ namespace StringTastic.Views
             List<string> listOfStrings = source.ToListOfString();
 
             if (source == destination)
-                ClearRichTextBox(destination);
+                destination.Clear();
 
             foreach (var singleItem in listOfStrings.Select(item => item).Distinct())
             {
                 destination.LogMessage(singleItem, Brushes.Black);
-            }
-        }
-
-        private void TrimItems(RichTextBox source)
-        {
-            List<string> listOfStrings = source.ToListOfString();
-
-            ClearRichTextBox(source);
-
-
-            foreach (var singleItem in listOfStrings)
-            {
-                string message = singleItem.Trim();
-                if (string.IsNullOrEmpty(message) == false)
-                    source.LogMessage(message, Brushes.Black);
             }
         }
         #endregion
