@@ -1,8 +1,9 @@
+using Newtonsoft.Json.Linq;
 using System;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using Newtonsoft.Json.Linq;
 
 namespace StringTastic.Views
 {
@@ -11,6 +12,43 @@ namespace StringTastic.Views
         public ManipulationView()
         {
             InitializeComponent();
+        }
+
+        private void ExecuteButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (ActionComboBox.SelectedItem is ComboBoxItem selectedItem)
+            {
+                string action = selectedItem.Tag?.ToString();
+
+                switch (action)
+                {
+                    case "Base64Encode":
+                        Base64EncodeButton_Click(sender, e);
+                        break;
+                    case "Base64Decode":
+                        Base64DecodeButton_Click(sender, e);
+                        break;
+                    case "UrlEncode":
+                        UrlEncodeButton_Click(sender, e);
+                        break;
+                    case "UrlDecode":
+                        UrlDecodeButton_Click(sender, e);
+                        break;
+                    case "JwtDecode":
+                        JwtTokenDecodeButton_Click(sender, e);
+                        break;
+                    case "GenerateGuids":
+                        GenerateGuidsButton_Click(sender, e);
+                        break;
+                    default:
+                        MessageBox.Show("Please select an action from the dropdown.", "No Action Selected", MessageBoxButton.OK, MessageBoxImage.Information);
+                        break;
+                }
+            }
+            else
+            {
+                MessageBox.Show("Please select an action from the dropdown.", "No Action Selected", MessageBoxButton.OK, MessageBoxImage.Information);
+            }
         }
 
         private void Base64EncodeButton_Click(object sender, RoutedEventArgs e)
@@ -37,6 +75,8 @@ namespace StringTastic.Views
 
         private void JwtTokenDecodeButton_Click(object sender, RoutedEventArgs e)
         {
+            StringBuilder sb = new StringBuilder();
+
             try
             {
                 string encodedData = RtbManipulate.ToOneString(true).Trim();
@@ -53,48 +93,53 @@ namespace StringTastic.Views
                 string part2 = Base64Decode(encodedParts[1]);
 
                 RtbManipulate.Clear();
-                RtbManipulate.LogMessage("Header:", Brushes.Black);
+
+                sb.AppendLine("Header:");
                 var part1Object = JObject.Parse(part1);
-                RtbManipulate.LogMessage(part1Object.ToString(), Brushes.Black);
+                sb.AppendLine(part1Object.ToString());
 
-                RtbManipulate.LogMessage(" ", Brushes.Black);
-                RtbManipulate.LogMessage("Payload:", Brushes.Black);
+                sb.AppendLine();
+                sb.AppendLine("Payload:");
                 var part2Object = JObject.Parse(part2);
-                RtbManipulate.LogMessage(part2Object.ToString(), Brushes.Black);
+                sb.AppendLine(part2Object.ToString());
 
+                sb.AppendLine();
+                sb.AppendLine("Signature:");
+                sb.AppendLine("[Encoded Signature]");
 
-                RtbManipulate.LogMessage(" ", Brushes.Black);
-                RtbManipulate.LogMessage("Signature:", Brushes.Black);
-                RtbManipulate.LogMessage("[Encoded Signature]", Brushes.Black);
-
-                DecodeDate("Payload Issued date (iat)", "iat", part2Object);
-                DecodeDate("Payload Expiration date (exp)", "exp", part2Object);
+                DecodeDate(sb, "Payload Issued date (iat)", "iat", part2Object);
+                DecodeDate(sb, "Payload Expiration date (exp)", "exp", part2Object);
             }
             catch (Exception ex)
             {
-                RtbManipulate.LogMessage("----------------", Brushes.Black);
-                RtbManipulate.LogMessage(ex.Message, Brushes.Black);
+                sb.Clear();
+                sb.AppendLine("----------------");
+                sb.AppendLine(ex.Message);
+            }
+            finally
+            {
+                RtbManipulate.LogMessage(sb.ToString(), Brushes.Black);
             }
         }
 
-        private void DecodeDate(string title, string propertyName, JObject part2Object)
+        private void DecodeDate(StringBuilder sb, string title, string propertyName, JObject part2Object)
         {
-            RtbManipulate.LogMessage(" ", Brushes.Black);
+            sb.AppendLine();
             var expiration = part2Object[propertyName];
 
             if (expiration == null || string.IsNullOrWhiteSpace(expiration.ToString()))
             {
-                RtbManipulate.LogMessage($"{title} not found.", Brushes.Black);
+                sb.AppendLine($"{title} not found.");
             }
             else if (int.TryParse(expiration.ToString(), out var exp))
             {
                 var startDate = new DateTime(1970, 1, 1);
                 var expDate = startDate.AddSeconds(exp);
-                RtbManipulate.LogMessage($"{title} = {expDate}", Brushes.Black);
+                sb.AppendLine($"{title} = {expDate}");
             }
             else
             {
-                RtbManipulate.LogMessage($"Unable to parse {title}.", Brushes.Black);
+                sb.AppendLine($"Unable to parse {title}.");
             }
         }
 
@@ -145,32 +190,36 @@ namespace StringTastic.Views
         private void GenerateGuidsButton_Click(object sender, RoutedEventArgs e)
         {
             RtbManipulate.Clear();
-            RtbManipulate.LogMessage("10 new GUIDs style D (lowercase)", Brushes.Black);
+
+            StringBuilder sb = new StringBuilder();
+            sb.AppendLine("10 new GUIDs style D (lowercase)");
             for (int i = 0; i < 10; i++)
             {
-                RtbManipulate.LogMessage(Guid.NewGuid().ToString("D").ToLower(), Brushes.Black);
+                sb.AppendLine(Guid.NewGuid().ToString("D").ToLower());
             }
 
-            RtbManipulate.LogMessage(" ", Brushes.Black);
-            RtbManipulate.LogMessage("10 new GUIDs style D (uppercase)", Brushes.Black);
+            sb.AppendLine();
+            sb.AppendLine("10 new GUIDs style D (uppercase)");
             for (int i = 0; i < 10; i++)
             {
-                RtbManipulate.LogMessage(Guid.NewGuid().ToString("D").ToUpper(), Brushes.Black);
+                sb.AppendLine(Guid.NewGuid().ToString("D").ToUpper());
             }
 
-            RtbManipulate.LogMessage(" ", Brushes.Black);
-            RtbManipulate.LogMessage("10 new GUIDs style N (lowercase)", Brushes.Black);
+            sb.AppendLine();
+            sb.AppendLine("10 new GUIDs style N (lowercase)");
             for (int i = 0; i < 10; i++)
             {
-                RtbManipulate.LogMessage(Guid.NewGuid().ToString("N").ToLower(), Brushes.Black);
+                sb.AppendLine(Guid.NewGuid().ToString("N").ToLower());
             }
 
-            RtbManipulate.LogMessage(" ", Brushes.Black);
-            RtbManipulate.LogMessage("10 new GUIDs style N (uppercase)", Brushes.Black);
+            sb.AppendLine();
+            sb.AppendLine("10 new GUIDs style N (uppercase)");
             for (int i = 0; i < 10; i++)
             {
-                RtbManipulate.LogMessage(Guid.NewGuid().ToString("N").ToUpper(), Brushes.Black);
+                sb.AppendLine(Guid.NewGuid().ToString("N").ToUpper());
             }
+
+            RtbManipulate.LogMessage(sb.ToString(), Brushes.Black);
         }
     }
 }

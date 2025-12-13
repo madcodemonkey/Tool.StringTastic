@@ -40,12 +40,17 @@
         <StackPanel Grid.Row="0" Orientation="Horizontal" >
             <Button Name="ClearManipulateButton" Content="Clear" MinHeight="25" Margin="5" MinWidth="40" 
                     Command="{Binding RichTextBoxCommon.ClearRichTextBoxCommand}" CommandParameter="{Binding ElementName=RtbManipulate}" />
-            <Button Name="Base64EncodeButton" Content="Base64 Encode" MinHeight="25" Margin="5" MinWidth="40" Click="Base64EncodeButton_Click" ToolTip="UT8 Encoding" />
-            <Button Name="Base64DecodeButton" Content="Base64 Decode" MinHeight="25" Margin="5" MinWidth="40" Click="Base64DecodeButton_Click" ToolTip="UT8 Encoding" />
-            <Button Name="HtmlEncodeButton" Content="URL Encode" MinHeight="25" Margin="5" MinWidth="40" Click="UrlEncodeButton_Click" ToolTip="Encode" />
-            <Button Name="HtmlDecodeButton" Content="URL Decode" MinHeight="25" Margin="5" MinWidth="40" Click="UrlDecodeButton_Click" ToolTip="Decode" />
-            <Button Name="JwtTokenDecodeButton" Content="JWT Decode" MinHeight="25" Margin="5" MinWidth="40" Click="JwtTokenDecodeButton_Click" ToolTip="JWT Decode" />
-            <Button x:Name="GuidGeneratorButton" Content="Generate GUIDs" MinHeight="25"  Margin="5" MinWidth="40" Click="GenerateGuidsButton_Click" ToolTip="Generate GUIDs" />
+            <Button Name="UndoButton" Content="Undo" MinHeight="25" Margin="5" MinWidth="40" 
+                    Command="ApplicationCommands.Undo" CommandTarget="{Binding ElementName=RtbManipulate}" ToolTip="Undo last action" />
+            <ComboBox Name="ActionComboBox" MinHeight="25" Margin="5" MinWidth="150" VerticalContentAlignment="Center" SelectedIndex="3">
+				<ComboBoxItem Content="Base64 Encode" Tag="Base64Encode" />
+                <ComboBoxItem Content="Base64 Decode" Tag="Base64Decode" />
+				<ComboBoxItem Content="Generate GUIDs" Tag="GenerateGuids" />
+				<ComboBoxItem Content="JWT Decode" Tag="JwtDecode" />
+				<ComboBoxItem Content="URL Encode" Tag="UrlEncode" />
+                <ComboBoxItem Content="URL Decode" Tag="UrlDecode" />
+            </ComboBox>
+            <Button Name="ExecuteButton" Content="Execute" MinHeight="25" Margin="5" MinWidth="40" Click="ExecuteButton_Click" ToolTip="Execute selected action" />
         </StackPanel>
         <RichTextBox Name="RtbManipulate" Grid.Row="1" Style="{DynamicResource RichTextWithBetterSpacing}" 
                       HorizontalAlignment="Stretch" Margin="0, 5, 5, 0"  VerticalAlignment="Stretch" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Auto">
