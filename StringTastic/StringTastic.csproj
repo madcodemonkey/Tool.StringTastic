@@ -75,6 +75,12 @@
     </Compile>
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\RichTextBoxCommonViewModel.cs" />
+    <Compile Include="Views\CompareView.xaml.cs">
+      <DependentUpon>CompareView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ManipulationView.xaml.cs">
+      <DependentUpon>ManipulationView.xaml</DependentUpon>
+    </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -89,6 +95,12 @@
     </Compile>
     <Page Include="RichTextDialogBox.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\CompareView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ManipulationView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
