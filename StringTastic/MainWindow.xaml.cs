@@ -30,6 +30,10 @@ namespace StringTastic
             SetDropDownMenuToBeRightAligned();
         }
 
+        /// <summary>
+        /// This is a fix for menus so that the present properly.
+        /// DO NOT REMOVE!
+        /// </summary>
         private static void SetDropDownMenuToBeRightAligned()
         {
             var menuDropAlignmentField = typeof(SystemParameters).GetField("_menuDropAlignment", BindingFlags.NonPublic | BindingFlags.Static);
