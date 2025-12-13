@@ -67,22 +67,22 @@
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="File">
                 <MenuItem Header="New">
-                    <MenuItem Header="New Compare" Click="NewCompareMenu_Click" />
-                    <MenuItem Header="New Manipulation" Click="NewManipulationMenu_Click" />
+                    <MenuItem Header="New Compare" Command="{Binding NewCompareCommand}" />
+                    <MenuItem Header="New Manipulation" Command="{Binding NewManipulationCommand}" />
                 </MenuItem>
                 <Separator />
-                <MenuItem Header="Close Tab" Click="CloseCurrentTabMenu_Click" />
-                <MenuItem Header="Close All Tabs" Click="CloseAllTabsMenu_Click" />
+                <MenuItem Header="Close Tab" Command="{Binding CloseCurrentTabCommand}" />
+                <MenuItem Header="Close All Tabs" Command="{Binding CloseAllTabsCommand}" />
                 <Separator />
-                <MenuItem Header="Exit" Click="ExitMenu_Click" />
+                <MenuItem Header="Exit" Command="{Binding ExitCommand}" />
             </MenuItem>
         </Menu>
 
         <!-- Toolbar with quick-create buttons -->
         <ToolBarTray DockPanel.Dock="Top">
             <ToolBar>
-                <Button Content="New Compare" Click="NewCompareMenu_Click" Margin="2" Padding="6,2" />
-                <Button Content="New Manipulation" Click="NewManipulationMenu_Click" Margin="2" Padding="6,2" />
+                <Button Content="New Compare" Command="{Binding NewCompareCommand}" Margin="2" Padding="6,2" />
+                <Button Content="New Manipulation" Command="{Binding NewManipulationCommand}" Margin="2" Padding="6,2" />
             </ToolBar>
         </ToolBarTray>
 

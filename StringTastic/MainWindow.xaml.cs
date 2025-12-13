@@ -21,34 +21,25 @@ namespace StringTastic
             InitializeComponent();
             DataContext = _Model;
 
-            // Ensure menu submenus open to the right
+            // Ensure menu submenus open to the right for this window
             AddHandler(MenuItem.SubmenuOpenedEvent, new RoutedEventHandler(MenuItem_SubmenuOpened), true);
+
+            // Subscribe to ViewModel events to handle tab actions from commands
+            _Model.RequestNewCompare += (s, e) => CreateCompareTab();
+            _Model.RequestNewManipulation += (s, e) => CreateManipulationTab();
+            _Model.RequestCloseCurrentTab += (s, e) =>
+            {
+                if (MainTabControl.SelectedItem is TabItem ti)
+                    MainTabControl.Items.Remove(ti);
+            };
+            _Model.RequestCloseAllTabs += (s, e) => MainTabControl.Items.Clear();
+            _Model.RequestExit += (s, e) => Close();
 
             // Create initial tabs to preserve previous behavior
             CreateCompareTab();
             CreateManipulationTab();
-            SetDropDownMenuToBeRightAligned();
         }
 
-        /// <summary>
-        /// This is a fix for menus so that the present properly.
-        /// DO NOT REMOVE!
-        /// </summary>
-        private static void SetDropDownMenuToBeRightAligned()
-        {
-            var menuDropAlignmentField = typeof(SystemParameters).GetField("_menuDropAlignment", BindingFlags.NonPublic | BindingFlags.Static);
-            Action setAlignmentValue = () =>
-            {
-                if (SystemParameters.MenuDropAlignment && menuDropAlignmentField != null) menuDropAlignmentField.SetValue(null, false);
-            };
-
-            setAlignmentValue();
-
-            SystemParameters.StaticPropertyChanged += (sender, e) =>
-            {
-                setAlignmentValue();
-            };
-        }
         private void MenuItem_SubmenuOpened(object sender, RoutedEventArgs e)
         {
             var menuItem = e.OriginalSource as MenuItem;
@@ -82,34 +73,6 @@ namespace StringTastic
                 if (result != null) return result;
             }
             return null;
-        }
-
-        private void NewCompareMenu_Click(object sender, RoutedEventArgs e)
-        {
-            CreateCompareTab();
-        }
-
-        private void NewManipulationMenu_Click(object sender, RoutedEventArgs e)
-        {
-            CreateManipulationTab();
-        }
-
-        private void CloseCurrentTabMenu_Click(object sender, RoutedEventArgs e)
-        {
-            if (MainTabControl.SelectedItem is TabItem ti)
-            {
-                MainTabControl.Items.Remove(ti);
-            }
-        }
-
-        private void CloseAllTabsMenu_Click(object sender, RoutedEventArgs e)
-        {
-            MainTabControl.Items.Clear();
-        }
-
-        private void ExitMenu_Click(object sender, RoutedEventArgs e)
-        {
-            Close();
         }
 
         private void CreateCompareTab()
