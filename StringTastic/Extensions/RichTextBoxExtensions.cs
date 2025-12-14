@@ -36,8 +36,7 @@ namespace StringTastic
                 listOfStrings.OrderBy(item => item).ToList() :
                 listOfStrings.OrderByDescending(item => item).ToList();
 
-            foreach (var item in items)
-                rtb.LogMessage(item, Brushes.Black);
+            rtb.LogMessage(items, Brushes.Black);
         }
 
         /// <summary>Text retrieval method (not thread safe).</summary>
@@ -100,12 +99,16 @@ namespace StringTastic
 
             source.Clear();
 
+            StringBuilder sb = new StringBuilder();
+
             foreach (var singleItem in listOfStrings)
             {
                 string message = singleItem.Trim();
                 if (string.IsNullOrEmpty(message) == false)
-                    source.LogMessage(message, Brushes.Black);
+                    sb.AppendLine(message);
             }
+
+            source.LogMessage(sb.ToString(), Brushes.Black);
         }
 
         /// <summary>Threadsafe logging method.</summary>
@@ -136,14 +139,18 @@ namespace StringTastic
         }
 
         /// <summary>Threadsafe logging method.</summary>
-        public static void LogMessage(this RichTextBox source, IEnumerable<string> messages, Brush color)
+        public static void LogMessage(this RichTextBox source, IList<string> messages, Brush color)
         {
             if (source.Dispatcher.CheckAccess())
             {
+                StringBuilder sb = new StringBuilder();
+
                 foreach (var message in messages)
                 {
-                    LogMessage(source, message, color);
+                    sb.AppendLine(message);
                 }
+
+                source.LogMessage(sb.ToString(), color);
             }
             else source.Dispatcher.BeginInvoke(DispatcherPriority.Normal, new RtbLoggingDelegate(LogMessage), new object[] { source, messages, color });
         }

@@ -49,7 +49,11 @@
 				<ComboBoxItem Content="JWT Decode" Tag="JwtDecode" />
 				<ComboBoxItem Content="URL Encode" Tag="UrlEncode" />
                 <ComboBoxItem Content="URL Decode" Tag="UrlDecode" />
-            </ComboBox>
+				<ComboBoxItem Content="Sort Ascending" Tag="SortAscending" />
+				<ComboBoxItem Content="Sort Descending" Tag="SortDescending" />
+				<ComboBoxItem Content="Trim" Tag="Trim" />
+				<ComboBoxItem Content="Unique" Tag="Unique" />
+			</ComboBox>
             <Button Name="ExecuteButton" Content="Execute" MinHeight="25" Margin="5" MinWidth="40" Click="ExecuteButton_Click" ToolTip="Execute selected action" />
         </StackPanel>
         <RichTextBox Name="RtbManipulate" Grid.Row="1" Style="{DynamicResource RichTextWithBetterSpacing}" 
