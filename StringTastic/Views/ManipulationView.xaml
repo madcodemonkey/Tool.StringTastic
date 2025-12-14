@@ -38,23 +38,34 @@
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
         <StackPanel Grid.Row="0" Orientation="Horizontal" >
-            <Button Name="ClearManipulateButton" Content="Clear" MinHeight="25" Margin="5" MinWidth="40" 
-                    Command="{Binding RichTextBoxCommon.ClearRichTextBoxCommand}" CommandParameter="{Binding ElementName=RtbManipulate}" />
-            <Button Name="UndoButton" Content="Undo" MinHeight="25" Margin="5" MinWidth="40" 
-                    Command="ApplicationCommands.Undo" CommandTarget="{Binding ElementName=RtbManipulate}" ToolTip="Undo last action" />
-            <ComboBox Name="ActionComboBox" MinHeight="25" Margin="5" MinWidth="150" VerticalContentAlignment="Center" SelectedIndex="3">
+            <Button Name="ClearManipulateButton" MinHeight="25" Margin="5" MinWidth="40" 
+                    Command="{Binding RichTextBoxCommon.ClearRichTextBoxCommand}" CommandParameter="{Binding ElementName=RtbManipulate}">
+                <StackPanel Orientation="Horizontal">
+                    <ContentControl ContentTemplate="{StaticResource IconClear}" Margin="0,0,4,0" />
+                    <TextBlock Text="Clear" VerticalAlignment="Center" />
+                </StackPanel>
+            </Button>
+            <Button Name="UndoButton" MinHeight="25" Margin="5" MinWidth="40" 
+                    Command="ApplicationCommands.Undo" CommandTarget="{Binding ElementName=RtbManipulate}" ToolTip="Undo last action">
+                <StackPanel Orientation="Horizontal">
+                    <ContentControl ContentTemplate="{StaticResource IconUndo}" Margin="0,0,4,0" />
+                    <TextBlock Text="Undo" VerticalAlignment="Center" />
+                </StackPanel>
+            </Button>
+            <ComboBox Name="ActionComboBox" MinHeight="25" Margin="5" MinWidth="150" VerticalContentAlignment="Center" SelectedIndex="4">
 				<ComboBoxItem Content="Base64 Encode" Tag="Base64Encode" />
                 <ComboBoxItem Content="Base64 Decode" Tag="Base64Decode" />
-				<ComboBoxItem Content="Generate GUIDs" Tag="GenerateGuids" />
-				<ComboBoxItem Content="JWT Decode" Tag="JwtDecode" />
 				<ComboBoxItem Content="URL Encode" Tag="UrlEncode" />
-                <ComboBoxItem Content="URL Decode" Tag="UrlDecode" />
-				<ComboBoxItem Content="Sort Ascending" Tag="SortAscending" />
-				<ComboBoxItem Content="Sort Descending" Tag="SortDescending" />
-				<ComboBoxItem Content="Trim" Tag="Trim" />
-				<ComboBoxItem Content="Unique" Tag="Unique" />
+				<ComboBoxItem Content="URL Decode" Tag="UrlDecode" />
+				<ComboBoxItem Content="JWT Decode" Tag="JwtDecode" />
+				<ComboBoxItem Content="Generate GUIDs" Tag="GenerateGuids" />
 			</ComboBox>
-            <Button Name="ExecuteButton" Content="Execute" MinHeight="25" Margin="5" MinWidth="40" Click="ExecuteButton_Click" ToolTip="Execute selected action" />
+            <Button Name="ExecuteButton" MinHeight="25" Margin="5" MinWidth="40" Click="ExecuteButton_Click" ToolTip="Execute selected action">
+                <StackPanel Orientation="Horizontal">
+                    <ContentControl ContentTemplate="{StaticResource IconExecute}" Margin="0,0,4,0" />
+                    <TextBlock Text="Execute" VerticalAlignment="Center" />
+                </StackPanel>
+            </Button>
         </StackPanel>
         <RichTextBox Name="RtbManipulate" Grid.Row="1" Style="{DynamicResource RichTextWithBetterSpacing}" 
                       HorizontalAlignment="Stretch" Margin="0, 5, 5, 0"  VerticalAlignment="Stretch" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Auto">

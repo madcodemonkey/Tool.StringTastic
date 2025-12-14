@@ -45,11 +45,31 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0" Orientation="Horizontal" >
-                <Button Name="ClearLeftButton" Content="Clear" MinHeight="25" Margin="5" MinWidth="40" 
-                        Command="{Binding RichTextBoxCommon.ClearRichTextBoxCommand}" CommandParameter="{Binding ElementName=RtbLeftItems}" />
-                <Button Name="SortLeftButton" Content="Sort" MinHeight="25" Margin="5" MinWidth="40" Click="SortLeftButton_Click" />
-                <Button Name="MakeLeftItemsUniqueButton" Content="Unique" MinHeight="25" Margin="5" MinWidth="40" Click="MakeLeftItemsUniqueButton_Click" />
-                <Button Name="TrimLeftItemsButton" Content="Trim" MinHeight="25" Margin="5" MinWidth="40" Click="TrimLeftItemsButton_Click" />
+                <Button Name="ClearLeftButton" MinHeight="25" Margin="5" MinWidth="40" 
+                        Command="{Binding RichTextBoxCommon.ClearRichTextBoxCommand}" CommandParameter="{Binding ElementName=RtbLeftItems}">
+                    <StackPanel Orientation="Horizontal">
+                        <ContentControl ContentTemplate="{StaticResource IconClear}" Margin="0,0,4,0" />
+                        <TextBlock Text="Clear" VerticalAlignment="Center" />
+                    </StackPanel>
+                </Button>
+                <Button Name="SortLeftButton" MinHeight="25" Margin="5" MinWidth="40" Click="SortLeftButton_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <ContentControl ContentTemplate="{StaticResource IconSort}" Margin="0,0,4,0" />
+                        <TextBlock Text="Sort" VerticalAlignment="Center" />
+                    </StackPanel>
+                </Button>
+                <Button Name="MakeLeftItemsUniqueButton" MinHeight="25" Margin="5" MinWidth="40" Click="MakeLeftItemsUniqueButton_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <ContentControl ContentTemplate="{StaticResource IconUnique}" Margin="0,0,4,0" />
+                        <TextBlock Text="Unique" VerticalAlignment="Center" />
+                    </StackPanel>
+                </Button>
+                <Button Name="TrimLeftItemsButton" MinHeight="25" Margin="5" MinWidth="40" Click="TrimLeftItemsButton_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <ContentControl ContentTemplate="{StaticResource IconTrim}" Margin="0,0,4,0" />
+                        <TextBlock Text="Trim" VerticalAlignment="Center" />
+                    </StackPanel>
+                </Button>
             </StackPanel>
             <RichTextBox Name="RtbLeftItems" Grid.Row="1" Style="{DynamicResource RichTextWithBetterSpacing}" 
                          HorizontalAlignment="Stretch" Margin="0, 5, 5, 0"  VerticalAlignment="Stretch" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Auto">
@@ -77,10 +97,30 @@
         </Grid>
 
         <StackPanel Grid.Column="1" Orientation="Vertical" HorizontalAlignment="Center" VerticalAlignment="Center">
-            <Button Name="PutUniqueLeftItemsInRightRtbButton" Content="Unique ->" MinHeight="25" Margin="5" MinWidth="40" Click="PutUniqueLeftItemsInRightRtbButton_Click" />
-            <Button Name="PutUniqueRightItemsInLeftRtbButton" Content="&lt;- Unique" MinHeight="25" Margin="5" MinWidth="40" Click="PutUniqueRightItemsInLeftRtbButton_Click" />
-            <Button Name="ShowDifferencesButton" Content="Show differences" MinHeight="25" Margin="5" MinWidth="40" Click="ShowDifferencesButton_Click" />
-            <Button Name="ShowSimilaritiesButton" Content="Show similarities" MinHeight="25" Margin="5" MinWidth="40" Click="ShowSimilaritiesButton_Click" />
+            <Button Name="PutUniqueLeftItemsInRightRtbButton" MinHeight="25" Margin="5" MinWidth="40" Click="PutUniqueLeftItemsInRightRtbButton_Click">
+                <StackPanel Orientation="Horizontal">
+                    <ContentControl ContentTemplate="{StaticResource IconArrowRight}" Margin="0,0,4,0" />
+                    <TextBlock Text="Unique" VerticalAlignment="Center" />
+                </StackPanel>
+            </Button>
+            <Button Name="PutUniqueRightItemsInLeftRtbButton" MinHeight="25" Margin="5" MinWidth="40" Click="PutUniqueRightItemsInLeftRtbButton_Click">
+                <StackPanel Orientation="Horizontal">
+                    <ContentControl ContentTemplate="{StaticResource IconArrowLeft}" Margin="0,0,4,0" />
+                    <TextBlock Text="Unique" VerticalAlignment="Center" />
+                </StackPanel>
+            </Button>
+            <Button Name="ShowDifferencesButton" MinHeight="25" Margin="5" MinWidth="40" Click="ShowDifferencesButton_Click">
+                <StackPanel Orientation="Horizontal">
+                    <ContentControl ContentTemplate="{StaticResource IconCompare}" Margin="0,0,4,0" />
+                    <TextBlock Text="Differences" VerticalAlignment="Center" />
+                </StackPanel>
+            </Button>
+            <Button Name="ShowSimilaritiesButton" MinHeight="25" Margin="5" MinWidth="40" Click="ShowSimilaritiesButton_Click">
+                <StackPanel Orientation="Horizontal">
+                    <ContentControl ContentTemplate="{StaticResource IconCompare}" Margin="0,0,4,0" />
+                    <TextBlock Text="Similarities" VerticalAlignment="Center" />
+                </StackPanel>
+            </Button>
         </StackPanel>
 
         <Grid Grid.Column="2">
@@ -89,11 +129,31 @@
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
             <StackPanel Grid.Row="0" Orientation="Horizontal" >
-                <Button Name="ClearRightButton" Content="Clear" MinHeight="25" Margin="5" MinWidth="40"
-                        Command="{Binding RichTextBoxCommon.ClearRichTextBoxCommand}" CommandParameter="{Binding ElementName=RtbRightItems}" />
-                <Button Name="SortRightButton" Content="Sort" MinHeight="25" Margin="5" MinWidth="40" Click="SortRightButton_Click" />
-                <Button Name="MakeRightItemsUniqueButton" Content="Unique" MinHeight="25" Margin="5" MinWidth="40" Click="MakeRightItemsUniqueButton_Click" />
-                <Button Name="TrimRightItemsButton" Content="Trim" MinHeight="25" Margin="5" MinWidth="40" Click="TrimRightItemsButton_Click" />
+                <Button Name="ClearRightButton" MinHeight="25" Margin="5" MinWidth="40"
+                        Command="{Binding RichTextBoxCommon.ClearRichTextBoxCommand}" CommandParameter="{Binding ElementName=RtbRightItems}">
+                    <StackPanel Orientation="Horizontal">
+                        <ContentControl ContentTemplate="{StaticResource IconClear}" Margin="0,0,4,0" />
+                        <TextBlock Text="Clear" VerticalAlignment="Center" />
+                    </StackPanel>
+                </Button>
+                <Button Name="SortRightButton" MinHeight="25" Margin="5" MinWidth="40" Click="SortRightButton_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <ContentControl ContentTemplate="{StaticResource IconSort}" Margin="0,0,4,0" />
+                        <TextBlock Text="Sort" VerticalAlignment="Center" />
+                    </StackPanel>
+                </Button>
+                <Button Name="MakeRightItemsUniqueButton" MinHeight="25" Margin="5" MinWidth="40" Click="MakeRightItemsUniqueButton_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <ContentControl ContentTemplate="{StaticResource IconUnique}" Margin="0,0,4,0" />
+                        <TextBlock Text="Unique" VerticalAlignment="Center" />
+                    </StackPanel>
+                </Button>
+                <Button Name="TrimRightItemsButton" MinHeight="25" Margin="5" MinWidth="40" Click="TrimRightItemsButton_Click">
+                    <StackPanel Orientation="Horizontal">
+                        <ContentControl ContentTemplate="{StaticResource IconTrim}" Margin="0,0,4,0" />
+                        <TextBlock Text="Trim" VerticalAlignment="Center" />
+                    </StackPanel>
+                </Button>
             </StackPanel>
             <RichTextBox Name="RtbRightItems" Grid.Row="1" Style="{DynamicResource RichTextWithBetterSpacing}" 
                          HorizontalAlignment="Stretch" Margin="0, 5, 5, 0"  VerticalAlignment="Stretch">
