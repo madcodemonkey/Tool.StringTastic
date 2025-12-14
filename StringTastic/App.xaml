@@ -123,5 +123,74 @@
                 </Canvas>
             </Viewbox>
         </DataTemplate>
+        
+        <!-- Application Icon - Stylized "ST" with Colorful Strings -->
+        <DrawingImage x:Key="AppIcon">
+            <DrawingImage.Drawing>
+                <DrawingGroup>
+                    <DrawingGroup.Children>
+                        <!-- Blue decorative string (top-left) -->
+                        <GeometryDrawing>
+                            <GeometryDrawing.Geometry>
+                                <PathGeometry Figures="M4,6 Q8,2 14,4" />
+                            </GeometryDrawing.Geometry>
+                            <GeometryDrawing.Pen>
+                                <Pen Brush="#FF2196F3" Thickness="1.5" StartLineCap="Round" EndLineCap="Round" />
+                            </GeometryDrawing.Pen>
+                        </GeometryDrawing>
+                        
+                        <!-- Orange decorative string (top-right) -->
+                        <GeometryDrawing>
+                            <GeometryDrawing.Geometry>
+                                <PathGeometry Figures="M22,4 Q26,2 30,6" />
+                            </GeometryDrawing.Geometry>
+                            <GeometryDrawing.Pen>
+                                <Pen Brush="#FFFF9800" Thickness="1.5" StartLineCap="Round" EndLineCap="Round" />
+                            </GeometryDrawing.Pen>
+                        </GeometryDrawing>
+                        
+                        <!-- Green decorative string (bottom-left) -->
+                        <GeometryDrawing>
+                            <GeometryDrawing.Geometry>
+                                <PathGeometry Figures="M4,28 Q8,32 14,30" />
+                            </GeometryDrawing.Geometry>
+                            <GeometryDrawing.Pen>
+                                <Pen Brush="#FF4CAF50" Thickness="1.5" StartLineCap="Round" EndLineCap="Round" />
+                            </GeometryDrawing.Pen>
+                        </GeometryDrawing>
+                        
+                        <!-- Purple decorative string (bottom-right) -->
+                        <GeometryDrawing>
+                            <GeometryDrawing.Geometry>
+                                <PathGeometry Figures="M22,30 Q26,32 30,28" />
+                            </GeometryDrawing.Geometry>
+                            <GeometryDrawing.Pen>
+                                <Pen Brush="#FF9C27B0" Thickness="1.5" StartLineCap="Round" EndLineCap="Round" />
+                            </GeometryDrawing.Pen>
+                        </GeometryDrawing>
+                        
+                        <!-- "S" letter with gradient effect -->
+                        <GeometryDrawing>
+                            <GeometryDrawing.Geometry>
+                                <PathGeometry Figures="M8,10 Q6,10 6,12 Q6,14 8,14 L12,14 Q14,14 14,16 Q14,18 12,18 L8,18 Q6,18 6,20" />
+                            </GeometryDrawing.Geometry>
+                            <GeometryDrawing.Pen>
+                                <Pen Brush="#FF2980B9" Thickness="3" StartLineCap="Round" EndLineCap="Round" LineJoin="Round" />
+                            </GeometryDrawing.Pen>
+                        </GeometryDrawing>
+                        
+                        <!-- "T" letter with gradient effect -->
+                        <GeometryDrawing>
+                            <GeometryDrawing.Geometry>
+                                <PathGeometry Figures="M18,10 L28,10 M23,10 L23,24" />
+                            </GeometryDrawing.Geometry>
+                            <GeometryDrawing.Pen>
+                                <Pen Brush="#FF2980B9" Thickness="3" StartLineCap="Round" EndLineCap="Round" LineJoin="Round" />
+                            </GeometryDrawing.Pen>
+                        </GeometryDrawing>
+                    </DrawingGroup.Children>
+                </DrawingGroup>
+            </DrawingImage.Drawing>
+        </DrawingImage>
     </Application.Resources>
 </Application>
