@@ -53,17 +53,27 @@
                 </StackPanel>
             </Button>
             <ComboBox Name="ActionComboBox" MinHeight="25" Margin="5" MinWidth="150" VerticalContentAlignment="Center" SelectedIndex="4">
-				<ComboBoxItem Content="Base64 Encode" Tag="Base64Encode" />
-                <ComboBoxItem Content="Base64 Decode" Tag="Base64Decode" />
-				<ComboBoxItem Content="URL Encode" Tag="UrlEncode" />
-				<ComboBoxItem Content="URL Decode" Tag="UrlDecode" />
-				<ComboBoxItem Content="JWT Decode" Tag="JwtDecode" />
-				<ComboBoxItem Content="Generate GUIDs" Tag="GenerateGuids" />
-				<ComboBoxItem Content="Sort Ascending" Tag="SortAscending" />
-				<ComboBoxItem Content="Sort Descending" Tag="SortDescending" />
-				<ComboBoxItem Content="Trim" Tag="Trim" />
-				<ComboBoxItem Content="Unique" Tag="Unique" />				 
-			</ComboBox>
+                <ComboBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <ContentControl ContentTemplate="{Binding IconTemplate}" Margin="0,0,6,0" />
+                            <TextBlock Text="{Binding DisplayText}" VerticalAlignment="Center" />
+                        </StackPanel>
+                    </DataTemplate>
+                </ComboBox.ItemTemplate>
+                <ComboBox.Items>
+                    <local:ActionItem DisplayText="Base64 Encode" Tag="Base64Encode" IconKey="IconEncodeDecode" />
+                    <local:ActionItem DisplayText="Base64 Decode" Tag="Base64Decode" IconKey="IconEncodeDecode" />
+                    <local:ActionItem DisplayText="URL Encode" Tag="UrlEncode" IconKey="IconEncodeDecode" />
+                    <local:ActionItem DisplayText="URL Decode" Tag="UrlDecode" IconKey="IconEncodeDecode" />
+                    <local:ActionItem DisplayText="JWT Decode" Tag="JwtDecode" IconKey="IconEncodeDecode" />
+                    <local:ActionItem DisplayText="Generate GUIDs" Tag="GenerateGuids" IconKey="IconGuid" />
+                    <local:ActionItem DisplayText="Sort Ascending" Tag="SortAscending" IconKey="IconSort" />
+                    <local:ActionItem DisplayText="Sort Descending" Tag="SortDescending" IconKey="IconSort" />
+                    <local:ActionItem DisplayText="Trim" Tag="Trim" IconKey="IconTrim" />
+                    <local:ActionItem DisplayText="Unique" Tag="Unique" IconKey="IconUnique" />
+                </ComboBox.Items>
+            </ComboBox>
             <Button Name="ExecuteButton" MinHeight="25" Margin="5" MinWidth="40" Click="ExecuteButton_Click" ToolTip="Execute selected action">
                 <StackPanel Orientation="Horizontal">
                     <ContentControl ContentTemplate="{StaticResource IconExecute}" Margin="0,0,4,0" />

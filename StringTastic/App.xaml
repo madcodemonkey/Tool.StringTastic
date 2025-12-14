@@ -124,6 +124,41 @@
             </Viewbox>
         </DataTemplate>
         
+        <!-- Icon for Encode/Decode operations - Binary pattern of 0s and 1s -->
+        <DataTemplate x:Key="IconEncodeDecode">
+            <Viewbox Width="16" Height="16">
+                <Canvas Width="24" Height="24">
+                    <!-- Binary digits arranged in a grid pattern -->
+                    <TextBlock Text="0" FontSize="5" FontWeight="Bold" Foreground="Gray" Canvas.Left="4" Canvas.Top="5" />
+                    <TextBlock Text="1" FontSize="5" FontWeight="Bold" Foreground="Gray" Canvas.Left="8" Canvas.Top="5" />
+                    <TextBlock Text="1" FontSize="5" FontWeight="Bold" Foreground="Gray" Canvas.Left="12" Canvas.Top="5" />
+                    <TextBlock Text="0" FontSize="5" FontWeight="Bold" Foreground="Gray" Canvas.Left="16" Canvas.Top="5" />
+                    <TextBlock Text="0" FontSize="5" FontWeight="Bold" Foreground="Gray" Canvas.Left="20" Canvas.Top="5" />
+                    
+                    <TextBlock Text="1" FontSize="5" FontWeight="Bold" Foreground="Gray" Canvas.Left="4" Canvas.Top="10" />
+                    <TextBlock Text="1" FontSize="5" FontWeight="Bold" Foreground="Gray" Canvas.Left="8" Canvas.Top="10" />
+                    <TextBlock Text="1" FontSize="5" FontWeight="Bold" Foreground="Gray" Canvas.Left="12" Canvas.Top="10" />
+                    <TextBlock Text="0" FontSize="5" FontWeight="Bold" Foreground="Gray" Canvas.Left="16" Canvas.Top="10" />
+                    <TextBlock Text="1" FontSize="5" FontWeight="Bold" Foreground="Gray" Canvas.Left="20" Canvas.Top="10" />
+                    
+                    <TextBlock Text="0" FontSize="5" FontWeight="Bold" Foreground="Gray" Canvas.Left="4" Canvas.Top="15" />
+                    <TextBlock Text="1" FontSize="5" FontWeight="Bold" Foreground="Gray" Canvas.Left="8" Canvas.Top="15" />
+                    <TextBlock Text="0" FontSize="5" FontWeight="Bold" Foreground="Gray" Canvas.Left="12" Canvas.Top="15" />
+                    <TextBlock Text="1" FontSize="5" FontWeight="Bold" Foreground="Gray" Canvas.Left="16" Canvas.Top="15" />
+                    <TextBlock Text="0" FontSize="5" FontWeight="Bold" Foreground="Gray" Canvas.Left="20" Canvas.Top="15" />
+                </Canvas>
+            </Viewbox>
+        </DataTemplate>
+        
+        <!-- Icon for Generate GUIDs - Letter G -->
+        <DataTemplate x:Key="IconGuid">
+            <Viewbox Width="16" Height="16">
+                <Canvas Width="24" Height="24">
+                    <TextBlock Text="G" FontSize="16" FontWeight="Bold" Foreground="Gray" Canvas.Left="4" Canvas.Top="4" />
+                </Canvas>
+            </Viewbox>
+        </DataTemplate>
+        
         <!-- Application Icon - Stylized "ST" with Colorful Strings -->
         <DrawingImage x:Key="AppIcon">
             <DrawingImage.Drawing>

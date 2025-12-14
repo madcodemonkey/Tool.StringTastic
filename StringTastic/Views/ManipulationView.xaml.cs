@@ -18,9 +18,9 @@ namespace StringTastic.Views
 
         private void ExecuteButton_Click(object sender, RoutedEventArgs e)
         {
-            if (ActionComboBox.SelectedItem is ComboBoxItem selectedItem)
+            if (ActionComboBox.SelectedItem is ActionItem selectedItem)
             {
-                string action = selectedItem.Tag?.ToString();
+                string action = selectedItem.Tag;
 
                 switch (action)
                 {
