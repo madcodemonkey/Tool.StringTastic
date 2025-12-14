@@ -91,5 +91,37 @@
                 </Canvas>
             </Viewbox>
         </DataTemplate>
+        
+        <DataTemplate x:Key="IconCloseTab">
+            <Viewbox Width="16" Height="16">
+                <Canvas Width="24" Height="24">
+                    <Path Fill="Gray" Data="M13,19H11V7H13V19M14,7H16L13,3L10,7H12V19H10L13,23L16,19H14V7M5,17V15H9V17H5M5,13V11H9V13H5M5,9V7H9V9H5Z" />
+                </Canvas>
+            </Viewbox>
+        </DataTemplate>
+        
+        <DataTemplate x:Key="IconCloseOthers">
+            <Viewbox Width="16" Height="16">
+                <Canvas Width="24" Height="24">
+                    <Path Fill="Gray" Data="M19,13V11H7V13H19M7,14V16L3,13L7,10V12H19V10L23,13L19,16V14H7M17,17H15V9H17V17M9,17H7V9H9V17Z" />
+                </Canvas>
+            </Viewbox>
+        </DataTemplate>
+        
+        <DataTemplate x:Key="IconCloseAllTabs">
+            <Viewbox Width="16" Height="16">
+                <Canvas Width="24" Height="24">
+                    <Path Fill="Gray" Data="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z" />
+                </Canvas>
+            </Viewbox>
+        </DataTemplate>
+        
+        <DataTemplate x:Key="IconExit">
+            <Viewbox Width="16" Height="16">
+                <Canvas Width="24" Height="24">
+                    <Path Fill="Gray" Data="M14.08,15.59L16.67,13H7V11H16.67L14.08,8.41L15.5,7L20.5,12L15.5,17L14.08,15.59M19,3A2,2 0 0,1 21,5V9.67L19,7.67V5H5V19H19V16.33L21,14.33V19A2,2 0 0,1 19,21H5C3.89,21 3,20.1 3,19V5C3,3.89 3.89,3 5,3H19Z" />
+                </Canvas>
+            </Viewbox>
+        </DataTemplate>
     </Application.Resources>
 </Application>

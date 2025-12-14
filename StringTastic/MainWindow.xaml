@@ -122,10 +122,22 @@
                     </MenuItem>
                 </MenuItem>
                 <Separator />
-                <MenuItem Header="Close Tab" Command="{Binding CloseCurrentTabCommand}" />
-                <MenuItem Header="Close All Tabs" Command="{Binding CloseAllTabsCommand}" />
+                <MenuItem Header="Close Tab" Command="{Binding CloseCurrentTabCommand}">
+                    <MenuItem.Icon>
+                        <ContentControl ContentTemplate="{StaticResource IconCloseTab}" />
+                    </MenuItem.Icon>
+                </MenuItem>
+                <MenuItem Header="Close All Tabs" Command="{Binding CloseAllTabsCommand}">
+                    <MenuItem.Icon>
+                        <ContentControl ContentTemplate="{StaticResource IconCloseAllTabs}" />
+                    </MenuItem.Icon>
+                </MenuItem>
                 <Separator />
-                <MenuItem Header="Exit" Command="{Binding ExitCommand}" />
+                <MenuItem Header="Exit" Command="{Binding ExitCommand}">
+                    <MenuItem.Icon>
+                        <ContentControl ContentTemplate="{StaticResource IconExit}" />
+                    </MenuItem.Icon>
+                </MenuItem>
             </MenuItem>
         </Menu>
 

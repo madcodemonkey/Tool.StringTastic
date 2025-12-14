@@ -177,6 +177,7 @@ namespace StringTastic
             var cm = new ContextMenu();
 
             var miClose = new MenuItem { Header = "Close" };
+            miClose.Icon = CreateIconFromTemplate("IconCloseTab");
             miClose.Click += (s, e) =>
             {
                 if (MainTabControl.Items.Contains(tab))
@@ -184,6 +185,7 @@ namespace StringTastic
             };
 
             var miCloseOthers = new MenuItem { Header = "Close Others" };
+            miCloseOthers.Icon = CreateIconFromTemplate("IconCloseOthers");
             miCloseOthers.Click += (s, e) =>
             {
                 for (int i = MainTabControl.Items.Count - 1; i >= 0; i--)
@@ -196,6 +198,7 @@ namespace StringTastic
             };
 
             var miCloseAll = new MenuItem { Header = "Close All" };
+            miCloseAll.Icon = CreateIconFromTemplate("IconCloseAllTabs");
             miCloseAll.Click += (s, e) => MainTabControl.Items.Clear();
 
             cm.Items.Add(miClose);
@@ -217,6 +220,16 @@ namespace StringTastic
             };
 
             return tab;
+        }
+
+        private ContentControl CreateIconFromTemplate(string templateKey)
+        {
+            var template = TryFindResource(templateKey) as DataTemplate;
+            if (template != null)
+            {
+                return new ContentControl { ContentTemplate = template };
+            }
+            return null;
         }
     }
 }
