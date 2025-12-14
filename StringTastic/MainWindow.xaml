@@ -110,8 +110,16 @@
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="File">
                 <MenuItem Header="New">
-                    <MenuItem Header="New Compare" Command="{Binding NewCompareCommand}" />
-                    <MenuItem Header="New Manipulation" Command="{Binding NewManipulationCommand}" />
+                    <MenuItem Header="New Compare" Command="{Binding NewCompareCommand}">
+                        <MenuItem.Icon>
+                            <ContentControl ContentTemplate="{StaticResource IconNewCompare}" />
+                        </MenuItem.Icon>
+                    </MenuItem>
+                    <MenuItem Header="New Manipulation" Command="{Binding NewManipulationCommand}">
+                        <MenuItem.Icon>
+                            <ContentControl ContentTemplate="{StaticResource IconNewManipulation}" />
+                        </MenuItem.Icon>
+                    </MenuItem>
                 </MenuItem>
                 <Separator />
                 <MenuItem Header="Close Tab" Command="{Binding CloseCurrentTabCommand}" />
@@ -124,8 +132,18 @@
         <!-- Toolbar with quick-create buttons -->
         <ToolBarTray DockPanel.Dock="Top">
             <ToolBar>
-                <Button Content="New Compare" Command="{Binding NewCompareCommand}" Margin="2" Padding="6,2" />
-                <Button Content="New Manipulation" Command="{Binding NewManipulationCommand}" Margin="2" Padding="6,2" />
+                <Button Command="{Binding NewCompareCommand}" Margin="2" Padding="6,2">
+                    <StackPanel Orientation="Horizontal">
+                        <ContentControl ContentTemplate="{StaticResource IconNewCompare}" Margin="0,0,4,0" />
+                        <TextBlock Text="New Compare" VerticalAlignment="Center" />
+                    </StackPanel>
+                </Button>
+                <Button Command="{Binding NewManipulationCommand}" Margin="2" Padding="6,2">
+                    <StackPanel Orientation="Horizontal">
+                        <ContentControl ContentTemplate="{StaticResource IconNewManipulation}" Margin="0,0,4,0" />
+                        <TextBlock Text="New Manipulation" VerticalAlignment="Center" />
+                    </StackPanel>
+                </Button>
             </ToolBar>
         </ToolBarTray>
 
