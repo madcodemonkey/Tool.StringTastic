@@ -1,324 +1,235 @@
+using StringTastic.ViewModels;
+using StringTastic.Views;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Controls.Primitives;
+using System.Windows.Input;
 using System.Windows.Media;
-using Newtonsoft.Json.Linq;
-using StringTastic.ViewModels;
 
 namespace StringTastic
 {
     public partial class MainWindow : Window
     {
         private readonly MainViewModel _Model = new MainViewModel();
+        private int _compareCount = 0;
+        private int _manipulationCount = 0;
+
+        public ICommand CloseTabCommand { get; }
+        public ICommand CloseOthersCommand { get; }
 
         public MainWindow()
         {
             InitializeComponent();
             DataContext = _Model;
-        }
 
-        private void SortLeftButton_Click(object sender, RoutedEventArgs e)
-        {
-            SortRichTextBox(RtbLeftItems);
-        }
+            // provide commands for context menu (still available if needed)
+            CloseTabCommand = new RelayCommand(o => CloseTabCommandExecute(o));
+            CloseOthersCommand = new RelayCommand(o => CloseOthersCommandExecute(o));
 
-        private void SortRightButton_Click(object sender, RoutedEventArgs e)
-        {
-            SortRichTextBox(RtbRightItems);
-        }
-
-        private void PutUniqueLeftItemsInRightRtbButton_Click(object sender, RoutedEventArgs e)
-        {
-            MakeUniqueItems(RtbLeftItems, RtbRightItems);
-        }
-
-        private void PutUniqueRightItemsInLeftRtbButton_Click(object sender, RoutedEventArgs e)
-        {
-            MakeUniqueItems(RtbRightItems, RtbLeftItems);
-        }
-
-        private void MakeLeftItemsUniqueButton_Click(object sender, RoutedEventArgs e)
-        {
-            MakeUniqueItems(RtbLeftItems, RtbLeftItems);
-        }
-
-        private void MakeRightItemsUniqueButton_Click(object sender, RoutedEventArgs e)
-        {
-            MakeUniqueItems(RtbRightItems, RtbRightItems);
-        }
-
-        private void TrimLeftItemsButton_Click(object sender, RoutedEventArgs e)
-        {
-            TrimItems(RtbLeftItems);
-        }
-
-        private void TrimRightItemsButton_Click(object sender, RoutedEventArgs e)
-        {
-            TrimItems(RtbRightItems);
-        }
-
-        private void ShowDifferencesButton_Click(object sender, RoutedEventArgs e)
-        {
-            List<string> leftStrings = RtbLeftItems.ToListOfString();
-            List<string> rightStings = RtbRightItems.ToListOfString();
-
-            var differences = new List<string>();
-
-            // Find items that are not in the RIGHT list of strings
-            differences.Add("In LEFT SIDE ONLY:");
-            foreach (var item in leftStrings)
+            // Subscribe to ViewModel events to handle tab actions from commands
+            _Model.RequestNewCompare += (s, e) => CreateCompareTab();
+            _Model.RequestNewManipulation += (s, e) => CreateManipulationTab();
+            _Model.RequestCloseCurrentTab += (s, e) =>
             {
-                string itemFound = rightStings.FirstOrDefault(i => String.Compare(i, item, StringComparison.OrdinalIgnoreCase) == 0);
-                if (itemFound == null)
-                    differences.Add(item);
+                if (MainTabControl.SelectedItem is TabItem ti)
+                    MainTabControl.Items.Remove(ti);
+            };
+            _Model.RequestCloseAllTabs += (s, e) => MainTabControl.Items.Clear();
+            _Model.RequestExit += (s, e) => Close();
+
+            // Create initial tabs to preserve previous behavior
+            CreateCompareTab();
+            CreateManipulationTab();
+        }
+
+        private void CloseTabCommandExecute(object parameter)
+        {
+            var target = parameter as TabItem;
+            if (target == null)
+            {
+                // If command parameter wasn't a TabItem, try to resolve from ContextMenu placement target
+                var cm = parameter as ContextMenu;
+                target = cm?.PlacementTarget as TabItem;
             }
 
-            // Find items that are not in the LEFT list of strings
-            differences.Add("--------------------------");
-            differences.Add("In RIGHT SIDE ONLY:");
-            foreach (var item in rightStings)
+            if (target != null)
             {
-                string itemFound = leftStrings.FirstOrDefault(i => String.Compare(i, item, StringComparison.OrdinalIgnoreCase) == 0);
-                if (itemFound == null)
-                    differences.Add(item);
+                MainTabControl.Items.Remove(target);
+            }
+        }
+
+        private void CloseOthersCommandExecute(object parameter)
+        {
+            var target = parameter as TabItem;
+            if (target == null)
+            {
+                var cm = parameter as ContextMenu;
+                target = cm?.PlacementTarget as TabItem;
             }
 
-            // Show the results
-            var myDialog = new RichTextDialogBox(differences, "Differences");
-            myDialog.Show();
-        }
-
-        private void ShowSimilaritiesButton_Click(object sender, RoutedEventArgs e)
-        {
-            List<string> leftStrings = RtbLeftItems.ToListOfString();
-            List<string> rightStings = RtbRightItems.ToListOfString();
-
-            var similarities = new List<string>();
-
-            // Find items that are not in the RIGHT list of strings
-            foreach (var item in leftStrings)
+            if (target != null)
             {
-                string itemFound = rightStings.FirstOrDefault(i => String.Compare(i, item, StringComparison.OrdinalIgnoreCase) == 0);
-                if (itemFound != null)
-                    similarities.Add(item);
-            }
-
-            // Show the results
-            var myDialog = new RichTextDialogBox(similarities, "Similarities");
-            myDialog.Show();
-        }
-
-
-        private void Base64EncodeButton_Click(object sender, RoutedEventArgs e)
-        {
-            string plainText = RtbManipulate.ToOneString(true);
-
-            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
-
-            string encodedBase64String = System.Convert.ToBase64String(plainTextBytes);
-
-            RtbManipulate.Clear();
-            RtbManipulate.LogMessage(encodedBase64String, Brushes.Black);
-        }
-
-        private void UrlDecodeButton_Click(object sender, RoutedEventArgs e)
-        {
-            string encodedData = RtbManipulate.ToOneString(true);
-
-            string decodedString = HttpUtility.UrlDecode(encodedData); ;
-
-            RtbManipulate.Clear();
-            RtbManipulate.LogMessage(decodedString, Brushes.Black);
-        }
-
-        private void JwtTokenDecodeButton_Click(object sender, RoutedEventArgs e)
-        {
-            try
-            {
-                string encodedData = RtbManipulate.ToOneString(true).Trim();
-
-                var encodedParts = encodedData.Split('.');
-
-                if (encodedParts.Length != 3)
+                for (int i = MainTabControl.Items.Count - 1; i >= 0; i--)
                 {
-                    RtbManipulate.LogMessage("Invalid JWT token.  It should have three distinct parts!", Brushes.Black);
-                    return;
+                    var item = MainTabControl.Items[i] as TabItem;
+                    if (item != null && !ReferenceEquals(item, target))
+                        MainTabControl.Items.RemoveAt(i);
                 }
 
-                string part1 = Base64Decode(encodedParts[0]);
-                string part2 = Base64Decode(encodedParts[1]);
-
-                RtbManipulate.Clear();
-                RtbManipulate.LogMessage("Header:", Brushes.Black);
-                var part1Object = JObject.Parse(part1);
-                RtbManipulate.LogMessage(part1Object.ToString(), Brushes.Black);
-
-                RtbManipulate.LogMessage(" ", Brushes.Black);
-                RtbManipulate.LogMessage("Payload:", Brushes.Black);
-                var part2Object = JObject.Parse(part2);
-                RtbManipulate.LogMessage(part2Object.ToString(), Brushes.Black);
-
-
-                RtbManipulate.LogMessage(" ", Brushes.Black);
-                RtbManipulate.LogMessage("Signature:", Brushes.Black);
-                RtbManipulate.LogMessage("[Encoded Signature]", Brushes.Black);
-
-                DecodeDate("Payload Issued date (iat)", "iat", part2Object);
-                DecodeDate("Payload Expiration date (exp)", "exp", part2Object);
-            }
-            catch (Exception ex)
-            {
-                RtbManipulate.LogMessage("----------------", Brushes.Black);
-                RtbManipulate.LogMessage(ex.Message, Brushes.Black);
+                MainTabControl.SelectedItem = target;
             }
         }
 
-        private void DecodeDate(string title, string propertyName, JObject part2Object)
+        private void MenuItem_SubmenuOpened(object sender, RoutedEventArgs e)
         {
-            RtbManipulate.LogMessage(" ", Brushes.Black);
-            JToken expiration = part2Object[propertyName];
+            var menuItem = e.OriginalSource as MenuItem;
+            if (menuItem == null)
+                return;
 
-            if (expiration == null || string.IsNullOrWhiteSpace(expiration.ToString()))
+            // Find the Popup used by this MenuItem's submenu and force its placement
+            var popup = FindVisualChild<Popup>(menuItem);
+            if (popup != null)
             {
-                RtbManipulate.LogMessage($"{title} not found.", Brushes.Black);
+                try
+                {
+                    popup.Placement = PlacementMode.Right;
+                    popup.HorizontalOffset = 0;
+                }
+                catch
+                {
+                    // ignore any failures - don't want menu to crash
+                }
             }
-            else if (int.TryParse(expiration.ToString(), out var exp))
+        }
+
+        private static T FindVisualChild<T>(DependencyObject depObj) where T : DependencyObject
+        {
+            if (depObj == null) return null;
+
+            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
             {
-                var startDate = new DateTime(1970, 1, 1);
-                var expDate = startDate.AddSeconds(exp);
-                RtbManipulate.LogMessage($"{title} = {expDate}", Brushes.Black);
+                var child = VisualTreeHelper.GetChild(depObj, i);
+                var result = child as T ?? FindVisualChild<T>(child);
+                if (result != null) return result;
             }
+            return null;
+        }
+
+        private void CreateCompareTab()
+        {
+            var view = new CompareView();
+            // inherit DataContext so commands resolve
+            view.DataContext = this.DataContext;
+
+            _compareCount++;
+            string headerText = $"Compare {_compareCount}";
+
+            var tab = CreateClosableTab(headerText, view);
+            MainTabControl.Items.Add(tab);
+            MainTabControl.SelectedItem = tab;
+        }
+
+        private void CreateManipulationTab()
+        {
+            var view = new ManipulationView();
+            view.DataContext = this.DataContext;
+
+            _manipulationCount++;
+            string headerText = $"Manipulation {_manipulationCount}";
+
+            var tab = CreateClosableTab(headerText, view);
+            MainTabControl.Items.Add(tab);
+            MainTabControl.SelectedItem = tab;
+        }
+
+        private TabItem CreateClosableTab(string headerText, UIElement content)
+        {
+            var tab = new TabItem();
+
+            // header with text and close button
+            var headerPanel = new StackPanel { Orientation = Orientation.Horizontal };
+            var headerLabel = new TextBlock { Text = headerText, Margin = new Thickness(0, 0, 5, 0) };
+            var closeButton = new Button { Content = "", Width = 16, Height = 16, Padding = new Thickness(0), Margin = new Thickness(2, 0, 0, 0) };
+
+            // apply style from resources if available
+            var style = TryFindResource("TabCloseButtonStyle") as Style;
+            if (style != null)
+                closeButton.Style = style;
             else
             {
-                RtbManipulate.LogMessage($"Unable to parse {title}.", Brushes.Black);
+                // fallback content if style not found
+                closeButton.Content = "x";
+                closeButton.FontSize = 11;
+                closeButton.Foreground = Brushes.Gray;
             }
+
+            closeButton.Click += (s, e) => MainTabControl.Items.Remove(tab);
+
+            headerPanel.Children.Add(headerLabel);
+            headerPanel.Children.Add(closeButton);
+
+            tab.Header = headerPanel;
+            tab.Content = content;
+
+            // Add right-click context menu directly so handlers fire
+            var cm = new ContextMenu();
+
+            var miClose = new MenuItem { Header = "Close" };
+            miClose.Icon = CreateIconFromTemplate("IconCloseTab");
+            miClose.Click += (s, e) =>
+            {
+                if (MainTabControl.Items.Contains(tab))
+                    MainTabControl.Items.Remove(tab);
+            };
+
+            var miCloseOthers = new MenuItem { Header = "Close Others" };
+            miCloseOthers.Icon = CreateIconFromTemplate("IconCloseOthers");
+            miCloseOthers.Click += (s, e) =>
+            {
+                for (int i = MainTabControl.Items.Count - 1; i >= 0; i--)
+                {
+                    var item = MainTabControl.Items[i] as TabItem;
+                    if (item != null && !ReferenceEquals(item, tab))
+                        MainTabControl.Items.RemoveAt(i);
+                }
+                MainTabControl.SelectedItem = tab;
+            };
+
+            var miCloseAll = new MenuItem { Header = "Close All" };
+            miCloseAll.Icon = CreateIconFromTemplate("IconCloseAllTabs");
+            miCloseAll.Click += (s, e) => MainTabControl.Items.Clear();
+
+            cm.Items.Add(miClose);
+            cm.Items.Add(miCloseOthers);
+            cm.Items.Add(miCloseAll);
+
+            tab.ContextMenu = cm;
+
+            // close tab on middle-click
+            tab.PreviewMouseDown += (s, e) =>
+            {
+                var mbe = e as MouseButtonEventArgs;
+                if (mbe != null && mbe.ChangedButton == MouseButton.Middle)
+                {
+                    // remove the tab
+                    MainTabControl.Items.Remove(tab);
+                    e.Handled = true;
+                }
+            };
+
+            return tab;
         }
 
-
-        private void UrlEncodeButton_Click(object sender, RoutedEventArgs e)
+        private ContentControl CreateIconFromTemplate(string templateKey)
         {
-            string plainText = RtbManipulate.ToOneString(true);
-
-            string encodedString = HttpUtility.UrlEncode(plainText);
-
-            RtbManipulate.Clear();
-            RtbManipulate.LogMessage(encodedString, Brushes.Black);
+            var template = TryFindResource(templateKey) as DataTemplate;
+            if (template != null)
+            {
+                return new ContentControl { ContentTemplate = template };
+            }
+            return null;
         }
-
-        private void Base64DecodeButton_Click(object sender, RoutedEventArgs e)
-        {
-            string message;
-
-            try
-            {
-                string base64EncodedData = RtbManipulate.ToOneString(true);
-                message = Base64Decode(base64EncodedData);
-                RtbManipulate.Clear();
-            }
-            catch (Exception ex)
-            {
-                RtbManipulate.LogMessage("----------------", Brushes.Black);
-                message = ex.Message;
-            }
-
-            RtbManipulate.LogMessage(message, Brushes.Black);
-        }
-
-        private string Base64Decode(string base64EncodedData)
-        {
-            // Sometimes you have to add = on to the end so that you avoid the 
-            // "Invalid length for a Base-64 char array" error.
-            // https://stackoverflow.com/a/2925959/97803
-            int mod4 = base64EncodedData.Length % 4;
-            if (mod4 > 0)
-            {
-                base64EncodedData += new string('=', 4 - mod4);
-            }
-
-            var plainTextBytes = System.Convert.FromBase64String(base64EncodedData);
-            var result = System.Text.Encoding.UTF8.GetString(plainTextBytes);
-
-            return result;
-        }
-
-        private void GenerateGuidsButton_Click(object sender, RoutedEventArgs e)
-        {
-            RtbManipulate.Clear();
-            RtbManipulate.LogMessage("10 new GUIDs style D (lowercase)", Brushes.Black);
-            for (int i = 0; i < 10; i++)
-            {
-                RtbManipulate.LogMessage(Guid.NewGuid().ToString("D").ToLower(), Brushes.Black);
-            }
-
-            RtbManipulate.LogMessage(" ", Brushes.Black);
-            RtbManipulate.LogMessage("10 new GUIDs style D (uppercase)", Brushes.Black);
-            for (int i = 0; i < 10; i++)
-            {
-                RtbManipulate.LogMessage(Guid.NewGuid().ToString("D").ToUpper(), Brushes.Black);
-            }
-
-            RtbManipulate.LogMessage(" ", Brushes.Black);
-            RtbManipulate.LogMessage("10 new GUIDs style N (lowercase)", Brushes.Black);
-            for (int i = 0; i < 10; i++)
-            {
-                RtbManipulate.LogMessage(Guid.NewGuid().ToString("N").ToLower(), Brushes.Black);
-            }
-
-            RtbManipulate.LogMessage(" ", Brushes.Black);
-            RtbManipulate.LogMessage("10 new GUIDs style N (uppercase)", Brushes.Black);
-            for (int i = 0; i < 10; i++)
-            {
-                RtbManipulate.LogMessage(Guid.NewGuid().ToString("N").ToUpper(), Brushes.Black);
-            }
-        }
-
-        #region RichTextBox methods
-        private void SortRichTextBox(RichTextBox rtb)
-        {
-            List<string> listOfStrings = rtb.ToListOfString();
-            ClearRichTextBox(rtb);
-            foreach (var item in listOfStrings.OrderBy(item => item))
-                rtb.LogMessage(item, Brushes.Black);
-        }
-
-
-        private void ClearRichTextBox(RichTextBox rtb)
-        {
-            rtb.Document.Blocks.Clear();
-        }
-
-
-
-        private void MakeUniqueItems(RichTextBox source, RichTextBox destination)
-        {
-            List<string> listOfStrings = source.ToListOfString();
-
-            if (source == destination)
-                ClearRichTextBox(destination);
-
-            foreach (var singleItem in listOfStrings.Select(item => item).Distinct())
-            {
-                destination.LogMessage(singleItem, Brushes.Black);
-            }
-        }
-
-        private void TrimItems(RichTextBox source)
-        {
-            List<string> listOfStrings = source.ToListOfString();
-
-            ClearRichTextBox(source);
-
-
-            foreach (var singleItem in listOfStrings)
-            {
-                string message = singleItem.Trim();
-                if (string.IsNullOrEmpty(message) == false)
-                    source.LogMessage(message, Brushes.Black);
-            }
-        }
-        #endregion
     }
 }
