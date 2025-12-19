@@ -94,6 +94,9 @@
     <Compile Include="Views\ManipulationView.xaml.cs">
       <DependentUpon>ManipulationView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\SorterView.xaml.cs">
+      <DependentUpon>SorterView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\UrlEncoderView.xaml.cs">
       <DependentUpon>UrlEncoderView.xaml</DependentUpon>
     </Compile>
@@ -126,6 +129,9 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\ManipulationView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SorterView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\UrlEncoderView.xaml">

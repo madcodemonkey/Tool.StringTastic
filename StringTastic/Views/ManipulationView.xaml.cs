@@ -24,12 +24,6 @@ namespace StringTastic.Views
 
                 switch (action)
                 {
-                    case "SortAscending":
-                        SortAscending_Click(sender, e);
-                        break;
-                    case "SortDescending":
-                        SortDescending_Click(sender, e);
-                        break;
                     case "Trim":
                         Trim_Click(sender, e);
                         break;
@@ -45,16 +39,6 @@ namespace StringTastic.Views
             {
                 MessageBox.Show("Please select an action from the dropdown.", "No Action Selected", MessageBoxButton.OK, MessageBoxImage.Information);
             }
-        }
-
-        private void SortAscending_Click(object sender, RoutedEventArgs e)
-        {
-            RtbManipulate.SortRichTextBox(sortAscending: true);
-        }
-
-        private void SortDescending_Click(object sender, RoutedEventArgs e)
-        {
-            RtbManipulate.SortRichTextBox(sortAscending: false);
         }
 
         private void Unique_Click(object sender, RoutedEventArgs e)

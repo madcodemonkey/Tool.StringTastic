@@ -21,6 +21,7 @@ namespace StringTastic
         private int _base64EncoderCount = 0;
         private int _jwtDecoderCount = 0;
         private int _generateGuidCount = 0;
+        private int _sorterCount = 0;
         private List<ToolItem> _allTools;
 
         public ICommand CloseTabCommand { get; }
@@ -90,6 +91,12 @@ namespace StringTastic
                 },
                 new ToolItem 
                 { 
+                    DisplayName = "Sorter", 
+                    ToolType = ToolType.Sorter,
+                    IconTemplate = TryFindResource("IconSort") as DataTemplate
+                },
+                new ToolItem 
+                { 
                     DisplayName = "Url Encode/Decode", 
                     ToolType = ToolType.UrlEncoder,
                     IconTemplate = TryFindResource("IconEncodeDecode") as DataTemplate
@@ -134,6 +141,9 @@ namespace StringTastic
                         break;
                     case ToolType.JwtDecoder:
                         CreateJwtDecoderTab();
+                        break;
+                    case ToolType.Sorter:
+                        CreateSorterTab();
                         break;
                     case ToolType.UrlEncoder:
                         CreateUrlEncoderTab();
@@ -284,6 +294,19 @@ namespace StringTastic
             MainTabControl.SelectedItem = tab;
         }
 
+        private void CreateSorterTab()
+        {
+            var view = new SorterView();
+            view.DataContext = this.DataContext;
+
+            _sorterCount++;
+            string headerText = $"Sorter {_sorterCount}";
+
+            var tab = CreateClosableTab(headerText, view);
+            MainTabControl.Items.Add(tab);
+            MainTabControl.SelectedItem = tab;
+        }
+
         private void CreateUrlEncoderTab()
         {
             var view = new UrlEncoderView();
@@ -400,6 +423,7 @@ namespace StringTastic
         Base64Encoder,
         GenerateGuid,
         JwtDecoder,
+        Sorter,
         UrlEncoder
     }
 }
