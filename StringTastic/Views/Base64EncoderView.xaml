@@ -55,6 +55,12 @@
                     <TextBlock Text="Undo" VerticalAlignment="Center" />
                 </StackPanel>
             </Button>
+            <Button Name="TrimButton" MinHeight="25" Margin="5" MinWidth="40" Click="TrimButton_Click" ToolTip="Trim whitespace from each line">
+                <StackPanel Orientation="Horizontal">
+                    <ContentControl ContentTemplate="{StaticResource IconTrim}" Margin="0,0,4,0" />
+                    <TextBlock Text="Trim" VerticalAlignment="Center" />
+                </StackPanel>
+            </Button>
         </StackPanel>
 
         <!-- Input RichTextBox -->

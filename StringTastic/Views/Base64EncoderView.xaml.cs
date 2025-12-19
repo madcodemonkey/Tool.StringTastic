@@ -12,6 +12,11 @@ namespace StringTastic.Views
             InitializeComponent();
         }
 
+        private void TrimButton_Click(object sender, RoutedEventArgs e)
+        {
+            RtbInput.TrimLines();
+        }
+
         private void EncodeButton_Click(object sender, RoutedEventArgs e)
         {
             string plainText = RtbInput.ToOneString(true);
