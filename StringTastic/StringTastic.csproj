@@ -85,6 +85,9 @@
     <Compile Include="Views\CompareView.xaml.cs">
       <DependentUpon>CompareView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Views\GenerateGuidView.xaml.cs">
+      <DependentUpon>GenerateGuidView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\JwtDecoderView.xaml.cs">
       <DependentUpon>JwtDecoderView.xaml</DependentUpon>
     </Compile>
@@ -114,6 +117,9 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CompareView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\GenerateGuidView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\JwtDecoderView.xaml">

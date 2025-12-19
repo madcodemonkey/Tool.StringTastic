@@ -20,6 +20,7 @@ namespace StringTastic
         private int _urlEncoderCount = 0;
         private int _base64EncoderCount = 0;
         private int _jwtDecoderCount = 0;
+        private int _generateGuidCount = 0;
         private List<ToolItem> _allTools;
 
         public ICommand CloseTabCommand { get; }
@@ -77,6 +78,12 @@ namespace StringTastic
                 },
                 new ToolItem 
                 { 
+                    DisplayName = "Generate GUIDs", 
+                    ToolType = ToolType.GenerateGuid,
+                    IconTemplate = TryFindResource("IconGuid") as DataTemplate
+                },
+                new ToolItem 
+                { 
                     DisplayName = "JWT Decode", 
                     ToolType = ToolType.JwtDecoder,
                     IconTemplate = TryFindResource("IconEncodeDecode") as DataTemplate
@@ -121,6 +128,9 @@ namespace StringTastic
                         break;
                     case ToolType.Base64Encoder:
                         CreateBase64EncoderTab();
+                        break;
+                    case ToolType.GenerateGuid:
+                        CreateGenerateGuidTab();
                         break;
                     case ToolType.JwtDecoder:
                         CreateJwtDecoderTab();
@@ -242,6 +252,19 @@ namespace StringTastic
 
             _base64EncoderCount++;
             string headerText = $"Base64 Encoder {_base64EncoderCount}";
+
+            var tab = CreateClosableTab(headerText, view);
+            MainTabControl.Items.Add(tab);
+            MainTabControl.SelectedItem = tab;
+        }
+
+        private void CreateGenerateGuidTab()
+        {
+            var view = new GenerateGuidView();
+            view.DataContext = this.DataContext;
+
+            _generateGuidCount++;
+            string headerText = $"Generate GUID {_generateGuidCount}";
 
             var tab = CreateClosableTab(headerText, view);
             MainTabControl.Items.Add(tab);
@@ -375,6 +398,7 @@ namespace StringTastic
         Compare,
         Manipulation,
         Base64Encoder,
+        GenerateGuid,
         JwtDecoder,
         UrlEncoder
     }

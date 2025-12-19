@@ -24,9 +24,6 @@ namespace StringTastic.Views
 
                 switch (action)
                 {
-                    case "GenerateGuids":
-                        GenerateGuidsButton_Click(sender, e);
-                        break;
                     case "SortAscending":
                         SortAscending_Click(sender, e);
                         break;
@@ -49,42 +46,6 @@ namespace StringTastic.Views
                 MessageBox.Show("Please select an action from the dropdown.", "No Action Selected", MessageBoxButton.OK, MessageBoxImage.Information);
             }
         }
-
-        private void GenerateGuidsButton_Click(object sender, RoutedEventArgs e)
-        {
-            RtbManipulate.Clear();
-
-            StringBuilder sb = new StringBuilder();
-            sb.AppendLine("10 new GUIDs style D (lowercase)");
-            for (int i = 0; i < 10; i++)
-            {
-                sb.AppendLine(Guid.NewGuid().ToString("D").ToLower());
-            }
-
-            sb.AppendLine();
-            sb.AppendLine("10 new GUIDs style D (uppercase)");
-            for (int i = 0; i < 10; i++)
-            {
-                sb.AppendLine(Guid.NewGuid().ToString("D").ToUpper());
-            }
-
-            sb.AppendLine();
-            sb.AppendLine("10 new GUIDs style N (lowercase)");
-            for (int i = 0; i < 10; i++)
-            {
-                sb.AppendLine(Guid.NewGuid().ToString("N").ToLower());
-            }
-
-            sb.AppendLine();
-            sb.AppendLine("10 new GUIDs style N (uppercase)");
-            for (int i = 0; i < 10; i++)
-            {
-                sb.AppendLine(Guid.NewGuid().ToString("N").ToUpper());
-            }
-
-            RtbManipulate.LogMessage(sb.ToString(), Brushes.Black);
-        }
-
 
         private void SortAscending_Click(object sender, RoutedEventArgs e)
         {
