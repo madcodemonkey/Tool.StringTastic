@@ -19,6 +19,7 @@ namespace StringTastic
         private int _manipulationCount = 0;
         private int _urlEncoderCount = 0;
         private int _base64EncoderCount = 0;
+        private int _jwtDecoderCount = 0;
         private List<ToolItem> _allTools;
 
         public ICommand CloseTabCommand { get; }
@@ -76,6 +77,12 @@ namespace StringTastic
                 },
                 new ToolItem 
                 { 
+                    DisplayName = "JWT Decode", 
+                    ToolType = ToolType.JwtDecoder,
+                    IconTemplate = TryFindResource("IconEncodeDecode") as DataTemplate
+                },
+                new ToolItem 
+                { 
                     DisplayName = "Url Encode/Decode", 
                     ToolType = ToolType.UrlEncoder,
                     IconTemplate = TryFindResource("IconEncodeDecode") as DataTemplate
@@ -114,6 +121,9 @@ namespace StringTastic
                         break;
                     case ToolType.Base64Encoder:
                         CreateBase64EncoderTab();
+                        break;
+                    case ToolType.JwtDecoder:
+                        CreateJwtDecoderTab();
                         break;
                     case ToolType.UrlEncoder:
                         CreateUrlEncoderTab();
@@ -238,6 +248,19 @@ namespace StringTastic
             MainTabControl.SelectedItem = tab;
         }
 
+        private void CreateJwtDecoderTab()
+        {
+            var view = new JwtDecoderView();
+            view.DataContext = this.DataContext;
+
+            _jwtDecoderCount++;
+            string headerText = $"JWT Decoder {_jwtDecoderCount}";
+
+            var tab = CreateClosableTab(headerText, view);
+            MainTabControl.Items.Add(tab);
+            MainTabControl.SelectedItem = tab;
+        }
+
         private void CreateUrlEncoderTab()
         {
             var view = new UrlEncoderView();
@@ -352,6 +375,7 @@ namespace StringTastic
         Compare,
         Manipulation,
         Base64Encoder,
+        JwtDecoder,
         UrlEncoder
     }
 }
