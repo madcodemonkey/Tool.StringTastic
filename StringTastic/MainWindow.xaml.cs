@@ -1,6 +1,8 @@
 using StringTastic.ViewModels;
 using StringTastic.Views;
 using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
@@ -15,6 +17,7 @@ namespace StringTastic
         private readonly MainViewModel _Model = new MainViewModel();
         private int _compareCount = 0;
         private int _manipulationCount = 0;
+        private List<ToolItem> _allTools;
 
         public ICommand CloseTabCommand { get; }
         public ICommand CloseOthersCommand { get; }
@@ -39,9 +42,67 @@ namespace StringTastic
             _Model.RequestCloseAllTabs += (s, e) => MainTabControl.Items.Clear();
             _Model.RequestExit += (s, e) => Close();
 
+            // Initialize tools list
+            InitializeToolsList();
+
             // Create initial tabs to preserve previous behavior
             CreateCompareTab();
             CreateManipulationTab();
+        }
+
+        private void InitializeToolsList()
+        {
+            _allTools = new List<ToolItem>
+            {
+                new ToolItem 
+                { 
+                    DisplayName = "Compare", 
+                    ToolType = ToolType.Compare,
+                    IconTemplate = TryFindResource("IconNewCompare") as DataTemplate
+                },
+                new ToolItem 
+                { 
+                    DisplayName = "Manipulation", 
+                    ToolType = ToolType.Manipulation,
+                    IconTemplate = TryFindResource("IconNewManipulation") as DataTemplate
+                }
+            };
+
+            ToolsListBox.ItemsSource = _allTools;
+        }
+
+        private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var searchText = SearchTextBox.Text.ToLower();
+            
+            if (string.IsNullOrWhiteSpace(searchText))
+            {
+                ToolsListBox.ItemsSource = _allTools;
+            }
+            else
+            {
+                var filtered = _allTools.Where(t => t.DisplayName.ToLower().Contains(searchText)).ToList();
+                ToolsListBox.ItemsSource = filtered;
+            }
+        }
+
+        private void ToolsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ToolsListBox.SelectedItem is ToolItem selectedTool)
+            {
+                switch (selectedTool.ToolType)
+                {
+                    case ToolType.Compare:
+                        CreateCompareTab();
+                        break;
+                    case ToolType.Manipulation:
+                        CreateManipulationTab();
+                        break;
+                }
+
+                // Clear selection so the same item can be clicked again
+                ToolsListBox.SelectedItem = null;
+            }
         }
 
         private void CloseTabCommandExecute(object parameter)
@@ -231,5 +292,18 @@ namespace StringTastic
             }
             return null;
         }
+    }
+
+    public class ToolItem
+    {
+        public string DisplayName { get; set; }
+        public ToolType ToolType { get; set; }
+        public DataTemplate IconTemplate { get; set; }
+    }
+
+    public enum ToolType
+    {
+        Compare,
+        Manipulation
     }
 }
