@@ -1,12 +1,9 @@
 using StringTastic.ViewModels;
 using StringTastic.Views;
-using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -16,7 +13,6 @@ namespace StringTastic
     {
         private readonly MainViewModel _Model = new MainViewModel();
         private int _compareCount = 0;
-        private int _manipulationCount = 0;
         private int _urlEncoderCount = 0;
         private int _base64EncoderCount = 0;
         private int _jwtDecoderCount = 0;
@@ -36,68 +32,51 @@ namespace StringTastic
             CloseTabCommand = new RelayCommand(o => CloseTabCommandExecute(o));
             CloseOthersCommand = new RelayCommand(o => CloseOthersCommandExecute(o));
 
-            // Subscribe to ViewModel events to handle tab actions from commands
-            _Model.RequestNewCompare += (s, e) => CreateCompareTab();
-            _Model.RequestNewManipulation += (s, e) => CreateManipulationTab();
-            _Model.RequestCloseCurrentTab += (s, e) =>
-            {
-                if (MainTabControl.SelectedItem is TabItem ti)
-                    MainTabControl.Items.Remove(ti);
-            };
-            _Model.RequestCloseAllTabs += (s, e) => MainTabControl.Items.Clear();
-            _Model.RequestExit += (s, e) => Close();
-
             // Initialize tools list
             InitializeToolsList();
 
             // Create initial tabs to preserve previous behavior
-            CreateCompareTab();
-            CreateManipulationTab();
+            CreateGenerateGuidTab();
+            CreateJwtDecoderTab();
         }
 
         private void InitializeToolsList()
         {
             _allTools = new List<ToolItem>
             {
-                new ToolItem 
-                { 
-                    DisplayName = "Compare", 
+                new ToolItem
+                {
+                    DisplayName = "Compare",
                     ToolType = ToolType.Compare,
                     IconTemplate = TryFindResource("IconNewCompare") as DataTemplate
                 },
-                new ToolItem 
-                { 
-                    DisplayName = "Manipulation", 
-                    ToolType = ToolType.Manipulation,
-                    IconTemplate = TryFindResource("IconNewManipulation") as DataTemplate
-                },
-                new ToolItem 
-                { 
-                    DisplayName = "Base64 Encode/Decode", 
+                new ToolItem
+                {
+                    DisplayName = "Base64 Encode/Decode",
                     ToolType = ToolType.Base64Encoder,
                     IconTemplate = TryFindResource("IconEncodeDecode") as DataTemplate
                 },
-                new ToolItem 
-                { 
-                    DisplayName = "Generate GUIDs", 
+                new ToolItem
+                {
+                    DisplayName = "Generate GUIDs",
                     ToolType = ToolType.GenerateGuid,
                     IconTemplate = TryFindResource("IconGuid") as DataTemplate
                 },
-                new ToolItem 
-                { 
-                    DisplayName = "JWT Decode", 
+                new ToolItem
+                {
+                    DisplayName = "JWT Decode",
                     ToolType = ToolType.JwtDecoder,
                     IconTemplate = TryFindResource("IconEncodeDecode") as DataTemplate
                 },
-                new ToolItem 
-                { 
-                    DisplayName = "Sorter", 
+                new ToolItem
+                {
+                    DisplayName = "Sorter",
                     ToolType = ToolType.Sorter,
                     IconTemplate = TryFindResource("IconSort") as DataTemplate
                 },
-                new ToolItem 
-                { 
-                    DisplayName = "Url Encode/Decode", 
+                new ToolItem
+                {
+                    DisplayName = "Url Encode/Decode",
                     ToolType = ToolType.UrlEncoder,
                     IconTemplate = TryFindResource("IconEncodeDecode") as DataTemplate
                 }
@@ -109,7 +88,7 @@ namespace StringTastic
         private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             var searchText = SearchTextBox.Text.ToLower();
-            
+
             if (string.IsNullOrWhiteSpace(searchText))
             {
                 ToolsListBox.ItemsSource = _allTools;
@@ -129,9 +108,6 @@ namespace StringTastic
                 {
                     case ToolType.Compare:
                         CreateCompareTab();
-                        break;
-                    case ToolType.Manipulation:
-                        CreateManipulationTab();
                         break;
                     case ToolType.Base64Encoder:
                         CreateBase64EncoderTab();
@@ -193,41 +169,6 @@ namespace StringTastic
             }
         }
 
-        private void MenuItem_SubmenuOpened(object sender, RoutedEventArgs e)
-        {
-            var menuItem = e.OriginalSource as MenuItem;
-            if (menuItem == null)
-                return;
-
-            // Find the Popup used by this MenuItem's submenu and force its placement
-            var popup = FindVisualChild<Popup>(menuItem);
-            if (popup != null)
-            {
-                try
-                {
-                    popup.Placement = PlacementMode.Right;
-                    popup.HorizontalOffset = 0;
-                }
-                catch
-                {
-                    // ignore any failures - don't want menu to crash
-                }
-            }
-        }
-
-        private static T FindVisualChild<T>(DependencyObject depObj) where T : DependencyObject
-        {
-            if (depObj == null) return null;
-
-            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
-            {
-                var child = VisualTreeHelper.GetChild(depObj, i);
-                var result = child as T ?? FindVisualChild<T>(child);
-                if (result != null) return result;
-            }
-            return null;
-        }
-
         private void CreateCompareTab()
         {
             var view = new CompareView();
@@ -236,19 +177,6 @@ namespace StringTastic
 
             _compareCount++;
             string headerText = $"Compare {_compareCount}";
-
-            var tab = CreateClosableTab(headerText, view);
-            MainTabControl.Items.Add(tab);
-            MainTabControl.SelectedItem = tab;
-        }
-
-        private void CreateManipulationTab()
-        {
-            var view = new ManipulationView();
-            view.DataContext = this.DataContext;
-
-            _manipulationCount++;
-            string headerText = $"Manipulation {_manipulationCount}";
 
             var tab = CreateClosableTab(headerText, view);
             MainTabControl.Items.Add(tab);
@@ -419,7 +347,6 @@ namespace StringTastic
     public enum ToolType
     {
         Compare,
-        Manipulation,
         Base64Encoder,
         GenerateGuid,
         JwtDecoder,

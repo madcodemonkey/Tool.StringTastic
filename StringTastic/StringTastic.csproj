@@ -91,9 +91,6 @@
     <Compile Include="Views\JwtDecoderView.xaml.cs">
       <DependentUpon>JwtDecoderView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ManipulationView.xaml.cs">
-      <DependentUpon>ManipulationView.xaml</DependentUpon>
-    </Compile>
     <Compile Include="Views\SorterView.xaml.cs">
       <DependentUpon>SorterView.xaml</DependentUpon>
     </Compile>
@@ -126,9 +123,6 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\JwtDecoderView.xaml">
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
-    <Page Include="Views\ManipulationView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\SorterView.xaml">
