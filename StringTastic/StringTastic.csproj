@@ -79,6 +79,9 @@
     </Compile>
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\RichTextBoxCommonViewModel.cs" />
+    <Compile Include="Views\Base64EncoderView.xaml.cs">
+      <DependentUpon>Base64EncoderView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CompareView.xaml.cs">
       <DependentUpon>CompareView.xaml</DependentUpon>
     </Compile>
@@ -102,6 +105,9 @@
     </Compile>
     <Page Include="RichTextDialogBox.xaml">
       <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\Base64EncoderView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CompareView.xaml">

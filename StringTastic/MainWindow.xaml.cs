@@ -18,6 +18,7 @@ namespace StringTastic
         private int _compareCount = 0;
         private int _manipulationCount = 0;
         private int _urlEncoderCount = 0;
+        private int _base64EncoderCount = 0;
         private List<ToolItem> _allTools;
 
         public ICommand CloseTabCommand { get; }
@@ -69,6 +70,12 @@ namespace StringTastic
                 },
                 new ToolItem 
                 { 
+                    DisplayName = "Base64 Encode/Decode", 
+                    ToolType = ToolType.Base64Encoder,
+                    IconTemplate = TryFindResource("IconEncodeDecode") as DataTemplate
+                },
+                new ToolItem 
+                { 
                     DisplayName = "Url Encode/Decode", 
                     ToolType = ToolType.UrlEncoder,
                     IconTemplate = TryFindResource("IconEncodeDecode") as DataTemplate
@@ -104,6 +111,9 @@ namespace StringTastic
                         break;
                     case ToolType.Manipulation:
                         CreateManipulationTab();
+                        break;
+                    case ToolType.Base64Encoder:
+                        CreateBase64EncoderTab();
                         break;
                     case ToolType.UrlEncoder:
                         CreateUrlEncoderTab();
@@ -209,6 +219,19 @@ namespace StringTastic
 
             _manipulationCount++;
             string headerText = $"Manipulation {_manipulationCount}";
+
+            var tab = CreateClosableTab(headerText, view);
+            MainTabControl.Items.Add(tab);
+            MainTabControl.SelectedItem = tab;
+        }
+
+        private void CreateBase64EncoderTab()
+        {
+            var view = new Base64EncoderView();
+            view.DataContext = this.DataContext;
+
+            _base64EncoderCount++;
+            string headerText = $"Base64 Encoder {_base64EncoderCount}";
 
             var tab = CreateClosableTab(headerText, view);
             MainTabControl.Items.Add(tab);
@@ -328,6 +351,7 @@ namespace StringTastic
     {
         Compare,
         Manipulation,
+        Base64Encoder,
         UrlEncoder
     }
 }

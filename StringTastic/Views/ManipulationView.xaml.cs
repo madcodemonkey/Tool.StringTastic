@@ -24,12 +24,6 @@ namespace StringTastic.Views
 
                 switch (action)
                 {
-                    case "Base64Encode":
-                        Base64EncodeButton_Click(sender, e);
-                        break;
-                    case "Base64Decode":
-                        Base64DecodeButton_Click(sender, e);
-                        break;
                     case "JwtDecode":
                         JwtTokenDecodeButton_Click(sender, e);
                         break;
@@ -57,18 +51,6 @@ namespace StringTastic.Views
             {
                 MessageBox.Show("Please select an action from the dropdown.", "No Action Selected", MessageBoxButton.OK, MessageBoxImage.Information);
             }
-        }
-
-        private void Base64EncodeButton_Click(object sender, RoutedEventArgs e)
-        {
-            string plainText = RtbManipulate.ToOneString(true);
-
-            var plainTextBytes = System.Text.Encoding.UTF8.GetBytes(plainText);
-
-            string encodedBase64String = System.Convert.ToBase64String(plainTextBytes);
-
-            RtbManipulate.Clear();
-            RtbManipulate.LogMessage(encodedBase64String, Brushes.Black);
         }
 
         private void JwtTokenDecodeButton_Click(object sender, RoutedEventArgs e)
@@ -139,25 +121,6 @@ namespace StringTastic.Views
             {
                 sb.AppendLine($"Unable to parse {title}.");
             }
-        }
-
-        private void Base64DecodeButton_Click(object sender, RoutedEventArgs e)
-        {
-            string message;
-
-            try
-            {
-                string base64EncodedData = RtbManipulate.ToOneString(true);
-                message = Base64Decode(base64EncodedData);
-                RtbManipulate.Clear();
-            }
-            catch (Exception ex)
-            {
-                RtbManipulate.LogMessage("----------------", Brushes.Black);
-                message = ex.Message;
-            }
-
-            RtbManipulate.LogMessage(message, Brushes.Black);
         }
 
         private string Base64Decode(string base64EncodedData)
