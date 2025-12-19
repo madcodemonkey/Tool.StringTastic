@@ -35,37 +35,31 @@
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
         </Grid.RowDefinitions>
+
+        <!-- Top Toolbar -->
         <StackPanel Grid.Row="0" Orientation="Horizontal" >
-            <Button Name="ClearButton" MinHeight="25" Margin="5" MinWidth="40" 
-                    Command="{Binding RichTextBoxCommon.ClearRichTextBoxCommand}" CommandParameter="{Binding ElementName=RtbUrlEncoder}">
+            <Button Name="ClearInputButton" MinHeight="25" Margin="5" MinWidth="40" 
+                    Command="{Binding RichTextBoxCommon.ClearRichTextBoxCommand}" CommandParameter="{Binding ElementName=RtbInput}">
                 <StackPanel Orientation="Horizontal">
                     <ContentControl ContentTemplate="{StaticResource IconClear}" Margin="0,0,4,0" />
-                    <TextBlock Text="Clear" VerticalAlignment="Center" />
+                    <TextBlock Text="Clear Input" VerticalAlignment="Center" />
                 </StackPanel>
             </Button>
             <Button Name="UndoButton" MinHeight="25" Margin="5" MinWidth="40" 
-                    Command="ApplicationCommands.Undo" CommandTarget="{Binding ElementName=RtbUrlEncoder}" ToolTip="Undo last action">
+                    Command="ApplicationCommands.Undo" CommandTarget="{Binding ElementName=RtbInput}" ToolTip="Undo last action">
                 <StackPanel Orientation="Horizontal">
                     <ContentControl ContentTemplate="{StaticResource IconUndo}" Margin="0,0,4,0" />
                     <TextBlock Text="Undo" VerticalAlignment="Center" />
                 </StackPanel>
             </Button>
-            <Button Name="EncodeButton" MinHeight="25" Margin="5" MinWidth="80" Click="EncodeButton_Click" ToolTip="URL Encode the text">
-                <StackPanel Orientation="Horizontal">
-                    <ContentControl ContentTemplate="{StaticResource IconEncodeDecode}" Margin="0,0,4,0" />
-                    <TextBlock Text="Encode" VerticalAlignment="Center" />
-                </StackPanel>
-            </Button>
-            <Button Name="DecodeButton" MinHeight="25" Margin="5" MinWidth="80" Click="DecodeButton_Click" ToolTip="URL Decode the text">
-                <StackPanel Orientation="Horizontal">
-                    <ContentControl ContentTemplate="{StaticResource IconEncodeDecode}" Margin="0,0,4,0" />
-                    <TextBlock Text="Decode" VerticalAlignment="Center" />
-                </StackPanel>
-            </Button>
         </StackPanel>
-        <RichTextBox Name="RtbUrlEncoder" Grid.Row="1" Style="{DynamicResource RichTextWithBetterSpacing}" 
-                      HorizontalAlignment="Stretch" Margin="0, 5, 5, 0"  VerticalAlignment="Stretch" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Auto">
+
+        <!-- Input RichTextBox -->
+        <RichTextBox Name="RtbInput" Grid.Row="1" Style="{DynamicResource RichTextWithBetterSpacing}" 
+                      HorizontalAlignment="Stretch" Margin="5"  VerticalAlignment="Stretch" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Auto">
             <RichTextBox.ContextMenu>
                 <ContextMenu >
                     <MenuItem Command="ApplicationCommands.SelectAll" />
@@ -84,6 +78,40 @@
                                       Command="{Binding RichTextBoxCommon.LoadFolderNamesCommand}"
                                       CommandParameter="{Binding RelativeSource={RelativeSource AncestorType={x:Type ContextMenu}},Path=PlacementTarget}" />
                     </MenuItem>
+                </ContextMenu>
+            </RichTextBox.ContextMenu>
+        </RichTextBox>
+
+        <!-- Middle Toolbar with Encode/Decode Buttons -->
+        <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center" Margin="5">
+            <Button Name="EncodeButton" MinHeight="25" Margin="5" MinWidth="80" Click="EncodeButton_Click" ToolTip="URL Encode the text">
+                <StackPanel Orientation="Horizontal">
+                    <ContentControl ContentTemplate="{StaticResource IconEncodeDecode}" Margin="0,0,4,0" />
+                    <TextBlock Text="Encode" VerticalAlignment="Center" />
+                </StackPanel>
+            </Button>
+            <Button Name="DecodeButton" MinHeight="25" Margin="5" MinWidth="80" Click="DecodeButton_Click" ToolTip="URL Decode the text">
+                <StackPanel Orientation="Horizontal">
+                    <ContentControl ContentTemplate="{StaticResource IconEncodeDecode}" Margin="0,0,4,0" />
+                    <TextBlock Text="Decode" VerticalAlignment="Center" />
+                </StackPanel>
+            </Button>
+            <Button Name="ClearOutputButton" MinHeight="25" Margin="5" MinWidth="40" 
+                    Command="{Binding RichTextBoxCommon.ClearRichTextBoxCommand}" CommandParameter="{Binding ElementName=RtbOutput}">
+                <StackPanel Orientation="Horizontal">
+                    <ContentControl ContentTemplate="{StaticResource IconClear}" Margin="0,0,4,0" />
+                    <TextBlock Text="Clear Output" VerticalAlignment="Center" />
+                </StackPanel>
+            </Button>
+        </StackPanel>
+
+        <!-- Output RichTextBox -->
+        <RichTextBox Name="RtbOutput" Grid.Row="3" Style="{DynamicResource RichTextWithBetterSpacing}" 
+                      HorizontalAlignment="Stretch" Margin="5"  VerticalAlignment="Stretch" HorizontalScrollBarVisibility="Visible" VerticalScrollBarVisibility="Auto" IsReadOnly="True">
+            <RichTextBox.ContextMenu>
+                <ContextMenu >
+                    <MenuItem Command="ApplicationCommands.SelectAll" />
+                    <MenuItem Command="ApplicationCommands.Copy" />
                 </ContextMenu>
             </RichTextBox.ContextMenu>
         </RichTextBox>

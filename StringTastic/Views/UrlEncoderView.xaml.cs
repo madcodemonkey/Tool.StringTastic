@@ -13,20 +13,20 @@ namespace StringTastic.Views
 
         private void EncodeButton_Click(object sender, RoutedEventArgs e)
         {
-            string plainText = RtbUrlEncoder.ToOneString(true);
+            string plainText = RtbInput.ToOneString(true);
             string encodedString = System.Web.HttpUtility.UrlEncode(plainText);
 
-            RtbUrlEncoder.Clear();
-            RtbUrlEncoder.LogMessage(encodedString, Brushes.Black);
+            RtbOutput.Clear();
+            RtbOutput.LogMessage(encodedString, Brushes.Black);
         }
 
         private void DecodeButton_Click(object sender, RoutedEventArgs e)
         {
-            string encodedData = RtbUrlEncoder.ToOneString(true);
+            string encodedData = RtbInput.ToOneString(true);
             string decodedString = System.Web.HttpUtility.UrlDecode(encodedData);
 
-            RtbUrlEncoder.Clear();
-            RtbUrlEncoder.LogMessage(decodedString, Brushes.Black);
+            RtbOutput.Clear();
+            RtbOutput.LogMessage(decodedString, Brushes.Black);
         }
     }
 }

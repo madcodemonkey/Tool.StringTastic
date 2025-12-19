@@ -52,7 +52,7 @@
                     <TextBlock Text="Undo" VerticalAlignment="Center" />
                 </StackPanel>
             </Button>
-            <ComboBox Name="ActionComboBox" MinHeight="25" Margin="5" MinWidth="150" VerticalContentAlignment="Center" SelectedIndex="4">
+            <ComboBox Name="ActionComboBox" MinHeight="25" Margin="5" MinWidth="150" VerticalContentAlignment="Center" SelectedIndex="2">
                 <ComboBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
@@ -64,8 +64,6 @@
                 <ComboBox.Items>
                     <local:ActionItem DisplayText="Base64 Encode" Tag="Base64Encode" IconKey="IconEncodeDecode" />
                     <local:ActionItem DisplayText="Base64 Decode" Tag="Base64Decode" IconKey="IconEncodeDecode" />
-                    <local:ActionItem DisplayText="URL Encode" Tag="UrlEncode" IconKey="IconEncodeDecode" />
-                    <local:ActionItem DisplayText="URL Decode" Tag="UrlDecode" IconKey="IconEncodeDecode" />
                     <local:ActionItem DisplayText="JWT Decode" Tag="JwtDecode" IconKey="IconEncodeDecode" />
                     <local:ActionItem DisplayText="Generate GUIDs" Tag="GenerateGuids" IconKey="IconGuid" />
                     <local:ActionItem DisplayText="Sort Ascending" Tag="SortAscending" IconKey="IconSort" />
