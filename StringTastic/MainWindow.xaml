@@ -206,7 +206,8 @@
                           Width="5" 
                           HorizontalAlignment="Stretch" 
                           VerticalAlignment="Stretch" 
-                          Background="Transparent" />
+                          Background="LightGray"
+                          ShowsPreview="False" />
 
             <!-- Right Container with TabControl -->
             <TabControl x:Name="MainTabControl" Grid.Column="2" />

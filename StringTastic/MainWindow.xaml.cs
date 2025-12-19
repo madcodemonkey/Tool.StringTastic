@@ -17,6 +17,7 @@ namespace StringTastic
         private readonly MainViewModel _Model = new MainViewModel();
         private int _compareCount = 0;
         private int _manipulationCount = 0;
+        private int _urlEncoderCount = 0;
         private List<ToolItem> _allTools;
 
         public ICommand CloseTabCommand { get; }
@@ -65,6 +66,12 @@ namespace StringTastic
                     DisplayName = "Manipulation", 
                     ToolType = ToolType.Manipulation,
                     IconTemplate = TryFindResource("IconNewManipulation") as DataTemplate
+                },
+                new ToolItem 
+                { 
+                    DisplayName = "Url Encode/Decode", 
+                    ToolType = ToolType.UrlEncoder,
+                    IconTemplate = TryFindResource("IconEncodeDecode") as DataTemplate
                 }
             };
 
@@ -97,6 +104,9 @@ namespace StringTastic
                         break;
                     case ToolType.Manipulation:
                         CreateManipulationTab();
+                        break;
+                    case ToolType.UrlEncoder:
+                        CreateUrlEncoderTab();
                         break;
                 }
 
@@ -205,6 +215,19 @@ namespace StringTastic
             MainTabControl.SelectedItem = tab;
         }
 
+        private void CreateUrlEncoderTab()
+        {
+            var view = new UrlEncoderView();
+            view.DataContext = this.DataContext;
+
+            _urlEncoderCount++;
+            string headerText = $"URL Encoder {_urlEncoderCount}";
+
+            var tab = CreateClosableTab(headerText, view);
+            MainTabControl.Items.Add(tab);
+            MainTabControl.SelectedItem = tab;
+        }
+
         private TabItem CreateClosableTab(string headerText, UIElement content)
         {
             var tab = new TabItem();
@@ -304,6 +327,7 @@ namespace StringTastic
     public enum ToolType
     {
         Compare,
-        Manipulation
+        Manipulation,
+        UrlEncoder
     }
 }
