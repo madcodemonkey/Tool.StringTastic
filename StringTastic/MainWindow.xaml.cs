@@ -280,6 +280,92 @@ namespace StringTastic
             // Add right-click context menu directly so handlers fire
             var cm = new ContextMenu();
 
+            var miRename = new MenuItem { Header = "Rename Tab" };
+            miRename.Click += (s, e) =>
+            {
+                var input = new Window
+                {
+                    Title = "Rename Tab",
+                    Width = 350,
+                    Height = 150,
+                    WindowStartupLocation = WindowStartupLocation.CenterOwner,
+                    Owner = this,
+                    ResizeMode = ResizeMode.NoResize
+                };
+
+                var grid = new Grid { Margin = new Thickness(10) };
+                grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+                grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+                grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+                grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+
+                var label = new TextBlock { Text = "New tab name:", Margin = new Thickness(0, 0, 0, 5) };
+                Grid.SetRow(label, 0);
+
+                var textBox = new TextBox 
+                { 
+                    Text = headerLabel.Text, 
+                    Margin = new Thickness(0, 0, 0, 10),
+                    Padding = new Thickness(5)
+                };
+                Grid.SetRow(textBox, 1);
+
+                var buttonPanel = new StackPanel 
+                { 
+                    Orientation = Orientation.Horizontal, 
+                    HorizontalAlignment = System.Windows.HorizontalAlignment.Right 
+                };
+                Grid.SetRow(buttonPanel, 3);
+
+                var okButton = new Button 
+                { 
+                    Content = "OK", 
+                    Width = 75, 
+                    Margin = new Thickness(0, 0, 10, 0),
+                    IsDefault = true
+                };
+                okButton.Click += (sender, args) =>
+                {
+                    if (!string.IsNullOrWhiteSpace(textBox.Text))
+                    {
+                        headerLabel.Text = textBox.Text.Trim();
+                        input.DialogResult = true;
+                        input.Close();
+                    }
+                };
+
+                var cancelButton = new Button 
+                { 
+                    Content = "Cancel", 
+                    Width = 75,
+                    IsCancel = true
+                };
+                cancelButton.Click += (sender, args) =>
+                {
+                    input.DialogResult = false;
+                    input.Close();
+                };
+
+                buttonPanel.Children.Add(okButton);
+                buttonPanel.Children.Add(cancelButton);
+
+                grid.Children.Add(label);
+                grid.Children.Add(textBox);
+                grid.Children.Add(buttonPanel);
+
+                input.Content = grid;
+
+                textBox.Loaded += (sender, args) =>
+                {
+                    textBox.SelectAll();
+                    textBox.Focus();
+                };
+
+                input.ShowDialog();
+            };
+
+            var miSeparator = new Separator();
+
             var miClose = new MenuItem { Header = "Close" };
             miClose.Icon = CreateIconFromTemplate("IconCloseTab");
             miClose.Click += (s, e) =>
@@ -305,6 +391,8 @@ namespace StringTastic
             miCloseAll.Icon = CreateIconFromTemplate("IconCloseAllTabs");
             miCloseAll.Click += (s, e) => MainTabControl.Items.Clear();
 
+            cm.Items.Add(miRename);
+            cm.Items.Add(miSeparator);
             cm.Items.Add(miClose);
             cm.Items.Add(miCloseOthers);
             cm.Items.Add(miCloseAll);
