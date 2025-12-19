@@ -18,6 +18,7 @@ namespace StringTastic
         private int _jwtDecoderCount = 0;
         private int _generateGuidCount = 0;
         private int _sorterCount = 0;
+        private int _colorPickerCount = 0;
         private List<ToolItem> _allTools;
 
         public ICommand CloseTabCommand { get; }
@@ -54,6 +55,12 @@ namespace StringTastic
                 {
                     DisplayName = "Base64 Encode/Decode",
                     ToolType = ToolType.Base64Encoder,
+                    IconTemplate = TryFindResource("IconEncodeDecode") as DataTemplate
+                },
+                new ToolItem
+                {
+                    DisplayName = "Color Picker",
+                    ToolType = ToolType.ColorPicker,
                     IconTemplate = TryFindResource("IconEncodeDecode") as DataTemplate
                 },
                 new ToolItem
@@ -111,6 +118,9 @@ namespace StringTastic
                         break;
                     case ToolType.Base64Encoder:
                         CreateBase64EncoderTab();
+                        break;
+                    case ToolType.ColorPicker:
+                        CreateColorPickerTab();
                         break;
                     case ToolType.GenerateGuid:
                         CreateGenerateGuidTab();
@@ -242,6 +252,19 @@ namespace StringTastic
 
             _urlEncoderCount++;
             string headerText = $"URL Encoder {_urlEncoderCount}";
+
+            var tab = CreateClosableTab(headerText, view);
+            MainTabControl.Items.Add(tab);
+            MainTabControl.SelectedItem = tab;
+        }
+
+        private void CreateColorPickerTab()
+        {
+            var view = new ColorPickerView();
+            view.DataContext = this.DataContext;
+
+            _colorPickerCount++;
+            string headerText = $"Color Picker {_colorPickerCount}";
 
             var tab = CreateClosableTab(headerText, view);
             MainTabControl.Items.Add(tab);
@@ -436,6 +459,7 @@ namespace StringTastic
     {
         Compare,
         Base64Encoder,
+        ColorPicker,
         GenerateGuid,
         JwtDecoder,
         Sorter,
