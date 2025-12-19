@@ -1,10 +1,9 @@
 using StringTastic.ViewModels;
 using StringTastic.Views;
-using System;
-using System.Reflection;
+using System.Collections.Generic;
+using System.Linq;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using System.Windows.Media;
 
@@ -14,7 +13,12 @@ namespace StringTastic
     {
         private readonly MainViewModel _Model = new MainViewModel();
         private int _compareCount = 0;
-        private int _manipulationCount = 0;
+        private int _urlEncoderCount = 0;
+        private int _base64EncoderCount = 0;
+        private int _jwtDecoderCount = 0;
+        private int _generateGuidCount = 0;
+        private int _sorterCount = 0;
+        private List<ToolItem> _allTools;
 
         public ICommand CloseTabCommand { get; }
         public ICommand CloseOthersCommand { get; }
@@ -28,20 +32,103 @@ namespace StringTastic
             CloseTabCommand = new RelayCommand(o => CloseTabCommandExecute(o));
             CloseOthersCommand = new RelayCommand(o => CloseOthersCommandExecute(o));
 
-            // Subscribe to ViewModel events to handle tab actions from commands
-            _Model.RequestNewCompare += (s, e) => CreateCompareTab();
-            _Model.RequestNewManipulation += (s, e) => CreateManipulationTab();
-            _Model.RequestCloseCurrentTab += (s, e) =>
-            {
-                if (MainTabControl.SelectedItem is TabItem ti)
-                    MainTabControl.Items.Remove(ti);
-            };
-            _Model.RequestCloseAllTabs += (s, e) => MainTabControl.Items.Clear();
-            _Model.RequestExit += (s, e) => Close();
+            // Initialize tools list
+            InitializeToolsList();
 
             // Create initial tabs to preserve previous behavior
-            CreateCompareTab();
-            CreateManipulationTab();
+            CreateGenerateGuidTab();
+            CreateJwtDecoderTab();
+        }
+
+        private void InitializeToolsList()
+        {
+            _allTools = new List<ToolItem>
+            {
+                new ToolItem
+                {
+                    DisplayName = "Compare",
+                    ToolType = ToolType.Compare,
+                    IconTemplate = TryFindResource("IconNewCompare") as DataTemplate
+                },
+                new ToolItem
+                {
+                    DisplayName = "Base64 Encode/Decode",
+                    ToolType = ToolType.Base64Encoder,
+                    IconTemplate = TryFindResource("IconEncodeDecode") as DataTemplate
+                },
+                new ToolItem
+                {
+                    DisplayName = "Generate GUIDs",
+                    ToolType = ToolType.GenerateGuid,
+                    IconTemplate = TryFindResource("IconGuid") as DataTemplate
+                },
+                new ToolItem
+                {
+                    DisplayName = "JWT Decode",
+                    ToolType = ToolType.JwtDecoder,
+                    IconTemplate = TryFindResource("IconEncodeDecode") as DataTemplate
+                },
+                new ToolItem
+                {
+                    DisplayName = "Sorter",
+                    ToolType = ToolType.Sorter,
+                    IconTemplate = TryFindResource("IconSort") as DataTemplate
+                },
+                new ToolItem
+                {
+                    DisplayName = "Url Encode/Decode",
+                    ToolType = ToolType.UrlEncoder,
+                    IconTemplate = TryFindResource("IconEncodeDecode") as DataTemplate
+                }
+            };
+
+            ToolsListBox.ItemsSource = _allTools;
+        }
+
+        private void SearchTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            var searchText = SearchTextBox.Text.ToLower();
+
+            if (string.IsNullOrWhiteSpace(searchText))
+            {
+                ToolsListBox.ItemsSource = _allTools;
+            }
+            else
+            {
+                var filtered = _allTools.Where(t => t.DisplayName.ToLower().Contains(searchText)).ToList();
+                ToolsListBox.ItemsSource = filtered;
+            }
+        }
+
+        private void ToolsListBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (ToolsListBox.SelectedItem is ToolItem selectedTool)
+            {
+                switch (selectedTool.ToolType)
+                {
+                    case ToolType.Compare:
+                        CreateCompareTab();
+                        break;
+                    case ToolType.Base64Encoder:
+                        CreateBase64EncoderTab();
+                        break;
+                    case ToolType.GenerateGuid:
+                        CreateGenerateGuidTab();
+                        break;
+                    case ToolType.JwtDecoder:
+                        CreateJwtDecoderTab();
+                        break;
+                    case ToolType.Sorter:
+                        CreateSorterTab();
+                        break;
+                    case ToolType.UrlEncoder:
+                        CreateUrlEncoderTab();
+                        break;
+                }
+
+                // Clear selection so the same item can be clicked again
+                ToolsListBox.SelectedItem = null;
+            }
         }
 
         private void CloseTabCommandExecute(object parameter)
@@ -82,41 +169,6 @@ namespace StringTastic
             }
         }
 
-        private void MenuItem_SubmenuOpened(object sender, RoutedEventArgs e)
-        {
-            var menuItem = e.OriginalSource as MenuItem;
-            if (menuItem == null)
-                return;
-
-            // Find the Popup used by this MenuItem's submenu and force its placement
-            var popup = FindVisualChild<Popup>(menuItem);
-            if (popup != null)
-            {
-                try
-                {
-                    popup.Placement = PlacementMode.Right;
-                    popup.HorizontalOffset = 0;
-                }
-                catch
-                {
-                    // ignore any failures - don't want menu to crash
-                }
-            }
-        }
-
-        private static T FindVisualChild<T>(DependencyObject depObj) where T : DependencyObject
-        {
-            if (depObj == null) return null;
-
-            for (int i = 0; i < VisualTreeHelper.GetChildrenCount(depObj); i++)
-            {
-                var child = VisualTreeHelper.GetChild(depObj, i);
-                var result = child as T ?? FindVisualChild<T>(child);
-                if (result != null) return result;
-            }
-            return null;
-        }
-
         private void CreateCompareTab()
         {
             var view = new CompareView();
@@ -131,13 +183,65 @@ namespace StringTastic
             MainTabControl.SelectedItem = tab;
         }
 
-        private void CreateManipulationTab()
+        private void CreateBase64EncoderTab()
         {
-            var view = new ManipulationView();
+            var view = new Base64EncoderView();
             view.DataContext = this.DataContext;
 
-            _manipulationCount++;
-            string headerText = $"Manipulation {_manipulationCount}";
+            _base64EncoderCount++;
+            string headerText = $"Base64 Encoder {_base64EncoderCount}";
+
+            var tab = CreateClosableTab(headerText, view);
+            MainTabControl.Items.Add(tab);
+            MainTabControl.SelectedItem = tab;
+        }
+
+        private void CreateGenerateGuidTab()
+        {
+            var view = new GenerateGuidView();
+            view.DataContext = this.DataContext;
+
+            _generateGuidCount++;
+            string headerText = $"Generate GUID {_generateGuidCount}";
+
+            var tab = CreateClosableTab(headerText, view);
+            MainTabControl.Items.Add(tab);
+            MainTabControl.SelectedItem = tab;
+        }
+
+        private void CreateJwtDecoderTab()
+        {
+            var view = new JwtDecoderView();
+            view.DataContext = this.DataContext;
+
+            _jwtDecoderCount++;
+            string headerText = $"JWT Decoder {_jwtDecoderCount}";
+
+            var tab = CreateClosableTab(headerText, view);
+            MainTabControl.Items.Add(tab);
+            MainTabControl.SelectedItem = tab;
+        }
+
+        private void CreateSorterTab()
+        {
+            var view = new SorterView();
+            view.DataContext = this.DataContext;
+
+            _sorterCount++;
+            string headerText = $"Sorter {_sorterCount}";
+
+            var tab = CreateClosableTab(headerText, view);
+            MainTabControl.Items.Add(tab);
+            MainTabControl.SelectedItem = tab;
+        }
+
+        private void CreateUrlEncoderTab()
+        {
+            var view = new UrlEncoderView();
+            view.DataContext = this.DataContext;
+
+            _urlEncoderCount++;
+            string headerText = $"URL Encoder {_urlEncoderCount}";
 
             var tab = CreateClosableTab(headerText, view);
             MainTabControl.Items.Add(tab);
@@ -176,6 +280,92 @@ namespace StringTastic
             // Add right-click context menu directly so handlers fire
             var cm = new ContextMenu();
 
+            var miRename = new MenuItem { Header = "Rename Tab" };
+            miRename.Click += (s, e) =>
+            {
+                var input = new Window
+                {
+                    Title = "Rename Tab",
+                    Width = 350,
+                    Height = 150,
+                    WindowStartupLocation = WindowStartupLocation.CenterOwner,
+                    Owner = this,
+                    ResizeMode = ResizeMode.NoResize
+                };
+
+                var grid = new Grid { Margin = new Thickness(10) };
+                grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+                grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+                grid.RowDefinitions.Add(new RowDefinition { Height = new GridLength(1, GridUnitType.Star) });
+                grid.RowDefinitions.Add(new RowDefinition { Height = GridLength.Auto });
+
+                var label = new TextBlock { Text = "New tab name:", Margin = new Thickness(0, 0, 0, 5) };
+                Grid.SetRow(label, 0);
+
+                var textBox = new TextBox 
+                { 
+                    Text = headerLabel.Text, 
+                    Margin = new Thickness(0, 0, 0, 10),
+                    Padding = new Thickness(5)
+                };
+                Grid.SetRow(textBox, 1);
+
+                var buttonPanel = new StackPanel 
+                { 
+                    Orientation = Orientation.Horizontal, 
+                    HorizontalAlignment = System.Windows.HorizontalAlignment.Right 
+                };
+                Grid.SetRow(buttonPanel, 3);
+
+                var okButton = new Button 
+                { 
+                    Content = "OK", 
+                    Width = 75, 
+                    Margin = new Thickness(0, 0, 10, 0),
+                    IsDefault = true
+                };
+                okButton.Click += (sender, args) =>
+                {
+                    if (!string.IsNullOrWhiteSpace(textBox.Text))
+                    {
+                        headerLabel.Text = textBox.Text.Trim();
+                        input.DialogResult = true;
+                        input.Close();
+                    }
+                };
+
+                var cancelButton = new Button 
+                { 
+                    Content = "Cancel", 
+                    Width = 75,
+                    IsCancel = true
+                };
+                cancelButton.Click += (sender, args) =>
+                {
+                    input.DialogResult = false;
+                    input.Close();
+                };
+
+                buttonPanel.Children.Add(okButton);
+                buttonPanel.Children.Add(cancelButton);
+
+                grid.Children.Add(label);
+                grid.Children.Add(textBox);
+                grid.Children.Add(buttonPanel);
+
+                input.Content = grid;
+
+                textBox.Loaded += (sender, args) =>
+                {
+                    textBox.SelectAll();
+                    textBox.Focus();
+                };
+
+                input.ShowDialog();
+            };
+
+            var miSeparator = new Separator();
+
             var miClose = new MenuItem { Header = "Close" };
             miClose.Icon = CreateIconFromTemplate("IconCloseTab");
             miClose.Click += (s, e) =>
@@ -201,6 +391,8 @@ namespace StringTastic
             miCloseAll.Icon = CreateIconFromTemplate("IconCloseAllTabs");
             miCloseAll.Click += (s, e) => MainTabControl.Items.Clear();
 
+            cm.Items.Add(miRename);
+            cm.Items.Add(miSeparator);
             cm.Items.Add(miClose);
             cm.Items.Add(miCloseOthers);
             cm.Items.Add(miCloseAll);
@@ -231,5 +423,22 @@ namespace StringTastic
             }
             return null;
         }
+    }
+
+    public class ToolItem
+    {
+        public string DisplayName { get; set; }
+        public ToolType ToolType { get; set; }
+        public DataTemplate IconTemplate { get; set; }
+    }
+
+    public enum ToolType
+    {
+        Compare,
+        Base64Encoder,
+        GenerateGuid,
+        JwtDecoder,
+        Sorter,
+        UrlEncoder
     }
 }

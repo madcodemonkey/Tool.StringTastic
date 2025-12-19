@@ -79,11 +79,23 @@
     </Compile>
     <Compile Include="ViewModels\MainViewModel.cs" />
     <Compile Include="ViewModels\RichTextBoxCommonViewModel.cs" />
+    <Compile Include="Views\Base64EncoderView.xaml.cs">
+      <DependentUpon>Base64EncoderView.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CompareView.xaml.cs">
       <DependentUpon>CompareView.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Views\ManipulationView.xaml.cs">
-      <DependentUpon>ManipulationView.xaml</DependentUpon>
+    <Compile Include="Views\GenerateGuidView.xaml.cs">
+      <DependentUpon>GenerateGuidView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\JwtDecoderView.xaml.cs">
+      <DependentUpon>JwtDecoderView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\SorterView.xaml.cs">
+      <DependentUpon>SorterView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\UrlEncoderView.xaml.cs">
+      <DependentUpon>UrlEncoderView.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -101,10 +113,22 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Views\Base64EncoderView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\CompareView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Views\ManipulationView.xaml">
+    <Page Include="Views\GenerateGuidView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\JwtDecoderView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\SorterView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\UrlEncoderView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>

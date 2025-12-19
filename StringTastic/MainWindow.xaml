@@ -108,59 +108,76 @@
     </Window.Resources>
 
     <DockPanel>
-        <Menu DockPanel.Dock="Top">
-            <MenuItem Header="File">
-                <MenuItem Header="New">
-                    <MenuItem Header="New Compare" Command="{Binding NewCompareCommand}">
-                        <MenuItem.Icon>
-                            <ContentControl ContentTemplate="{StaticResource IconNewCompare}" />
-                        </MenuItem.Icon>
-                    </MenuItem>
-                    <MenuItem Header="New Manipulation" Command="{Binding NewManipulationCommand}">
-                        <MenuItem.Icon>
-                            <ContentControl ContentTemplate="{StaticResource IconNewManipulation}" />
-                        </MenuItem.Icon>
-                    </MenuItem>
-                </MenuItem>
-                <Separator />
-                <MenuItem Header="Close Tab" Command="{Binding CloseCurrentTabCommand}">
-                    <MenuItem.Icon>
-                        <ContentControl ContentTemplate="{StaticResource IconCloseTab}" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <MenuItem Header="Close All Tabs" Command="{Binding CloseAllTabsCommand}">
-                    <MenuItem.Icon>
-                        <ContentControl ContentTemplate="{StaticResource IconCloseAllTabs}" />
-                    </MenuItem.Icon>
-                </MenuItem>
-                <Separator />
-                <MenuItem Header="Exit" Command="{Binding ExitCommand}">
-                    <MenuItem.Icon>
-                        <ContentControl ContentTemplate="{StaticResource IconExit}" />
-                    </MenuItem.Icon>
-                </MenuItem>
-            </MenuItem>
-        </Menu>
+        <!-- Main content area with left and right containers -->
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="250" MinWidth="150" />
+                <ColumnDefinition Width="Auto" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
 
-        <!-- Toolbar with quick-create buttons -->
-        <ToolBarTray DockPanel.Dock="Top">
-            <ToolBar>
-                <Button Command="{Binding NewCompareCommand}" Margin="2" Padding="6,2">
-                    <StackPanel Orientation="Horizontal">
-                        <ContentControl ContentTemplate="{StaticResource IconNewCompare}" Margin="0,0,4,0" />
-                        <TextBlock Text="New Compare" VerticalAlignment="Center" />
-                    </StackPanel>
-                </Button>
-                <Button Command="{Binding NewManipulationCommand}" Margin="2" Padding="6,2">
-                    <StackPanel Orientation="Horizontal">
-                        <ContentControl ContentTemplate="{StaticResource IconNewManipulation}" Margin="0,0,4,0" />
-                        <TextBlock Text="New Manipulation" VerticalAlignment="Center" />
-                    </StackPanel>
-                </Button>
-            </ToolBar>
-        </ToolBarTray>
+            <!-- Left Container with search box and tool list -->
+            <Border Grid.Column="0" BorderBrush="LightGray" BorderThickness="0,0,1,0" Padding="10">
+                <DockPanel>
+                    <!-- Search Box -->
+                    <TextBox x:Name="SearchTextBox" 
+                             DockPanel.Dock="Top" 
+                             Padding="5" 
+                             Margin="0,0,0,10"
+                             TextChanged="SearchTextBox_TextChanged">
+                        <TextBox.Style>
+                            <Style TargetType="TextBox">
+                                <Setter Property="Foreground" Value="Black" />
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Text, RelativeSource={RelativeSource Self}}" Value="">
+                                        <Setter Property="Background">
+                                            <Setter.Value>
+                                                <VisualBrush Stretch="None" AlignmentX="Left">
+                                                    <VisualBrush.Visual>
+                                                        <TextBlock Text="Search tools..." 
+                                                                   Foreground="Gray" 
+                                                                   Margin="5,0,0,0" />
+                                                    </VisualBrush.Visual>
+                                                </VisualBrush>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBox.Style>
+                    </TextBox>
 
-        <TabControl x:Name="MainTabControl" />
+                    <!-- Tools List -->
+                    <ListBox x:Name="ToolsListBox" 
+                             BorderThickness="0"
+                             SelectionChanged="ToolsListBox_SelectionChanged">
+                        <ListBox.ItemTemplate>
+                            <DataTemplate>
+                                <StackPanel Orientation="Horizontal" Margin="0,5">
+                                    <ContentControl ContentTemplate="{Binding IconTemplate}" 
+                                                    Width="16" 
+                                                    Height="16" 
+                                                    Margin="0,0,8,0" />
+                                    <TextBlock Text="{Binding DisplayName}" 
+                                               VerticalAlignment="Center" />
+                                </StackPanel>
+                            </DataTemplate>
+                        </ListBox.ItemTemplate>
+                    </ListBox>
+                </DockPanel>
+            </Border>
+
+            <!-- Splitter -->
+            <GridSplitter Grid.Column="1" 
+                          Width="5" 
+                          HorizontalAlignment="Stretch" 
+                          VerticalAlignment="Stretch" 
+                          Background="LightGray"
+                          ShowsPreview="False" />
+
+            <!-- Right Container with TabControl -->
+            <TabControl x:Name="MainTabControl" Grid.Column="2" />
+        </Grid>
     </DockPanel>
 
 </Window>

@@ -30,6 +30,13 @@ namespace StringTastic
         public static void SortRichTextBox(this RichTextBox rtb, bool sortAscending)
         {
             List<string> listOfStrings = rtb.ToListOfString();
+            
+            // Remove trailing blank lines
+            while (listOfStrings.Count > 0 && string.IsNullOrWhiteSpace(listOfStrings[listOfStrings.Count - 1]))
+            {
+                listOfStrings.RemoveAt(listOfStrings.Count - 1);
+            }
+
             rtb.Clear();
 
             var items = sortAscending ?
