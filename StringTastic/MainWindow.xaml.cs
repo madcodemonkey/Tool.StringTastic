@@ -1,5 +1,6 @@
 using StringTastic.ViewModels;
 using StringTastic.Views;
+using StringTastic.Helper;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -40,8 +41,8 @@ namespace StringTastic
             CreateGenerateGuidTab();
             CreateJwtDecoderTab();
             
-            // Apply default theme
-            ApplyLightTheme();
+            // Update menu checkmarks based on current theme
+            UpdateThemeMenuCheckmarks();
         }
 
         private void InitializeToolsList()
@@ -447,30 +448,27 @@ namespace StringTastic
 
         private void ThemeLight_Click(object sender, RoutedEventArgs e)
         {
-            MenuItemLightTheme.IsChecked = true;
-            MenuItemDarkTheme.IsChecked = false;
-            ApplyLightTheme();
+            ThemeManager.ApplyTheme(Theme.Light);
+            UpdateThemeMenuCheckmarks();
         }
 
         private void ThemeDark_Click(object sender, RoutedEventArgs e)
         {
-            MenuItemLightTheme.IsChecked = false;
-            MenuItemDarkTheme.IsChecked = true;
-            ApplyDarkTheme();
+            ThemeManager.ApplyTheme(Theme.Dark);
+            UpdateThemeMenuCheckmarks();
         }
 
-        private void ApplyLightTheme()
+        private void ThemeBattleshipGray_Click(object sender, RoutedEventArgs e)
         {
-            // Set light theme colors
-            this.Background = new SolidColorBrush(Colors.White);
-            this.Foreground = new SolidColorBrush(Colors.Black);
+            ThemeManager.ApplyTheme(Theme.BattleshipGray);
+            UpdateThemeMenuCheckmarks();
         }
 
-        private void ApplyDarkTheme()
+        private void UpdateThemeMenuCheckmarks()
         {
-            // Set dark theme colors
-            this.Background = new SolidColorBrush(Color.FromRgb(45, 45, 48));
-            this.Foreground = new SolidColorBrush(Colors.White);
+            MenuItemLightTheme.IsChecked = ThemeManager.CurrentTheme == Theme.Light;
+            MenuItemDarkTheme.IsChecked = ThemeManager.CurrentTheme == Theme.Dark;
+            MenuItemBattleshipGrayTheme.IsChecked = ThemeManager.CurrentTheme == Theme.BattleshipGray;
         }
 
         private ContentControl CreateIconFromTemplate(string templateKey)

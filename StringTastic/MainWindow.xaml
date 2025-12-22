@@ -4,7 +4,9 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:views="clr-namespace:StringTastic.Views"
         Title="StringTastic" Height="762.344" Width="1047.656" WindowStartupLocation="CenterScreen"
-        Icon="{StaticResource AppIcon}">
+        Icon="{StaticResource AppIcon}"
+        Background="{DynamicResource WindowBackgroundBrush}"
+        Foreground="{DynamicResource WindowForegroundBrush}">
     <Window.Resources>
         <Style x:Key="RichTextWithBetterSpacing" TargetType="{x:Type RichTextBox}">
             <Style.Resources>
@@ -16,6 +18,9 @@
             <Setter Property="FontFamily" Value="Arial"/>
             <Setter Property="HorizontalScrollBarVisibility" Value="Auto"/>
             <Setter Property="VerticalScrollBarVisibility" Value="Auto"/>
+            <Setter Property="Background" Value="{DynamicResource RichTextBoxBackgroundBrush}"/>
+            <Setter Property="Foreground" Value="{DynamicResource RichTextBoxForegroundBrush}"/>
+            <Setter Property="BorderBrush" Value="{DynamicResource RichTextBoxBorderBrush}"/>
             <!-- Performance improvements -->
             <Setter Property="SpellCheck.IsEnabled" Value="False"/>
             <Setter Property="TextOptions.TextFormattingMode" Value="Display"/>
@@ -39,23 +44,23 @@
                         <Border x:Name="bd" Background="{TemplateBinding Background}" CornerRadius="2">
                             <Viewbox Width="12" Height="12" Stretch="Uniform" HorizontalAlignment="Center" VerticalAlignment="Center">
                                 <Canvas Width="12" Height="12">
-                                    <Path x:Name="p1" Data="M2,2 L10,10" Stroke="Gray" StrokeThickness="1.6" StrokeStartLineCap="Round" StrokeEndLineCap="Round" />
-                                    <Path x:Name="p2" Data="M10,2 L2,10" Stroke="Gray" StrokeThickness="1.6" StrokeStartLineCap="Round" StrokeEndLineCap="Round" />
+                                    <Path x:Name="p1" Data="M2,2 L10,10" Stroke="{DynamicResource TabCloseButtonStrokeBrush}" StrokeThickness="1.6" StrokeStartLineCap="Round" StrokeEndLineCap="Round" />
+                                    <Path x:Name="p2" Data="M10,2 L2,10" Stroke="{DynamicResource TabCloseButtonStrokeBrush}" StrokeThickness="1.6" StrokeStartLineCap="Round" StrokeEndLineCap="Round" />
                                 </Canvas>
                             </Viewbox>
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="bd" Property="Background" Value="#FFE6E6E6" />
-                                <Setter TargetName="p1" Property="Stroke" Value="Black" />
-                                <Setter TargetName="p2" Property="Stroke" Value="Black" />
+                                <Setter TargetName="bd" Property="Background" Value="{DynamicResource TabCloseButtonHoverBackgroundBrush}" />
+                                <Setter TargetName="p1" Property="Stroke" Value="{DynamicResource TabCloseButtonHoverStrokeBrush}" />
+                                <Setter TargetName="p2" Property="Stroke" Value="{DynamicResource TabCloseButtonHoverStrokeBrush}" />
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="bd" Property="Background" Value="#FFD9D9D9" />
+                                <Setter TargetName="bd" Property="Background" Value="{DynamicResource TabCloseButtonPressedBackgroundBrush}" />
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
-                                <Setter TargetName="p1" Property="Stroke" Value="#FFBFBFBF" />
-                                <Setter TargetName="p2" Property="Stroke" Value="#FFBFBFBF" />
+                                <Setter TargetName="p1" Property="Stroke" Value="{DynamicResource TabCloseButtonDisabledStrokeBrush}" />
+                                <Setter TargetName="p2" Property="Stroke" Value="{DynamicResource TabCloseButtonDisabledStrokeBrush}" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -65,9 +70,9 @@
 
         <!-- Raised-looking toolbar button style: visible border, corner radius and hover/pressed colors -->
         <Style x:Key="ToolbarRaisedButton" TargetType="Button">
-            <Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}" />
-            <Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}" />
-            <Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.ControlDarkBrushKey}}" />
+            <Setter Property="Background" Value="{DynamicResource ButtonBackgroundBrush}" />
+            <Setter Property="Foreground" Value="{DynamicResource ButtonForegroundBrush}" />
+            <Setter Property="BorderBrush" Value="{DynamicResource ButtonBorderBrush}" />
             <Setter Property="BorderThickness" Value="1" />
             <Setter Property="Padding" Value="6,2" />
             <Setter Property="Margin" Value="2" />
@@ -84,17 +89,17 @@
                         </Border>
                         <ControlTemplate.Triggers>
                             <Trigger Property="IsMouseOver" Value="True">
-                                <Setter TargetName="bd" Property="Background" Value="#FFF2F2F2" />
-                                <Setter TargetName="bd" Property="BorderBrush" Value="#FF9A9A9A" />
+                                <Setter TargetName="bd" Property="Background" Value="{DynamicResource ButtonHoverBackgroundBrush}" />
+                                <Setter TargetName="bd" Property="BorderBrush" Value="{DynamicResource ButtonHoverBorderBrush}" />
                             </Trigger>
                             <Trigger Property="IsPressed" Value="True">
-                                <Setter TargetName="bd" Property="Background" Value="#FFE6E6E6" />
-                                <Setter TargetName="bd" Property="BorderBrush" Value="#FF7A7A7A" />
+                                <Setter TargetName="bd" Property="Background" Value="{DynamicResource ButtonPressedBackgroundBrush}" />
+                                <Setter TargetName="bd" Property="BorderBrush" Value="{DynamicResource ButtonPressedBorderBrush}" />
                             </Trigger>
                             <Trigger Property="IsEnabled" Value="False">
-                                <Setter TargetName="bd" Property="Background" Value="#FFF7F7F7" />
-                                <Setter TargetName="bd" Property="BorderBrush" Value="#FFCCCCCC" />
-                                <Setter Property="Foreground" Value="#FFAAAAAA" />
+                                <Setter TargetName="bd" Property="Background" Value="{DynamicResource ButtonDisabledBackgroundBrush}" />
+                                <Setter TargetName="bd" Property="BorderBrush" Value="{DynamicResource ButtonDisabledBorderBrush}" />
+                                <Setter Property="Foreground" Value="{DynamicResource ButtonDisabledForegroundBrush}" />
                             </Trigger>
                         </ControlTemplate.Triggers>
                     </ControlTemplate>
@@ -109,7 +114,9 @@
 
     <DockPanel>
         <!-- Menu Bar -->
-        <Menu DockPanel.Dock="Top">
+        <Menu DockPanel.Dock="Top" 
+              Background="{DynamicResource MenuBackgroundBrush}"
+              Foreground="{DynamicResource MenuForegroundBrush}">
             <MenuItem Header="_File">
                 <MenuItem Header="E_xit" Click="Exit_Click">
                     <MenuItem.Icon>
@@ -119,8 +126,9 @@
             </MenuItem>
             <MenuItem Header="_View">
                 <MenuItem Header="_Theme">
-                    <MenuItem Header="_Light" Click="ThemeLight_Click" IsCheckable="True" x:Name="MenuItemLightTheme" IsChecked="True" />
+                    <MenuItem Header="_Light" Click="ThemeLight_Click" IsCheckable="True" x:Name="MenuItemLightTheme"  />
                     <MenuItem Header="_Dark" Click="ThemeDark_Click" IsCheckable="True" x:Name="MenuItemDarkTheme" />
+                    <MenuItem Header="_Battleship Gray" Click="ThemeBattleshipGray_Click" IsCheckable="True" x:Name="MenuItemBattleshipGrayTheme" IsChecked="True" />
                 </MenuItem>
             </MenuItem>
         </Menu>
@@ -134,17 +142,24 @@
             </Grid.ColumnDefinitions>
 
             <!-- Left Container with search box and tool list -->
-            <Border Grid.Column="0" BorderBrush="LightGray" BorderThickness="0,0,1,0" Padding="10">
+            <Border Grid.Column="0" 
+                    BorderBrush="{DynamicResource BorderBrush}" 
+                    BorderThickness="0,0,1,0" 
+                    Padding="10"
+                    Background="{DynamicResource PanelBackgroundBrush}">
                 <DockPanel>
                     <!-- Search Box -->
                     <TextBox x:Name="SearchTextBox" 
                              DockPanel.Dock="Top" 
                              Padding="5" 
                              Margin="0,0,0,10"
-                             TextChanged="SearchTextBox_TextChanged">
+                             TextChanged="SearchTextBox_TextChanged"
+                             Background="{DynamicResource TextBoxBackgroundBrush}"
+                             Foreground="{DynamicResource TextBoxForegroundBrush}"
+                             BorderBrush="{DynamicResource TextBoxBorderBrush}">
                         <TextBox.Style>
                             <Style TargetType="TextBox">
-                                <Setter Property="Foreground" Value="Black" />
+                                <Setter Property="Foreground" Value="{DynamicResource TextBoxForegroundBrush}" />
                                 <Style.Triggers>
                                     <DataTrigger Binding="{Binding Text, RelativeSource={RelativeSource Self}}" Value="">
                                         <Setter Property="Background">
@@ -152,7 +167,7 @@
                                                 <VisualBrush Stretch="None" AlignmentX="Left">
                                                     <VisualBrush.Visual>
                                                         <TextBlock Text="Search tools..." 
-                                                                   Foreground="Gray" 
+                                                                   Foreground="{DynamicResource TextBoxPlaceholderBrush}" 
                                                                    Margin="5,0,0,0" />
                                                     </VisualBrush.Visual>
                                                 </VisualBrush>
@@ -167,7 +182,9 @@
                     <!-- Tools List -->
                     <ListBox x:Name="ToolsListBox" 
                              BorderThickness="0"
-                             SelectionChanged="ToolsListBox_SelectionChanged">
+                             SelectionChanged="ToolsListBox_SelectionChanged"
+                             Background="{DynamicResource ListBoxBackgroundBrush}"
+                             Foreground="{DynamicResource ListBoxForegroundBrush}">
                         <ListBox.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal" Margin="0,5">
@@ -189,12 +206,15 @@
                           Width="5" 
                           HorizontalAlignment="Stretch" 
                           VerticalAlignment="Stretch" 
-                          Background="LightGray"
+                          Background="{DynamicResource SplitterBrush}"
                           ShowsPreview="False" />
 
             <!-- Right Container with TabControl -->
-            <TabControl x:Name="MainTabControl" Grid.Column="2" />
+            <TabControl x:Name="MainTabControl" 
+                        Grid.Column="2"
+                        Background="{DynamicResource TabControlBackgroundBrush}" />
         </Grid>
     </DockPanel>
 
 </Window>
+

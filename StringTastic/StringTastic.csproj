@@ -73,6 +73,7 @@
     </ApplicationDefinition>
     <Compile Include="Extensions\RichTextBoxExtensions.cs" />
     <Compile Include="Helper\RelayCommand.cs" />
+    <Compile Include="Helper\ThemeManager.cs" />
     <Compile Include="Models\ActionItem.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="RichTextDialogBox.xaml.cs">

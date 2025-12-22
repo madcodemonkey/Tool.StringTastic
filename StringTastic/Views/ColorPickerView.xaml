@@ -21,7 +21,8 @@
                        FontSize="14" 
                        FontWeight="Bold"
                        VerticalAlignment="Center"
-                       Margin="0,0,10,0" />
+                       Margin="0,0,10,0"
+                       Foreground="{DynamicResource ControlForegroundBrush}" />
             
             <Button x:Name="ColorButton"
                     Grid.Column="1"
@@ -49,13 +50,14 @@
                        Text="Hex Color:" 
                        FontSize="12" 
                        VerticalAlignment="Center"
-                       Margin="0,0,10,0" />
+                       Margin="0,0,10,0"
+                       Foreground="{DynamicResource ControlForegroundBrush}" />
 
             <!-- Border container for text box with buttons inside -->
             <Border Grid.Column="1"
-                    BorderBrush="#ABADB3"
+                    BorderBrush="{DynamicResource TextBoxBorderBrush}"
                     BorderThickness="1"
-                    Background="White"
+                    Background="{DynamicResource TextBoxBackgroundBrush}"
                     CornerRadius="0">
                 <Grid>
                     <Grid.ColumnDefinitions>
@@ -71,6 +73,7 @@
                              Padding="5"
                              BorderThickness="0"
                              Background="Transparent"
+                             Foreground="{DynamicResource TextBoxForegroundBrush}"
                              VerticalContentAlignment="Center" />
 
                     <Button x:Name="ClearButton"
@@ -91,7 +94,7 @@
                             <Style TargetType="Button">
                                 <Setter Property="Background" Value="Transparent" />
                                 <Setter Property="BorderThickness" Value="0" />
-                                <Setter Property="Foreground" Value="Gray" />
+                                <Setter Property="Foreground" Value="{DynamicResource ControlForegroundBrush}" />
                                 <Setter Property="Template">
                                     <Setter.Value>
                                         <ControlTemplate TargetType="Button">
@@ -106,11 +109,10 @@
                                 </Setter>
                                 <Style.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="#E0E0E0" />
-                                        <Setter Property="Foreground" Value="Black" />
+                                        <Setter Property="Background" Value="{DynamicResource ButtonHoverBackgroundBrush}" />
                                     </Trigger>
                                     <Trigger Property="IsPressed" Value="True">
-                                        <Setter Property="Background" Value="#D0D0D0" />
+                                        <Setter Property="Background" Value="{DynamicResource ButtonPressedBackgroundBrush}" />
                                     </Trigger>
                                 </Style.Triggers>
                             </Style>
@@ -149,10 +151,10 @@
                                 </Setter>
                                 <Style.Triggers>
                                     <Trigger Property="IsMouseOver" Value="True">
-                                        <Setter Property="Background" Value="#E0E0E0" />
+                                        <Setter Property="Background" Value="{DynamicResource ButtonHoverBackgroundBrush}" />
                                     </Trigger>
                                     <Trigger Property="IsPressed" Value="True">
-                                        <Setter Property="Background" Value="#D0D0D0" />
+                                        <Setter Property="Background" Value="{DynamicResource ButtonPressedBackgroundBrush}" />
                                     </Trigger>
                                 </Style.Triggers>
                             </Style>

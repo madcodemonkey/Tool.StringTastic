@@ -1,6 +1,7 @@
 using System;
 using System.Reflection;
 using System.Windows;
+using StringTastic.Helper;
 
 namespace StringTastic
 {
@@ -13,6 +14,9 @@ namespace StringTastic
         {
             // Ensure menu submenus open to the right application-wide
             SetDropDownMenuToBeRightAligned();
+
+            // Apply default theme
+            ThemeManager.ApplyTheme(Theme.BattleshipGray);
 
             base.OnStartup(e);
         }
