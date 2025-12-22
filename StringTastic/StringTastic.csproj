@@ -64,6 +64,7 @@
     <Reference Include="WindowsBase" />
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
+    <Reference Include="System.Drawing" />
   </ItemGroup>
   <ItemGroup>
     <ApplicationDefinition Include="App.xaml">
@@ -72,8 +73,13 @@
     </ApplicationDefinition>
     <Compile Include="Extensions\RichTextBoxExtensions.cs" />
     <Compile Include="Helper\RelayCommand.cs" />
+    <Compile Include="Helper\ThemeManager.cs" />
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models\ActionItem.cs" />
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Properties\Settings.Designer.cs" />
     <Compile Include="RichTextDialogBox.xaml.cs">
       <DependentUpon>RichTextDialogBox.xaml</DependentUpon>
     </Compile>
@@ -81,6 +87,9 @@
     <Compile Include="ViewModels\RichTextBoxCommonViewModel.cs" />
     <Compile Include="Views\Base64EncoderView.xaml.cs">
       <DependentUpon>Base64EncoderView.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Views\ColorPickerView.xaml.cs">
+      <DependentUpon>ColorPickerView.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\CompareView.xaml.cs">
       <DependentUpon>CompareView.xaml</DependentUpon>
@@ -105,15 +114,23 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
     <Page Include="RichTextDialogBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="Themes\AzureTheme.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\DarkTheme.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Themes\LightTheme.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Views\Base64EncoderView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Views\ColorPickerView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Views\CompareView.xaml">
@@ -141,6 +158,7 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="Properties\Settings.settings" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="StringTastic.ico" />

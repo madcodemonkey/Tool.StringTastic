@@ -1,5 +1,6 @@
 using StringTastic.ViewModels;
 using StringTastic.Views;
+using StringTastic.Helper;
 using System.Collections.Generic;
 using System.Linq;
 using System.Windows;
@@ -18,6 +19,7 @@ namespace StringTastic
         private int _jwtDecoderCount = 0;
         private int _generateGuidCount = 0;
         private int _sorterCount = 0;
+        private int _colorPickerCount = 0;
         private List<ToolItem> _allTools;
 
         public ICommand CloseTabCommand { get; }
@@ -38,6 +40,9 @@ namespace StringTastic
             // Create initial tabs to preserve previous behavior
             CreateGenerateGuidTab();
             CreateJwtDecoderTab();
+            
+            // Update menu checkmarks based on current theme
+            UpdateThemeMenuCheckmarks();
         }
 
         private void InitializeToolsList()
@@ -54,6 +59,12 @@ namespace StringTastic
                 {
                     DisplayName = "Base64 Encode/Decode",
                     ToolType = ToolType.Base64Encoder,
+                    IconTemplate = TryFindResource("IconEncodeDecode") as DataTemplate
+                },
+                new ToolItem
+                {
+                    DisplayName = "Color Picker",
+                    ToolType = ToolType.ColorPicker,
                     IconTemplate = TryFindResource("IconEncodeDecode") as DataTemplate
                 },
                 new ToolItem
@@ -111,6 +122,9 @@ namespace StringTastic
                         break;
                     case ToolType.Base64Encoder:
                         CreateBase64EncoderTab();
+                        break;
+                    case ToolType.ColorPicker:
+                        CreateColorPickerTab();
                         break;
                     case ToolType.GenerateGuid:
                         CreateGenerateGuidTab();
@@ -242,6 +256,19 @@ namespace StringTastic
 
             _urlEncoderCount++;
             string headerText = $"URL Encoder {_urlEncoderCount}";
+
+            var tab = CreateClosableTab(headerText, view);
+            MainTabControl.Items.Add(tab);
+            MainTabControl.SelectedItem = tab;
+        }
+
+        private void CreateColorPickerTab()
+        {
+            var view = new ColorPickerView();
+            view.DataContext = this.DataContext;
+
+            _colorPickerCount++;
+            string headerText = $"Color Picker {_colorPickerCount}";
 
             var tab = CreateClosableTab(headerText, view);
             MainTabControl.Items.Add(tab);
@@ -414,6 +441,36 @@ namespace StringTastic
             return tab;
         }
 
+        private void Exit_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void ThemeLight_Click(object sender, RoutedEventArgs e)
+        {
+            ThemeManager.ApplyTheme(Theme.Light);
+            UpdateThemeMenuCheckmarks();
+        }
+
+        private void ThemeDark_Click(object sender, RoutedEventArgs e)
+        {
+            ThemeManager.ApplyTheme(Theme.Dark);
+            UpdateThemeMenuCheckmarks();
+        }
+
+        private void ThemeAzure_Click(object sender, RoutedEventArgs e)
+        {
+            ThemeManager.ApplyTheme(Theme.Azure);
+            UpdateThemeMenuCheckmarks();
+        }
+
+        private void UpdateThemeMenuCheckmarks()
+        {
+            MenuItemLightTheme.IsChecked = ThemeManager.CurrentTheme == Theme.Light;
+            MenuItemDarkTheme.IsChecked = ThemeManager.CurrentTheme == Theme.Dark;
+            MenuItemAzureTheme.IsChecked = ThemeManager.CurrentTheme == Theme.Azure;
+        }
+
         private ContentControl CreateIconFromTemplate(string templateKey)
         {
             var template = TryFindResource(templateKey) as DataTemplate;
@@ -436,6 +493,7 @@ namespace StringTastic
     {
         Compare,
         Base64Encoder,
+        ColorPicker,
         GenerateGuid,
         JwtDecoder,
         Sorter,

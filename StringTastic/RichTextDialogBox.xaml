@@ -1,7 +1,8 @@
 ﻿<Window x:Class="StringTastic.RichTextDialogBox"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        Title="RichTextDialogBox" Height="436" Width="476" WindowStartupLocation="CenterScreen">
+        Title="RichTextDialogBox" Height="436" Width="476" WindowStartupLocation="CenterScreen"
+        Background="{DynamicResource WindowBackgroundBrush}">
     <Window.Resources>
         <Style x:Key="RichTextWithBetterSpacing" TargetType="{x:Type RichTextBox}">
             <Style.Resources>
@@ -11,6 +12,10 @@
             </Style.Resources>
             <Setter Property="FontSize" Value="12"/>
             <Setter Property="FontFamily" Value="Arial"/>
+        </Style>
+        
+        <Style TargetType="Label">
+            <Setter Property="Foreground" Value="{DynamicResource ControlForegroundBrush}" />
         </Style>
     </Window.Resources>
 
