@@ -15,8 +15,9 @@ namespace StringTastic
             // Ensure menu submenus open to the right application-wide
             SetDropDownMenuToBeRightAligned();
 
-            // Apply default theme
-            ThemeManager.ApplyTheme(Theme.Azure);
+            // Load and apply saved theme preference
+            var savedTheme = ThemeManager.LoadThemePreference();
+            ThemeManager.ApplyTheme(savedTheme);
 
             base.OnStartup(e);
         }

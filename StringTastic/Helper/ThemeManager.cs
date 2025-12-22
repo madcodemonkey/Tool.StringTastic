@@ -1,4 +1,5 @@
 using System;
+using System.Configuration;
 using System.Linq;
 using System.Windows;
 
@@ -11,6 +12,7 @@ namespace StringTastic.Helper
     {
         private const string ThemeResourcePrefix = "Themes/";
         private const string ThemeResourceSuffix = "Theme.xaml";
+        private const string ThemeSettingKey = "SelectedTheme";
 
         private static Theme _currentTheme = Theme.Azure;
 
@@ -21,6 +23,44 @@ namespace StringTastic.Helper
         {
             get => _currentTheme;
             private set => _currentTheme = value;
+        }
+
+        /// <summary>
+        /// Loads the saved theme preference or returns the default theme
+        /// </summary>
+        public static Theme LoadThemePreference()
+        {
+            try
+            {
+                var savedTheme = Properties.Settings.Default.SelectedTheme;
+                if (Enum.TryParse<Theme>(savedTheme, out var theme))
+                {
+                    return theme;
+                }
+            }
+            catch
+            {
+                // If settings don't exist or can't be loaded, use default
+            }
+
+            return Theme.Azure; // Default theme
+        }
+
+        /// <summary>
+        /// Saves the current theme preference
+        /// </summary>
+        public static void SaveThemePreference(Theme theme)
+        {
+            try
+            {
+                Properties.Settings.Default.SelectedTheme = theme.ToString();
+                Properties.Settings.Default.Save();
+            }
+            catch (Exception ex)
+            {
+                // Log or handle error if needed
+                System.Diagnostics.Debug.WriteLine($"Failed to save theme preference: {ex.Message}");
+            }
         }
 
         /// <summary>
@@ -44,6 +84,9 @@ namespace StringTastic.Helper
 
             // Update current theme
             CurrentTheme = theme;
+
+            // Save the preference
+            SaveThemePreference(theme);
         }
 
         /// <summary>

@@ -79,6 +79,7 @@
     </Compile>
     <Compile Include="Models\ActionItem.cs" />
     <Compile Include="Properties\Annotations.cs" />
+    <Compile Include="Properties\Settings.Designer.cs" />
     <Compile Include="RichTextDialogBox.xaml.cs">
       <DependentUpon>RichTextDialogBox.xaml</DependentUpon>
     </Compile>
@@ -157,6 +158,7 @@
   <ItemGroup>
     <None Include="app.config" />
     <None Include="packages.config" />
+    <None Include="Properties\Settings.settings" />
   </ItemGroup>
   <ItemGroup>
     <Resource Include="StringTastic.ico" />
