@@ -51,5 +51,28 @@ namespace StringTastic.Views
                 Clipboard.SetText(HexColorTextBox.Text);
             }
         }
+
+        private void ApplyButton_Click(object sender, RoutedEventArgs e)
+        {
+            try
+            {
+                var hexColor = HexColorTextBox.Text.Trim();
+                
+                if (string.IsNullOrWhiteSpace(hexColor))
+                    return;
+                
+                // Parse the hex color
+                var color = (Color)ColorConverter.ConvertFromString(hexColor);
+                
+                // Update the color button
+                ColorButton.Content = hexColor;
+                ColorButton.Background = new SolidColorBrush(color);
+            }
+            catch
+            {
+                MessageBox.Show("Invalid hex color format. Please use format like #RRGGBB or #AARRGGBB", 
+                    "Invalid Color", MessageBoxButton.OK, MessageBoxImage.Warning);
+            }
+        }
     }
 }

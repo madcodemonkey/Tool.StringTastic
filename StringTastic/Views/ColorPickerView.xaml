@@ -44,6 +44,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="Auto" />
                 <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="Auto" />
             </Grid.ColumnDefinitions>
 
             <TextBlock Grid.Column="0"
@@ -162,6 +163,21 @@
                     </Button>
                 </Grid>
             </Border>
+
+            <Button x:Name="ApplyButton"
+                    Grid.Column="2"
+                    Content="Apply"
+                    MinWidth="60"
+                    Height="30"
+                    Margin="10,0,0,0"
+                    ToolTip="Apply hex color to color picker"
+                    Click="ApplyButton_Click"
+                    Background="{DynamicResource ButtonBackgroundBrush}"
+                    Foreground="{DynamicResource ButtonForegroundBrush}"
+                    BorderBrush="{DynamicResource ButtonBorderBrush}"
+                    BorderThickness="1"
+                    Cursor="Hand"
+                    VerticalAlignment="Center" />
         </Grid>
     </Grid>
 </UserControl>

@@ -21,19 +21,19 @@
     <Color x:Key="PanelBorderColor">#FFC7E0F4</Color>
     
     <!-- TextBox Colors -->
-    <Color x:Key="TextBoxBackgroundColor">#FFFFFFFF</Color>
+    <Color x:Key="TextBoxBackgroundColor">#E7F3FC</Color>
     <Color x:Key="TextBoxForegroundColor">#FF1A1A1A</Color>
     <Color x:Key="TextBoxPlaceholderColor">#FF6B8DA3</Color>
     <Color x:Key="TextBoxBorderColor">#FFA6D1F0</Color>
     <Color x:Key="TextBoxFocusBorderColor">#FF0078D4</Color>
-    
+        
     <!-- RichTextBox Colors -->
-    <Color x:Key="RichTextBoxBackgroundColor">#FFFFFFFF</Color>
+    <Color x:Key="RichTextBoxBackgroundColor">#E7F3FC</Color>
     <Color x:Key="RichTextBoxForegroundColor">#FF1A1A1A</Color>
     <Color x:Key="RichTextBoxBorderColor">#FFA6D1F0</Color>
     
     <!-- ListBox Colors -->
-    <Color x:Key="ListBoxBackgroundColor">#FFFFFFFF</Color>
+    <Color x:Key="ListBoxBackgroundColor">#E7F3FC</Color>
     <Color x:Key="ListBoxForegroundColor">#FF1A1A1A</Color>
     <Color x:Key="ListBoxBorderColor">#FFC7E0F4</Color>
     <Color x:Key="ListBoxItemHoverColor">#FFE6F2FA</Color>
