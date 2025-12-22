@@ -128,7 +128,7 @@
                 <MenuItem Header="_Theme">
                     <MenuItem Header="_Light" Click="ThemeLight_Click" IsCheckable="True" x:Name="MenuItemLightTheme"  />
                     <MenuItem Header="_Dark" Click="ThemeDark_Click" IsCheckable="True" x:Name="MenuItemDarkTheme" />
-                    <MenuItem Header="_Battleship Gray" Click="ThemeBattleshipGray_Click" IsCheckable="True" x:Name="MenuItemBattleshipGrayTheme" IsChecked="True" />
+                    <MenuItem Header="_Azure" Click="ThemeAzure_Click" IsCheckable="True" x:Name="MenuItemAzureTheme" IsChecked="True" />
                 </MenuItem>
             </MenuItem>
         </Menu>

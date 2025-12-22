@@ -74,6 +74,9 @@
     <Compile Include="Extensions\RichTextBoxExtensions.cs" />
     <Compile Include="Helper\RelayCommand.cs" />
     <Compile Include="Helper\ThemeManager.cs" />
+    <Compile Include="MainWindow.xaml.cs">
+      <DependentUpon>MainWindow.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Models\ActionItem.cs" />
     <Compile Include="Properties\Annotations.cs" />
     <Compile Include="RichTextDialogBox.xaml.cs">
@@ -110,15 +113,11 @@
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Compile Include="MainWindow.xaml.cs">
-      <DependentUpon>MainWindow.xaml</DependentUpon>
-      <SubType>Code</SubType>
-    </Compile>
     <Page Include="RichTextDialogBox.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Themes\BattleshipGrayTheme.xaml">
+    <Page Include="Themes\AzureTheme.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Themes\DarkTheme.xaml">

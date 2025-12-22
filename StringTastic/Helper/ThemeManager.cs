@@ -12,7 +12,7 @@ namespace StringTastic.Helper
         private const string ThemeResourcePrefix = "Themes/";
         private const string ThemeResourceSuffix = "Theme.xaml";
 
-        private static Theme _currentTheme = Theme.BattleshipGray;
+        private static Theme _currentTheme = Theme.Azure;
 
         /// <summary>
         /// Gets the currently active theme
@@ -73,8 +73,8 @@ namespace StringTastic.Helper
                     return "LightTheme.xaml";
                 case Theme.Dark:
                     return "DarkTheme.xaml";
-                case Theme.BattleshipGray:
-                    return "BattleshipGrayTheme.xaml";
+                case Theme.Azure:
+                    return "AzureTheme.xaml";
                 default:
                     throw new ArgumentOutOfRangeException(nameof(theme), theme, "Unknown theme");
             }
@@ -91,8 +91,8 @@ namespace StringTastic.Helper
                     return "Light";
                 case Theme.Dark:
                     return "Dark";
-                case Theme.BattleshipGray:
-                    return "Battleship Gray";
+                case Theme.Azure:
+                    return "Azure";
                 default:
                     return theme.ToString();
             }
@@ -115,8 +115,8 @@ namespace StringTastic.Helper
         Dark,
 
         /// <summary>
-        /// Default battleship gray theme (current application colors)
+        /// Azure theme with professional blue colors
         /// </summary>
-        BattleshipGray
+        Azure
     }
 }

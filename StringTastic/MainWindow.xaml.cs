@@ -458,9 +458,9 @@ namespace StringTastic
             UpdateThemeMenuCheckmarks();
         }
 
-        private void ThemeBattleshipGray_Click(object sender, RoutedEventArgs e)
+        private void ThemeAzure_Click(object sender, RoutedEventArgs e)
         {
-            ThemeManager.ApplyTheme(Theme.BattleshipGray);
+            ThemeManager.ApplyTheme(Theme.Azure);
             UpdateThemeMenuCheckmarks();
         }
 
@@ -468,7 +468,7 @@ namespace StringTastic
         {
             MenuItemLightTheme.IsChecked = ThemeManager.CurrentTheme == Theme.Light;
             MenuItemDarkTheme.IsChecked = ThemeManager.CurrentTheme == Theme.Dark;
-            MenuItemBattleshipGrayTheme.IsChecked = ThemeManager.CurrentTheme == Theme.BattleshipGray;
+            MenuItemAzureTheme.IsChecked = ThemeManager.CurrentTheme == Theme.Azure;
         }
 
         private ContentControl CreateIconFromTemplate(string templateKey)

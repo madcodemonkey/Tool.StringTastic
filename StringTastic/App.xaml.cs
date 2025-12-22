@@ -16,7 +16,7 @@ namespace StringTastic
             SetDropDownMenuToBeRightAligned();
 
             // Apply default theme
-            ThemeManager.ApplyTheme(Theme.BattleshipGray);
+            ThemeManager.ApplyTheme(Theme.Azure);
 
             base.OnStartup(e);
         }
