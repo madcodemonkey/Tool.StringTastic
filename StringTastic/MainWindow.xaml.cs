@@ -39,6 +39,9 @@ namespace StringTastic
             // Create initial tabs to preserve previous behavior
             CreateGenerateGuidTab();
             CreateJwtDecoderTab();
+            
+            // Apply default theme
+            ApplyLightTheme();
         }
 
         private void InitializeToolsList()
@@ -435,6 +438,39 @@ namespace StringTastic
             };
 
             return tab;
+        }
+
+        private void Exit_Click(object sender, RoutedEventArgs e)
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void ThemeLight_Click(object sender, RoutedEventArgs e)
+        {
+            MenuItemLightTheme.IsChecked = true;
+            MenuItemDarkTheme.IsChecked = false;
+            ApplyLightTheme();
+        }
+
+        private void ThemeDark_Click(object sender, RoutedEventArgs e)
+        {
+            MenuItemLightTheme.IsChecked = false;
+            MenuItemDarkTheme.IsChecked = true;
+            ApplyDarkTheme();
+        }
+
+        private void ApplyLightTheme()
+        {
+            // Set light theme colors
+            this.Background = new SolidColorBrush(Colors.White);
+            this.Foreground = new SolidColorBrush(Colors.Black);
+        }
+
+        private void ApplyDarkTheme()
+        {
+            // Set dark theme colors
+            this.Background = new SolidColorBrush(Color.FromRgb(45, 45, 48));
+            this.Foreground = new SolidColorBrush(Colors.White);
         }
 
         private ContentControl CreateIconFromTemplate(string templateKey)

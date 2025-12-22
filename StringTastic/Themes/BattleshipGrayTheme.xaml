@@ -1,0 +1,163 @@
+<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
+    
+    <!-- Battleship Gray Theme - Based on current application colors -->
+    
+    <!-- Base Colors -->
+    <Color x:Key="WindowBackgroundColor">#FFFFFFFF</Color>
+    <Color x:Key="WindowForegroundColor">#FF000000</Color>
+    
+    <!-- Control Colors -->
+    <Color x:Key="ControlBackgroundColor">#FFF0F0F0</Color>
+    <Color x:Key="ControlForegroundColor">#FF000000</Color>
+    <Color x:Key="ControlBorderColor">#FFD3D3D3</Color>
+    
+    <!-- Border and Divider Colors -->
+    <Color x:Key="BorderColor">#FFD3D3D3</Color>
+    <Color x:Key="SplitterColor">#FFD3D3D3</Color>
+    
+    <!-- Panel/Container Colors -->
+    <Color x:Key="PanelBackgroundColor">#FFFFFFFF</Color>
+    <Color x:Key="PanelBorderColor">#FFD3D3D3</Color>
+    
+    <!-- TextBox Colors -->
+    <Color x:Key="TextBoxBackgroundColor">#FFFFFFFF</Color>
+    <Color x:Key="TextBoxForegroundColor">#FF000000</Color>
+    <Color x:Key="TextBoxPlaceholderColor">#FF808080</Color>
+    <Color x:Key="TextBoxBorderColor">#FFACACAC</Color>
+    <Color x:Key="TextBoxFocusBorderColor">#FF0078D7</Color>
+    
+    <!-- RichTextBox Colors -->
+    <Color x:Key="RichTextBoxBackgroundColor">#FFFFFFFF</Color>
+    <Color x:Key="RichTextBoxForegroundColor">#FF000000</Color>
+    <Color x:Key="RichTextBoxBorderColor">#FFACACAC</Color>
+    
+    <!-- ListBox Colors -->
+    <Color x:Key="ListBoxBackgroundColor">#FFFFFFFF</Color>
+    <Color x:Key="ListBoxForegroundColor">#FF000000</Color>
+    <Color x:Key="ListBoxBorderColor">#FFD3D3D3</Color>
+    <Color x:Key="ListBoxItemHoverColor">#FFE5F3FF</Color>
+    <Color x:Key="ListBoxItemSelectedColor">#FFCCE8FF</Color>
+    
+    <!-- TabControl Colors -->
+    <Color x:Key="TabControlBackgroundColor">#FFFFFFFF</Color>
+    <Color x:Key="TabItemBackgroundColor">#FFF0F0F0</Color>
+    <Color x:Key="TabItemForegroundColor">#FF000000</Color>
+    <Color x:Key="TabItemBorderColor">#FFD3D3D3</Color>
+    <Color x:Key="TabItemHoverBackgroundColor">#FFFAFAFA</Color>
+    <Color x:Key="TabItemSelectedBackgroundColor">#FFFFFFFF</Color>
+    <Color x:Key="TabItemSelectedForegroundColor">#FF000000</Color>
+    
+    <!-- Button Colors -->
+    <Color x:Key="ButtonBackgroundColor">#FFF0F0F0</Color>
+    <Color x:Key="ButtonForegroundColor">#FF000000</Color>
+    <Color x:Key="ButtonBorderColor">#FFACACAC</Color>
+    <Color x:Key="ButtonHoverBackgroundColor">#FFF2F2F2</Color>
+    <Color x:Key="ButtonHoverBorderColor">#FF9A9A9A</Color>
+    <Color x:Key="ButtonPressedBackgroundColor">#FFE6E6E6</Color>
+    <Color x:Key="ButtonPressedBorderColor">#FF7A7A7A</Color>
+    <Color x:Key="ButtonDisabledBackgroundColor">#FFF7F7F7</Color>
+    <Color x:Key="ButtonDisabledBorderColor">#FFCCCCCC</Color>
+    <Color x:Key="ButtonDisabledForegroundColor">#FFAAAAAA</Color>
+    
+    <!-- Tab Close Button Colors -->
+    <Color x:Key="TabCloseButtonStrokeColor">#FF808080</Color>
+    <Color x:Key="TabCloseButtonHoverBackgroundColor">#FFE6E6E6</Color>
+    <Color x:Key="TabCloseButtonHoverStrokeColor">#FF000000</Color>
+    <Color x:Key="TabCloseButtonPressedBackgroundColor">#FFD9D9D9</Color>
+    <Color x:Key="TabCloseButtonDisabledStrokeColor">#FFBFBFBF</Color>
+    
+    <!-- Menu Colors -->
+    <Color x:Key="MenuBackgroundColor">#FFF0F0F0</Color>
+    <Color x:Key="MenuForegroundColor">#FF000000</Color>
+    <Color x:Key="MenuBorderColor">#FFD3D3D3</Color>
+    <Color x:Key="MenuItemHoverBackgroundColor">#FFE5F3FF</Color>
+    <Color x:Key="MenuItemPressedBackgroundColor">#FFCCE8FF</Color>
+    <Color x:Key="MenuSeparatorColor">#FFD3D3D3</Color>
+    
+    <!-- ContextMenu Colors -->
+    <Color x:Key="ContextMenuBackgroundColor">#FFFFFFFF</Color>
+    <Color x:Key="ContextMenuForegroundColor">#FF000000</Color>
+    <Color x:Key="ContextMenuBorderColor">#FFD3D3D3</Color>
+    
+    <!-- Accent Colors -->
+    <Color x:Key="AccentColor">#FF0078D7</Color>
+    <Color x:Key="AccentHoverColor">#FF1480D9</Color>
+    <Color x:Key="AccentPressedColor">#FF005A9E</Color>
+    
+    <!-- Icon Colors -->
+    <Color x:Key="IconColor">#FF808080</Color>
+    
+    <!-- Brushes (Solid Color Brushes from Colors) -->
+    <SolidColorBrush x:Key="WindowBackgroundBrush" Color="{StaticResource WindowBackgroundColor}" />
+    <SolidColorBrush x:Key="WindowForegroundBrush" Color="{StaticResource WindowForegroundColor}" />
+    
+    <SolidColorBrush x:Key="ControlBackgroundBrush" Color="{StaticResource ControlBackgroundColor}" />
+    <SolidColorBrush x:Key="ControlForegroundBrush" Color="{StaticResource ControlForegroundColor}" />
+    <SolidColorBrush x:Key="ControlBorderBrush" Color="{StaticResource ControlBorderColor}" />
+    
+    <SolidColorBrush x:Key="BorderBrush" Color="{StaticResource BorderColor}" />
+    <SolidColorBrush x:Key="SplitterBrush" Color="{StaticResource SplitterColor}" />
+    
+    <SolidColorBrush x:Key="PanelBackgroundBrush" Color="{StaticResource PanelBackgroundColor}" />
+    <SolidColorBrush x:Key="PanelBorderBrush" Color="{StaticResource PanelBorderColor}" />
+    
+    <SolidColorBrush x:Key="TextBoxBackgroundBrush" Color="{StaticResource TextBoxBackgroundColor}" />
+    <SolidColorBrush x:Key="TextBoxForegroundBrush" Color="{StaticResource TextBoxForegroundColor}" />
+    <SolidColorBrush x:Key="TextBoxPlaceholderBrush" Color="{StaticResource TextBoxPlaceholderColor}" />
+    <SolidColorBrush x:Key="TextBoxBorderBrush" Color="{StaticResource TextBoxBorderColor}" />
+    <SolidColorBrush x:Key="TextBoxFocusBorderBrush" Color="{StaticResource TextBoxFocusBorderColor}" />
+    
+    <SolidColorBrush x:Key="RichTextBoxBackgroundBrush" Color="{StaticResource RichTextBoxBackgroundColor}" />
+    <SolidColorBrush x:Key="RichTextBoxForegroundBrush" Color="{StaticResource RichTextBoxForegroundColor}" />
+    <SolidColorBrush x:Key="RichTextBoxBorderBrush" Color="{StaticResource RichTextBoxBorderColor}" />
+    
+    <SolidColorBrush x:Key="ListBoxBackgroundBrush" Color="{StaticResource ListBoxBackgroundColor}" />
+    <SolidColorBrush x:Key="ListBoxForegroundBrush" Color="{StaticResource ListBoxForegroundColor}" />
+    <SolidColorBrush x:Key="ListBoxBorderBrush" Color="{StaticResource ListBoxBorderColor}" />
+    <SolidColorBrush x:Key="ListBoxItemHoverBrush" Color="{StaticResource ListBoxItemHoverColor}" />
+    <SolidColorBrush x:Key="ListBoxItemSelectedBrush" Color="{StaticResource ListBoxItemSelectedColor}" />
+    
+    <SolidColorBrush x:Key="TabControlBackgroundBrush" Color="{StaticResource TabControlBackgroundColor}" />
+    <SolidColorBrush x:Key="TabItemBackgroundBrush" Color="{StaticResource TabItemBackgroundColor}" />
+    <SolidColorBrush x:Key="TabItemForegroundBrush" Color="{StaticResource TabItemForegroundColor}" />
+    <SolidColorBrush x:Key="TabItemBorderBrush" Color="{StaticResource TabItemBorderColor}" />
+    <SolidColorBrush x:Key="TabItemHoverBackgroundBrush" Color="{StaticResource TabItemHoverBackgroundColor}" />
+    <SolidColorBrush x:Key="TabItemSelectedBackgroundBrush" Color="{StaticResource TabItemSelectedBackgroundColor}" />
+    <SolidColorBrush x:Key="TabItemSelectedForegroundBrush" Color="{StaticResource TabItemSelectedForegroundColor}" />
+    
+    <SolidColorBrush x:Key="ButtonBackgroundBrush" Color="{StaticResource ButtonBackgroundColor}" />
+    <SolidColorBrush x:Key="ButtonForegroundBrush" Color="{StaticResource ButtonForegroundColor}" />
+    <SolidColorBrush x:Key="ButtonBorderBrush" Color="{StaticResource ButtonBorderColor}" />
+    <SolidColorBrush x:Key="ButtonHoverBackgroundBrush" Color="{StaticResource ButtonHoverBackgroundColor}" />
+    <SolidColorBrush x:Key="ButtonHoverBorderBrush" Color="{StaticResource ButtonHoverBorderColor}" />
+    <SolidColorBrush x:Key="ButtonPressedBackgroundBrush" Color="{StaticResource ButtonPressedBackgroundColor}" />
+    <SolidColorBrush x:Key="ButtonPressedBorderBrush" Color="{StaticResource ButtonPressedBorderColor}" />
+    <SolidColorBrush x:Key="ButtonDisabledBackgroundBrush" Color="{StaticResource ButtonDisabledBackgroundColor}" />
+    <SolidColorBrush x:Key="ButtonDisabledBorderBrush" Color="{StaticResource ButtonDisabledBorderColor}" />
+    <SolidColorBrush x:Key="ButtonDisabledForegroundBrush" Color="{StaticResource ButtonDisabledForegroundColor}" />
+    
+    <SolidColorBrush x:Key="TabCloseButtonStrokeBrush" Color="{StaticResource TabCloseButtonStrokeColor}" />
+    <SolidColorBrush x:Key="TabCloseButtonHoverBackgroundBrush" Color="{StaticResource TabCloseButtonHoverBackgroundColor}" />
+    <SolidColorBrush x:Key="TabCloseButtonHoverStrokeBrush" Color="{StaticResource TabCloseButtonHoverStrokeColor}" />
+    <SolidColorBrush x:Key="TabCloseButtonPressedBackgroundBrush" Color="{StaticResource TabCloseButtonPressedBackgroundColor}" />
+    <SolidColorBrush x:Key="TabCloseButtonDisabledStrokeBrush" Color="{StaticResource TabCloseButtonDisabledStrokeColor}" />
+    
+    <SolidColorBrush x:Key="MenuBackgroundBrush" Color="{StaticResource MenuBackgroundColor}" />
+    <SolidColorBrush x:Key="MenuForegroundBrush" Color="{StaticResource MenuForegroundColor}" />
+    <SolidColorBrush x:Key="MenuBorderBrush" Color="{StaticResource MenuBorderColor}" />
+    <SolidColorBrush x:Key="MenuItemHoverBackgroundBrush" Color="{StaticResource MenuItemHoverBackgroundColor}" />
+    <SolidColorBrush x:Key="MenuItemPressedBackgroundBrush" Color="{StaticResource MenuItemPressedBackgroundColor}" />
+    <SolidColorBrush x:Key="MenuSeparatorBrush" Color="{StaticResource MenuSeparatorColor}" />
+    
+    <SolidColorBrush x:Key="ContextMenuBackgroundBrush" Color="{StaticResource ContextMenuBackgroundColor}" />
+    <SolidColorBrush x:Key="ContextMenuForegroundBrush" Color="{StaticResource ContextMenuForegroundColor}" />
+    <SolidColorBrush x:Key="ContextMenuBorderBrush" Color="{StaticResource ContextMenuBorderColor}" />
+    
+    <SolidColorBrush x:Key="AccentBrush" Color="{StaticResource AccentColor}" />
+    <SolidColorBrush x:Key="AccentHoverBrush" Color="{StaticResource AccentHoverColor}" />
+    <SolidColorBrush x:Key="AccentPressedBrush" Color="{StaticResource AccentPressedColor}" />
+    
+    <SolidColorBrush x:Key="IconBrush" Color="{StaticResource IconColor}" />
+    
+</ResourceDictionary>

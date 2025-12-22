@@ -108,6 +108,23 @@
     </Window.Resources>
 
     <DockPanel>
+        <!-- Menu Bar -->
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_File">
+                <MenuItem Header="E_xit" Click="Exit_Click">
+                    <MenuItem.Icon>
+                        <ContentControl ContentTemplate="{StaticResource IconExit}" Width="16" Height="16" />
+                    </MenuItem.Icon>
+                </MenuItem>
+            </MenuItem>
+            <MenuItem Header="_View">
+                <MenuItem Header="_Theme">
+                    <MenuItem Header="_Light" Click="ThemeLight_Click" IsCheckable="True" x:Name="MenuItemLightTheme" IsChecked="True" />
+                    <MenuItem Header="_Dark" Click="ThemeDark_Click" IsCheckable="True" x:Name="MenuItemDarkTheme" />
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+        
         <!-- Main content area with left and right containers -->
         <Grid>
             <Grid.ColumnDefinitions>
